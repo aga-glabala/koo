@@ -4,6 +4,7 @@ import { PeopleComponent } from './people/people.component';
 import { PersonComponent } from './person/person.component';
 import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
+import { NewActionComponent } from './newaction/newaction.component';
 
 const routes: Routes = [
   { path: 'people', component: PeopleComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'actions', component: ActionsComponent },
   { path: 'actions/:page', component: ActionsComponent },
   { path: 'action/:id', component: ActionComponent },
+  { path: 'newaction', component: NewActionComponent },
 ];
 
 @NgModule({
