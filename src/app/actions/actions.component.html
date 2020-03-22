@@ -1,1 +1,20 @@
-<p>actions works!</p>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Akcje</li>
+    </ol>
+</nav>
+
+<h1>Akcje</h1>
+<div class="row mb-4" *ngFor="let action of actions | paginate: { itemsPerPage: 25, currentPage: page }">
+    <div class="col-md-3">
+        <img src="{{action.photoUrl}}" alt="Zdjęcie {{action.name}}"> 
+    </div>
+    <div class="col-md-9">
+        <h2><a routerLink="/action/{{action.id}}">{{action.name}}</a></h2>
+        <div>Data zamawiania: {{action.orderDate.toLocaleString(undefined, dateOptions)}}</div>
+        <div>Data płacenia: {{action.payDate.toLocaleString(undefined, dateOptions)}}</div>
+        <div>Data odbioru: {{action.collectionDate.toLocaleString(undefined, dateOptions)}}</div>
+    </div>
+</div>
+<pagination-controls (pageChange)="pageChangeAction($event)"></pagination-controls>

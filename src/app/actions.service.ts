@@ -6,7 +6,6 @@ import { Action } from './action';
   providedIn: 'root'
 })
 export class ActionsService {
-
   constructor() {}
 
   getActions(): Action[] {
