@@ -1,4 +1,5 @@
 import { Person } from './person';
+import { Product } from './product';
 
 export class Action {
 
@@ -13,6 +14,7 @@ export class Action {
                 public description: string,
                 public collection: string,
                 public bankAccount: string,
-                public helpers: string // TODO para {osoba, opis}
+                public helpers: string, // TODO para {osoba, opis}
+                public products: Product[]
                 ) {}
 }

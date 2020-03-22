@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ACTIONS } from './actions-mock';
-import { Action } from './action';
+import { Action } from './models/action';
+import { ACTIONS } from './mocks/actions-mock';
+import { PRODUCTS } from './mocks/product-mock';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class ActionsService {
   getAction(id: string) : Action {
     for(let i = 0; i < ACTIONS.length; i++) {
         if(id === ACTIONS[i].id) {
+            ACTIONS[i].products = PRODUCTS;
             return ACTIONS[i];
         }
     } 

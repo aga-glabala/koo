@@ -1,4 +1,4 @@
-import { Action } from './action';
+import { Action } from '../models/action';
 
 export const ACTIONS: Action[] = [{
     id: '1',
@@ -12,7 +12,8 @@ export const ACTIONS: Action[] = [{
     description: 'Lorem ipsum',
     collection: 'Lorem ipsum',
     bankAccount: '233243523432535436463454',
-    helpers: 'Tu będą linki do osób które coś pomagają z opisem co zrobiły'
+    helpers: 'Tu będą linki do osób które coś pomagają z opisem co zrobiły',
+    products: []
 },{
     id: '2',
     name: 'Pomidory',
@@ -25,5 +26,6 @@ export const ACTIONS: Action[] = [{
     description: 'Lorem ipsum',
     collection: 'Lorem ipsum',
     bankAccount: '233243523432535436463454',
-    helpers: 'Tu będą linki do osób które coś pomagają z opisem co zrobiły'
+    helpers: 'Tu będą linki do osób które coś pomagają z opisem co zrobiły',
+    products: []
 },];

@@ -1,0 +1,40 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/actions">Akcje</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ action.name }}</li>
+    </ol>
+</nav>
+
+<h1>{{ action.name }}</h1>
+<img src="{{action.photoUrl}}" alt="Zdjęcie {{action.name}}">
+<dl>
+    <dt>Utworzona przez:</dt>
+       <dd>{{ action.createdBy }}</dd>
+    <dt>Zamówienia do:</dt>
+        <dd>{{ action.orderDate.toLocaleString(undefined, dateOptions) }}</dd>
+    <dt>Płacimy do:</dt>
+        <dd>{{ action.payDate.toLocaleString(undefined, dateOptions) }}</dd>
+    <dt>Odbieramy:</dt>
+        <dd>{{ action.collectionDate.toLocaleString(undefined, dateOptions) }}</dd>
+    <dt>Wpłaty na konto:</dt>
+        <dd>{{ action.bankAccount }}</dd>
+    <dt>Opis:</dt>
+        <dd>{{ action.description }}</dd>
+    <dt>Zasady:</dt>
+        <dd>{{ action.rules }}</dd>
+    <dt>Możliwy odbiór:</dt>
+        <dd>{{ action.collection }}</dd>
+    <dt>Pomaga:</dt> <!-- todo-->
+        <dd><ul>
+            <li>Magda wydaje</li>
+            <li>Ula rozlicza</li>
+        </ul></dd>   
+        
+    <h2>Produkty</h2>
+    <table class=table>
+        <tr *ngFor="let product of action.products">
+            <td>{{ product.name }}</td>
+        </tr>
+    </table>
+</dl>

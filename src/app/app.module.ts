@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { PeopleComponent } from './people/people.component';
 import { PersonComponent } from './person/person.component';
 import { ActionsComponent } from './actions/actions.component';
+import { ActionComponent } from './action/action.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PeopleComponent,
     PersonComponent,
-    ActionsComponent
+    ActionsComponent,
+    ActionComponent
   ],
   imports: [
     BrowserModule,
