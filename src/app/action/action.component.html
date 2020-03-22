@@ -33,8 +33,17 @@
         
     <h2>Produkty</h2>
     <table class=table>
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Wariant</th>
+                <th>Cena (zł)</th>
+            </tr>
+        </thead>
         <tr *ngFor="let product of action.products">
             <td>{{ product.name }}</td>
+            <td>{{ product.variant }}</td>
+            <td>{{ product.price }}</td>
         </tr>
     </table>
 </dl>
