@@ -1,0 +1,18 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/people">Użytkownicy</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ person.name }}</li>
+    </ol>
+</nav>
+
+<h1>{{ person.name }}</h1>
+<img src="{{person.photoUrl}}" alt="Okładka książki {{person.name}}">
+<dl>
+    <dt>Zaproszony przez:</dt>
+       <dd>{{ person.invitedBy }}</dd>
+    <dt>Telefon:</dt>
+       <dd>{{ person.phone }}</dd>
+    <dt>FB:</dt>
+       <dd>{{ person.fbLink }}</dd>
+</dl>
