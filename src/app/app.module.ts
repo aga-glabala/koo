@@ -12,6 +12,7 @@ import { PersonComponent } from './person/person.component';
 import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
 import { NewActionComponent } from './newaction/newaction.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NewActionComponent } from './newaction/newaction.component';
     PersonComponent,
     ActionsComponent,
     ActionComponent,
-    NewActionComponent
+    NewActionComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

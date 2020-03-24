@@ -5,6 +5,7 @@ import { PersonComponent } from './person/person.component';
 import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
 import { NewActionComponent } from './newaction/newaction.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'people', component: PeopleComponent },
@@ -14,6 +15,8 @@ const routes: Routes = [
   { path: 'actions/:page', component: ActionsComponent },
   { path: 'action/:id', component: ActionComponent },
   { path: 'newaction', component: NewActionComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: '',   redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 
 @NgModule({
