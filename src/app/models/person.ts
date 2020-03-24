@@ -7,3 +7,8 @@ export class Person {
                 public phone: number,
                 public fbLink: string) {}
 }
+
+export class Helper {
+    constructor(public person: Person,
+                public description: string) {}
+}

@@ -7,43 +7,160 @@
 
 <h1>Nowa akcja</h1>
 
-<form>
-    <div class="form-group">
-      <label for="newacion-name">Nazwa</label>
-      <input type="text" class="form-control" id="newacion-name" placeholder="">
+<form [formGroup]="actionForm" (ngSubmit)="onSubmit()">
+  <div formGroupName="newaction">
+    <div class="form-group row">
+      <label for="newacion-name" class="col-sm-2 col-form-label">Nazwa</label>
+      <div class="col-sm-10">
+        <input type="text" formControlName="name" class="form-control" id="newacion-name" placeholder="">
+      </div>
     </div>
-    <div class="form-group">
-      <label for="newacion-name">Link do zdjęcia</label>
-      <input type="text" class="form-control" id="newacion-name" placeholder="">
+    <div class="form-group row">
+      <label for="newacion-photo" class="col-sm-2 col-form-label">Link do zdjęcia</label>
+      <div class="col-sm-10"> 
+        <input type="text" formControlName="photo" class="form-control" id="newacion-photo" placeholder="todo - dodać ładowanie zdjęć" />
+      </div>
     </div>
-    <div class="form-group">
-      <label for="newacion-name">Data zamawiania</label>
-      <input type="text" class="form-control" id="newacion-name" placeholder="">
+    <div class="form-group row">
+      <label for="newacion-dateorder" class="col-sm-2 col-form-label">Data zamawiania</label>
+      <div class="col-sm-10">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-dateorder"
+                name="newacion-dateorder"  formControlName="dateorder" ngbDatepicker #newacionDateorder="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="newacionDateorder.toggle()" type="button">
+              <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="newacion-name">Data opłacenia</label>
-      <input type="text" class="form-control" id="newacion-name" placeholder="">
+    <div class="form-group row">
+      <label for="newacion-datepay" class="col-sm-2 col-form-label">Data opłacenia</label>
+      <div class="col-sm-10">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-datepay" 
+                name="newacion-datepay" formControlName="datepay"  ngbDatepicker #newacionDatepay="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="newacionDatepay.toggle()" type="button">
+              <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="newacion-name">Data odbioru</label>
-      <input type="text" class="form-control" id="newacion-name" placeholder="">
+    <div class="form-group row">
+      <label for="newacion-datecollection" class="col-sm-2 col-form-label">Data odbioru</label>
+      <div class="col-sm-10">
+        <div class="input-group">
+          <input class="form-control" placeholder="yyyy-mm-dd"
+                name="newacion-datecollection" id="newacion-datecollection" formControlName="datecollection" ngbDatepicker #newacionDatecollection="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="newacionDatecollection.toggle()" type="button">
+              <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="newacion-name">Zasady</label>
-      <input type="text" class="form-control" id="newacion-name" placeholder="">
+    <div class="form-group row">
+      <label for="newacion-description" class="col-sm-2 col-form-label">Opis</label>
+      <div class="col-sm-10">
+        <textarea formControlName="description"  class="form-control" id="newacion-description" placeholder="Co to za akcja?"></textarea>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="newacion-name">Opis</label>
-      <input type="text" class="form-control" id="newacion-name" placeholder="">
+    <div class="form-group row">
+      <label for="newacion-rules" class="col-sm-2 col-form-label">Zasady</label>
+      <div class="col-sm-10">
+        <textarea formControlName="rules"  class="form-control" id="newacion-rules" placeholder="Czy obowiązują jakieś specjalne zasady lub ograniczenia?"></textarea>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="newacion-name">Możliwy odbiór</label>
-      <input type="text" class="form-control" id="newacion-name" placeholder="">
+    <div class="form-group row">
+      <label for="newacion-collection" class="col-sm-2 col-form-label">Możliwy odbiór</label>
+      <div class="col-sm-10">
+        <textarea formControlName="collection"  class="form-control" id="newacion-collection" placeholder="Można odebrać gdzieś wcześniej/później? Gdzie?"></textarea>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="newacion-name">Nazwa konta</label>
-      <input type="text" class="form-control" id="newacion-name" placeholder="">
+    <div class="form-group row">
+      <label for="newacion-bankaccount" class="col-sm-2 col-form-label">Nazwa konta</label>
+      <div class="col-sm-10">
+        <input type="text" formControlName="bankaccount" class="form-control" id="newacion-bankaccount" placeholder="">
+      </div>
     </div>
+  </div>
 
-    <!-- Pomocnicy, Produkty-->
-  </form>
+  <h2>Produkty</h2>
+  <table class="table" *ngIf="products.length > 0">
+    <thead>
+      <th>Produkt</th><th>Wariant (czerwony, 1kg, 1l)</th><th>Cena</th>
+    </thead>
+    <tr *ngFor="let product of products">
+      <td>{{ product.name }}</td>
+      <td>{{ product.variant }}</td>
+      <td>{{ product.price }}</td>
+    </tr>
+  </table>
+  <div class="form-group row" formGroupName="newproduct">
+    <div class="col-sm-4">
+      <label for="newacion-productname" class="sr-only">Nazwa produktu</label>
+      <input type="text" formControlName="name" class="form-control" 
+        id="newacion-productname" placeholder="Nazwa produktu">
+    </div>
+    <div class="col-sm-3">
+      <label for="newacion-productvariant" class="sr-only">Wariant</label>
+      <input type="text" formControlName="variant" class="form-control" 
+        id="newacion-productvariant" placeholder="Wariant">
+    </div>
+    <div class="col-sm-3">
+      <label for="newacion-productprice" class="sr-only">Cena</label>
+      <input type="number" formControlName="price" class="form-control" 
+        id="newacion-productprice" placeholder="Cena">
+    </div>
+    <div class="col-sm-2"><button type="button" class="btn btn-secondary" (click)="addNewProduct()">Dodaj produkt</button></div>
+  </div>
+
+  <h2>Pomocnicy</h2>
+  <table class="table" *ngIf="helpers.length > 0">
+    <thead>
+      <th>Osoba</th><th>Opis</th>
+    </thead>
+    <tr *ngFor="let helper of helpers">
+      <td>{{ helper.person.name }}</td>
+      <td>{{ helper.description }}</td>
+    </tr>
+  </table>
+  <div class="form-group row" formGroupName="newperson">
+    <div class="col-sm-5">
+
+      <label for="person-select" class="sr-only">Nazwa użytkownika</label>
+      <input
+        id="person-select"
+        type="text"
+        class="form-control"
+        placeholder="Imię i nazwisko"
+        formControlName="person"
+        [ngbTypeahead]="personSelectorSearch"
+        [resultFormatter]="personSelectorFormatter"
+        [inputFormatter]="personSelectorFormatter"
+        [editable]="false"
+      />
+    </div>
+    <div class="col-sm-5">
+      <label for="newacion-newpersondescription" class="sr-only">Opis co osoba będzie robić</label>
+      <input type="text" formControlName="description" class="form-control" 
+        id="newacion-newpersondescription" placeholder="Co będzie robić?">
+    </div>
+    <div class="col-sm-2"><button type="button" class="btn btn-secondary" (click)="addNewHelper()">Dodaj osobę</button></div>
+  </div>
+
+  <button type="submit" [disabled]="!actionForm.valid" class="btn btn-primary">Dodaj akcję</button>
+</form>
