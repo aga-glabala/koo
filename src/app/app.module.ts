@@ -13,6 +13,7 @@ import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
 import { NewActionComponent } from './newaction/newaction.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { OrderComponent } from './order/order.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ActionsComponent,
     ActionComponent,
     NewActionComponent,
-    DashboardComponent
+    DashboardComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,32 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/actions">Akcje</a></li>
+        <li class="breadcrumb-item active"><a routerLink="/action/{{ action.id }}">{{ action.name }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Nowe zamówienie</li>
+    </ol>
+</nav>
+
+<h1>Nowe zamówienie do akcji {{ action.name }}</h1>
+<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Wariant</th>
+                <th>Cena (zł)</th>
+                <th>Zamów</th>
+            </tr>
+        </thead>
+        <tr *ngFor="let product of action.products">
+            <td>{{product.name}}</td>
+            <td>{{product.variant}}</td>
+            <td>{{product.price}}</td>
+            <td><input type="number" formControlName="{{product.name + product.variant}}" class="form-control" ></td>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-right">W sumie:</td>
+            <td>{{ sumOrder }}zł</td>
+        </tr>
+    </table>    
+</form>

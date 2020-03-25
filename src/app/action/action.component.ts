@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 
@@ -15,10 +15,10 @@ export class ActionComponent implements OnInit {
   constructor(private route: ActivatedRoute, private actionService: ActionsService) { }
 
   ngOnInit(): void {
-    this.getPerson();
+    this.getAction();
   }
 
-  getPerson(): void {
+  getAction(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.action = this.actionService.getAction(id);
   }

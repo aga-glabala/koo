@@ -12,10 +12,6 @@ import { Product } from '../models/product';
   styleUrls: ['./newaction.component.scss']
 })
 export class NewActionComponent implements OnInit {
-  newacionDateorderModel;
-  newacionDatepayModel;
-  newacionDatecollectionModel;
-
   actionForm;
   people : Person[];
   helpers : Helper[] = [];
