@@ -1,15 +1,13 @@
-<h1>Cześć, Agnieszka!</h1>
-<h2 class="mt-4">Najbliższe odbiory: 23.04.2020<br>
-    Masz do odbioru:</h2>
+<h1>Cześć, Agnieszka! Najbliższe odbiory: 23.04.2020</h1>
+<h2 class="mt-4">Masz do odbioru:</h2>
 <table class="table">
+    <thead><th colspan="3" class="table-secondary">AKCJA WARZYWA</th></thead>
     <thead>
-        <th>Akcja</th>
         <th>Produkt</th>
         <th>Ile</th>
         <th>Do zapłaty</th>
     </thead>
     <tr>
-        <td rowspan="2">Warzywa</td>
         <td>Pomidory</td>
         <td>3 x 1kg</td>
         <td>6zł</td>
@@ -20,7 +18,7 @@
         <td>3zł</td>
     </tr>
     <tr class="table-danger">
-        <td colspan="2" >
+        <td>
             <strong>Termin zapłaty: 21.03 </strong>
         </td>
         <td>
@@ -30,16 +28,23 @@
             </svg>
             <strong> Do zapłaty:</strong>
         </td>
-        <td><strong>9zł</strong></td>
+        <td><strong>9zł </strong> <a class="btn btn-danger" href="#">Zapłać</a></td>
     </tr>
+</table>
+<table class="table">
+    <thead><th colspan="3" class="table-secondary">AKCJA Kosmetyki</th></thead>
+    <thead>
+        <th>Produkt</th>
+        <th>Ile</th>
+        <th>Do zapłaty</th>
+    </thead>
     <tr>
-        <td>Kremy</td>
         <td>Do rąk</td>
         <td>Tubka Rumianek</td>
         <td>26zł</td>
     </tr>
     <tr class="table-success">
-        <td colspan="2">
+        <td>
             Termin zapłaty: 21.03 
         </td>
         <td>
@@ -56,14 +61,23 @@
 <table class="table">
     <thead>
         <th>Akcja</th>
+        <th>Zamawiamy</th>
+        <th>Płacimy</th>
+        <th>Odbiór</th>
         <th>Co robię?</th>
     </thead>
     <tr>
         <td>Warzywa</td>
+        <td>22.04</td>
+        <td>25.04</td>
+        <td>30.04</td>
         <td>Rozdaje</td>
     </tr>
     <tr>
         <td>Kosmetyki</td>
+        <td>22.04</td>
+        <td>25.04</td>
+        <td>30.04</td>
         <td>Rozlicza</td>
     </tr>
 </table>
@@ -125,3 +139,6 @@
         </div>
     </div>
 </div>
+<p class="alert alert-secondary" >
+    <a routerLink="/actions">Zobacz wszystkie akcje</a> 
+</p>
