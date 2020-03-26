@@ -1,0 +1,102 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/actions">Akcje</a></li>
+        <li class="breadcrumb-item active"><a routerLink="/action/{{ action.id }}">{{ action.name }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Zamówienia</li>
+    </ol>
+</nav>
+
+<h1>Zamówienia do akcji {{ action.name }}</h1>
+
+<table class="table table-striped">
+    <tr>
+        <th>Nazwa</th>
+        <th>Pomidory</th>
+        <th>Ogórki</th>
+        <th>Produkt</th>
+        <th>Produkt</th>
+        <th>Produkt</th>
+        <th>Produkt</th>
+        <th>Produkt</th>
+        <th>Produkt</th>
+        <th>Produkt</th>
+        <th rowspan="3">Suma</th>
+    </tr>
+    <tr>
+        <th>Wariant</th>
+        <th>kg</th>
+        <th>kg</th>
+        <th>skrzynka</th>
+        <th>litr</th>
+        <th>0.5L</th>
+        <th>30ml</th>
+        <th>kg</th>
+        <th>Butelka</th>
+        <th>szt.</th>
+    </tr>
+    <tr>
+        <th>Cena</th>
+        <th>5</th>
+        <th>3</th>
+        <th>23</th>
+        <th>12</th>
+        <th>14</th>
+        <th>56</th>
+        <th>5</th>
+        <th>9</th>
+        <th>1</th>
+    </tr>
+    <tr>
+        <td>Agnieszka Świecznik</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>30zł</td>
+    </tr>
+    <tr>
+        <td>Urszula Zawadzka</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>30zł</td>
+    </tr>
+    <tr>
+        <td>Magda Golińska-Domolążek</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>30zł</td>
+    </tr>
+    <tr>
+        <td>Marta Zdrojewska</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>1</td>
+        <td>30zł</td>
+    </tr>
+</table>

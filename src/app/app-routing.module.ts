@@ -7,6 +7,7 @@ import { ActionComponent } from './action/action.component';
 import { NewActionComponent } from './newaction/newaction.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrderComponent } from './order/order.component';
+import { OrdersComponent } from './orders/orders.component';
 
 const routes: Routes = [
   { path: 'people', component: PeopleComponent },
@@ -14,10 +15,11 @@ const routes: Routes = [
   { path: 'person/:id', component: PersonComponent },
   { path: 'actions', component: ActionsComponent },
   { path: 'actions/:page', component: ActionsComponent },
+  { path: 'actions/:actionid/order', component: OrderComponent },
+  { path: 'actions/:actionid/orders', component: OrdersComponent },
   { path: 'action/:id', component: ActionComponent },
   { path: 'newaction', component: NewActionComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'order/:actionid', component: OrderComponent },
   { path: '',   redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 

@@ -14,6 +14,7 @@ import { ActionComponent } from './action/action.component';
 import { NewActionComponent } from './newaction/newaction.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrderComponent } from './order/order.component';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { OrderComponent } from './order/order.component';
     ActionComponent,
     NewActionComponent,
     DashboardComponent,
-    OrderComponent
+    OrderComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,
