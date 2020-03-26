@@ -19,9 +19,14 @@
           <a class="nav-link" routerLink="/newaction">Nowa akcja</a>
         </li>
       </ul>
-      <span class="navbar-text">
-        Profil
-      </span>
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Agnieszka</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem>Zaproś znajomego</button>
+          <button ngbDropdownItem>Zobacz mój profil</button>
+          <button ngbDropdownItem>Wyloguj</button>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
