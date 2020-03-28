@@ -7,18 +7,24 @@
 </nav>
 
 <h1>{{ person.name }}</h1>
-<img src="{{person.photoUrl}}" alt="Zdjęcie {{person.name}}">
-<dl>
-    <dt>Zaproszony przez:</dt>
-       <dd>{{ person.invitedBy }}</dd>
-    <dt>Telefon:</dt>
-       <dd>{{ person.phone }}</dd>
-    <dt>FB:</dt>
-       <dd>{{ person.fbLink }}</dd>
-    <dt>Utworzył akcji:</dt>
-        <dd>5 (w tym miesiącu: 1)</dd>
-    <dt>Pomógł:</dt>
-        <dd>3 (w tym miesiącu: 1)</dd>
-    <dt>Zamówił i nie zapłacił:</dt>
-        <dd>2 (w tym miesiącu: 0)</dd>
-</dl>
+<div class="row">
+    <div class="col-md-3">
+        <img src="{{person.photoUrl}}" alt="Zdjęcie {{person.name}}">
+    </div>
+    <div class="col-md-9">
+        <dl class="inline-definition">
+            <dt>Zaproszony przez:</dt>
+            <dd>{{ person.invitedBy }}</dd>
+            <dt>Telefon:</dt>
+            <dd>{{ person.phone }}</dd>
+            <dt>FB:</dt>
+            <dd>{{ person.fbLink }}</dd>
+            <dt>Utworzył akcji:</dt>
+                <dd>5 (w tym miesiącu: 1)</dd>
+            <dt>Pomógł:</dt>
+                <dd>3 (w tym miesiącu: 1)</dd>
+            <dt>Zamówił i nie zapłacił:</dt>
+                <dd>2 (w tym miesiącu: 0)</dd>
+        </dl>
+    </div>
+</div>

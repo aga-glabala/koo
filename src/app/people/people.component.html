@@ -7,10 +7,10 @@
 
 <h1>Użytkownicy</h1>
 <div class="row mb-4" *ngFor="let person of people | paginate: { itemsPerPage: 25, currentPage: page }">
-    <div class="col-md-3">
-        <img src="{{person.photoUrl}}" alt="Zdjęcie profilowe {{person.name}}"> 
+    <div class="col-md-3 col-lg-1">
+        <img src="{{person.photoUrl}}" class="img-fluid" alt="Zdjęcie profilowe {{person.name}}"> 
     </div>
-    <div class="col-md-9">
+    <div class="col-md-9 col-lg-11">
         <h2><a routerLink="/person/{{person.id}}">{{person.name}}</a></h2>
     </div>
 </div>
