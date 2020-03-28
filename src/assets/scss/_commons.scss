@@ -6,3 +6,40 @@
 h1 {
     margin-bottom: $spacer * 3;
 }
+.accordion {
+    > .card {
+        margin: $spacer 0;
+        border: 0;
+        > .card-header {
+            padding: 0;
+            border: 0;
+        }
+        .card-header button {
+            padding: $spacer * 0.5;
+            width: 100%;
+            text-align: left;
+            border: 0;
+            position: relative;
+
+            &::after {
+                content: '';
+                display: block;
+                width: 12px;
+                height: 12px;
+                border-bottom: 1px solid;
+                border-right: 1px solid;
+                transform: rotate(225deg);
+                position: absolute;
+                right: $spacer;
+                top: $spacer;
+            }
+            &.collapsed::after {
+                transform: rotate(45deg);
+                top: $spacer * 0.5;
+            }
+        }
+        .card-body {
+            padding: $spacer * 0.5 0;
+        }
+    }
+}
