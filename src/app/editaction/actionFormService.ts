@@ -43,8 +43,16 @@ export class ActionFormService {
         this.form.value.newproduct.price));
   }
 
+  removeProduct(id: number) {
+    this.products.splice(id, 1);
+  }
+
   addNewHelper() {
     this.helpers.push(new Helper(this.form.value.newperson.person, this.form.value.newperson.description));
+  }
+
+  removeHelper(id: number) {
+    this.helpers.splice(id, 1);
   }
 
   loadAction(data): void {

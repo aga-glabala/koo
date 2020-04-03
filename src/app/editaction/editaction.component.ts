@@ -40,7 +40,6 @@ export class EditActionComponent implements OnInit {
   getAction(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.action = this.actionService.getAction(id);
-    console.log(this.action);
 
     if(this.action) {
       this.actionFormService.loadAction(this.action);
@@ -67,7 +66,15 @@ export class EditActionComponent implements OnInit {
   addNewHelper() {
     this.actionFormService.addNewHelper();
   }
+  removeHelper(id: number) {
+    this.actionFormService.removeHelper(id);
+    return false;
+  }
   addNewProduct() {
     this.actionFormService.addNewProduct();
+  }
+  removeProduct(id: number) {
+    this.actionFormService.removeProduct(id);
+    return false;
   }
 }
