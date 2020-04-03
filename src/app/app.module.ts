@@ -11,7 +11,7 @@ import { PeopleComponent } from './people/people.component';
 import { PersonComponent } from './person/person.component';
 import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
-import { NewActionComponent } from './newaction/newaction.component';
+import { EditActionComponent } from './editaction/editaction.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrderComponent } from './order/order.component';
 import { OrdersComponent } from './orders/orders.component';
@@ -23,7 +23,7 @@ import { OrdersComponent } from './orders/orders.component';
     PersonComponent,
     ActionsComponent,
     ActionComponent,
-    NewActionComponent,
+    EditActionComponent,
     DashboardComponent,
     OrderComponent,
     OrdersComponent

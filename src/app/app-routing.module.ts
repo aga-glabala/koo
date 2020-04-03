@@ -4,7 +4,7 @@ import { PeopleComponent } from './people/people.component';
 import { PersonComponent } from './person/person.component';
 import { ActionsComponent } from './actions/actions.component';
 import { ActionComponent } from './action/action.component';
-import { NewActionComponent } from './newaction/newaction.component';
+import { EditActionComponent } from './editaction/editaction.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrderComponent } from './order/order.component';
 import { OrdersComponent } from './orders/orders.component';
@@ -18,7 +18,8 @@ const routes: Routes = [
   { path: 'actions/:actionid/order', component: OrderComponent },
   { path: 'actions/:actionid/orders', component: OrdersComponent },
   { path: 'action/:id', component: ActionComponent },
-  { path: 'newaction', component: NewActionComponent },
+  { path: 'newaction', component: EditActionComponent },
+  { path: 'action/:id/duplicate', component: EditActionComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: '',   redirectTo: '/dashboard', pathMatch: 'full' },
 ];

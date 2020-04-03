@@ -1,4 +1,6 @@
 import { Action } from '../models/action';
+import { Helper } from '../models/person';
+import { PEOPLE } from './people-mock';
 
 export const ACTIONS: Action[] = [{
     id: '1',
@@ -12,7 +14,7 @@ export const ACTIONS: Action[] = [{
     description: 'Morbi sollicitudin ut enim eu suscipit. Donec accumsan ullamcorper est vel euismod. Duis in leo elementum, malesuada leo vitae, posuere est. Curabitur ac neque lectus. Vivamus maximus rutrum ante vel lobortis. Ut porta purus sit amet nisl cursus, et mollis magna semper. Phasellus elementum orci sed magna convallis molestie. Quisque eu condimentum elit, sed dictum libero. Vestibulum id sapien cursus, suscipit est vel, ultrices libero. Fusce pharetra nunc non nulla condimentum, sed dignissim enim porttitor. Etiam sit amet enim id erat gravida posuere. Donec ultricies lacus vel suscipit porttitor. Sed aliquam libero ipsum, eu condimentum dui blandit sit amet. Suspendisse potenti. Aenean ut massa id eros tempor eleifend.',
     collection: 'Donec rutrum rutrum eros eu malesuada. Duis efficitur eleifend turpis, at tincidunt magna fringilla nec. In magna enim, semper ac mi eu, aliquet convallis magna. Vivamus in blandit metus, et vehicula tortor. Etiam nibh eros, ullamcorper eu ultrices vel, auctor id dolor. Quisque sollicitudin ornare metus lacinia ullamcorper. Suspendisse quam dolor, aliquet sit amet aliquam nec, dictum sit amet mauris. Cras iaculis nunc vel diam suscipit sodales. Etiam ac orci ante. Maecenas justo eros, malesuada ut lacus vel, vehicula rhoncus dolor. Morbi condimentum turpis vulputate, pretium ante a, aliquam felis. Nam sodales eros in vehicula porttitor. Cras mauris turpis, lacinia eget elementum at, ornare ac nulla. Proin sed nisl sit amet enim venenatis tempus nec id magna. Sed felis nibh, sagittis et pretium a, placerat ut nisl.',
     bankAccount: '233243523432535436463454',
-    helpers: 'Tu będą linki do osób które coś pomagają z opisem co zrobiły',
+    helpers: [new Helper(PEOPLE[2], "Rozlicza"), new Helper(PEOPLE[3], "Wydaje")],
     products: []
 },{
     id: '2',
@@ -26,6 +28,6 @@ export const ACTIONS: Action[] = [{
     description: 'Cras ante ipsum, porta ac semper vitae, auctor a urna. Curabitur vel leo eleifend, convallis dolor in, ultrices nisl. Etiam nec ultrices arcu, et tempus est. Nam in iaculis orci, vitae aliquam elit. Nam placerat, odio et aliquam semper, nulla leo placerat metus, id suscipit sapien ipsum id dolor. Maecenas eget elit dolor. Nam at dui vel ante auctor finibus ac at nisi. Mauris ut luctus augue, ac pellentesque diam.',
     collection: 'Morbi sollicitudin ut enim eu suscipit. Donec accumsan ullamcorper est vel euismod. Duis in leo elementum, malesuada leo vitae, posuere est. Curabitur ac neque lectus. Vivamus maximus rutrum ante vel lobortis. Ut porta purus sit amet nisl cursus, et mollis magna semper. Phasellus elementum orci sed magna convallis molestie. Quisque eu condimentum elit, sed dictum libero. Vestibulum id sapien cursus, suscipit est vel, ultrices libero. Fusce pharetra nunc non nulla condimentum, sed dignissim enim porttitor. Etiam sit amet enim id erat gravida posuere. Donec ultricies lacus vel suscipit porttitor. Sed aliquam libero ipsum, eu condimentum dui blandit sit amet. Suspendisse potenti. Aenean ut massa id eros tempor eleifend.',
     bankAccount: '233243523432535436463454',
-    helpers: 'Tu będą linki do osób które coś pomagają z opisem co zrobiły',
+    helpers: [new Helper(PEOPLE[0], "Rozlicza"), new Helper(PEOPLE[1], "Wydaje")],
     products: []
 },];
