@@ -4,7 +4,7 @@
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed" aria-controls="navbarText" aria-expanded="!isMenuCollapsed" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarText" [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+    <div *ngIf="auth.user | async as user; else showLogin" class="collapse navbar-collapse" id="navbarText" [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <a class="nav-link" href="#">Strona główna <span class="sr-only">(current)</span></a>
@@ -20,7 +20,7 @@
         </li>
       </ul>
       <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Agnieszka</button>
+        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{ user.displayName }}!</button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button ngbDropdownItem>Zaproś znajomego</button>
           <button ngbDropdownItem>Zobacz mój profil</button>
@@ -33,3 +33,7 @@
 <div class="container">
   <router-outlet></router-outlet>
 </div>
+<ng-template #showLogin>
+  <p>Please login.</p>
+  <button (click)="login()">Login with Facebook</button>
+</ng-template>
