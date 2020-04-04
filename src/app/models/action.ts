@@ -13,7 +13,7 @@ export class Action {
                 public rules: string,
                 public description: string,
                 public collection: string,
-                public bankAccount: string,
+                public payment: string,
                 public helpers: Helper[], 
                 public products: Product[]
                 ) {}

@@ -40,8 +40,6 @@
                 <dd>{{ action.payDate.toLocaleString(undefined, dateOptions) }}</dd>
             <dt>Odbieramy:</dt>
                 <dd>{{ action.collectionDate.toLocaleString(undefined, dateOptions) }}</dd>
-            <dt>Wpłaty na konto:</dt>
-                <dd>{{ action.bankAccount }}</dd>
         </dl>
     </div>
 </div>
@@ -59,6 +57,11 @@
     <ngb-panel title="Możliwy odbiór">
         <ng-template ngbPanelContent>
         {{ action.collection }}
+        </ng-template>
+    </ngb-panel>
+    <ngb-panel title="Płatność">
+        <ng-template ngbPanelContent>
+        {{ action.payment }}
         </ng-template>
     </ngb-panel>
     <ngb-panel title="Pomagają">

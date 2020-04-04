@@ -22,7 +22,7 @@ export class ActionFormService {
           description: '',
           rules: '',
           collection: '',
-          bankaccount: '',
+          payment: '',
         }),
         newperson: this.fb.group({
           person: '',
