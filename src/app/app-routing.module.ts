@@ -18,8 +18,9 @@ const routes: Routes = [
   { path: 'actions/:actionid/order', component: OrderComponent },
   { path: 'actions/:actionid/orders', component: OrdersComponent },
   { path: 'action/:id', component: ActionComponent },
-  { path: 'newaction', component: EditActionComponent },
-  { path: 'action/:id/duplicate', component: EditActionComponent },
+  { path: 'newaction', component: EditActionComponent, data: {mode: 'new'} },
+  { path: 'action/:id/duplicate', component: EditActionComponent, data: {mode: 'duplicate'} },
+  { path: 'action/:id/edit', component: EditActionComponent, data: {mode: 'edit'} },
   { path: 'dashboard', component: DashboardComponent },
   { path: '',   redirectTo: '/dashboard', pathMatch: 'full' },
 ];

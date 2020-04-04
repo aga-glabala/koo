@@ -1,11 +1,17 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item active">Nowa akcja</li>
+    <li class="breadcrumb-item" *ngIf="mode != 'new'"><a routerLink="/actions">Akcje</a></li>
+    <li class="breadcrumb-item active" *ngIf="mode != 'new'"><a routerLink="/action/{{action.id}}">{{ action.name }}</a></li>
+    <li class="breadcrumb-item active" *ngIf="mode == 'new'" aria-current="page">Nowa akcja</li>
+    <li class="breadcrumb-item active" *ngIf="mode == 'duplicate'" aria-current="page">Duplikat</li>
+    <li class="breadcrumb-item active" *ngIf="mode == 'edit'" aria-current="page">Edycja</li>
   </ol>
 </nav>
 
-<h1>Nowa akcja</h1>
+<h1 *ngIf="mode == 'new'">Nowa akcja</h1>
+<h1 *ngIf="mode == 'duplicate'">Duplikowanie akcji "{{action.name}}"</h1>
+<h1 *ngIf="mode == 'edit'">Edycja akcji "{{action.name}}"</h1>
 
 <form [formGroup]="actionForm" (ngSubmit)="onSubmit()">
   <div formGroupName="newaction">

@@ -19,6 +19,7 @@ import { Product } from '../models/product';
 export class EditActionComponent implements OnInit {
   action: Action;
   people : Person[];
+  mode = 'new';
 
   constructor(private route: ActivatedRoute, private actionService: ActionsService, private actionFormService: ActionFormService, private peopleService: PeopleService) {
   }
@@ -43,6 +44,11 @@ export class EditActionComponent implements OnInit {
 
     if(this.action) {
       this.actionFormService.loadAction(this.action);
+    }
+    this.mode = this.route.snapshot.data.mode;
+
+    if(this.mode == 'duplicate') {
+      this.action.id = null;
     }
   }
   getPeople(): void {
