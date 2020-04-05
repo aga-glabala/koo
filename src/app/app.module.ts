@@ -19,6 +19,7 @@ import { OrderComponent } from './order/order.component';
 import { OrdersComponent } from './orders/orders.component';
 import { PersonpickerComponent } from './personpicker/personpicker.component';
 import { environment } from '../environments/environment';
+import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { environment } from '../environments/environment';
     DashboardComponent,
     OrderComponent,
     OrdersComponent,
-    PersonpickerComponent
+    PersonpickerComponent,
+    NotAcceptedComponent
   ],
   imports: [
     BrowserModule,
