@@ -14,6 +14,7 @@ export class PersonpickerComponent implements OnInit {
   @Input() group: FormGroup;
   @Input() controlName;
   @Input() placeholder: string;
+  @Input() idname: string;
   people : Person[];
   constructor(private peopleService: PeopleService) { }
 
