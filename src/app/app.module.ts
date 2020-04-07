@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +18,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrderComponent } from './order/order.component';
 import { OrdersComponent } from './orders/orders.component';
 import { PersonpickerComponent } from './personpicker/personpicker.component';
+import { environment } from '../environments/environment';
+import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
 
 @NgModule({
   declarations: [
@@ -28,10 +32,13 @@ import { PersonpickerComponent } from './personpicker/personpicker.component';
     DashboardComponent,
     OrderComponent,
     OrdersComponent,
-    PersonpickerComponent
+    PersonpickerComponent,
+    NotAcceptedComponent
   ],
   imports: [
     BrowserModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,

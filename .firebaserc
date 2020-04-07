@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "formal-vortex-233909": {
+      "hosting": {
+        "koo": [
+          "formal-vortex-233909"
+        ]
+      }
+    }
+  }
+}
