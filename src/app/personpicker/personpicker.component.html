@@ -1,0 +1,5 @@
+<div [formGroup]="group">
+    <input id="person-select" type="text" class="form-control" [placeholder]="placeholder" [formControlName]="controlName"
+        [ngbTypeahead]="personSelectorSearch" [resultFormatter]="personSelectorFormatter"
+        [inputFormatter]="personSelectorFormatter" [editable]="false" />
+</div>

@@ -9,7 +9,7 @@
 
 <h1>Nowe zamówienie do akcji {{ action.name }}</h1>
 <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
-    <table class="table">
+    <table class="table" formGroupName="products">
         <thead>
             <tr>
                 <th>Nazwa</th>
@@ -29,5 +29,14 @@
             <td>{{ sumOrder }}zł</td>
         </tr>
     </table>   
+
+
+    <div class="form-group row">
+        <label for="picker" class="col-sm-2 col-form-label">Odbiera</label>
+        <div class="col-sm-8">
+            <koo-personpicker [group]="orderForm" controlName="picker" placeholder="Ktoś odbiera za ciebie?"></koo-personpicker>
+        </div>
+    </div>
+
     <button type="submit" class="btn btn-primary">Zapisz zamówienie</button> 
 </form>

@@ -15,6 +15,7 @@ import { EditActionComponent } from './editaction/editaction.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrderComponent } from './order/order.component';
 import { OrdersComponent } from './orders/orders.component';
+import { PersonpickerComponent } from './personpicker/personpicker.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { OrdersComponent } from './orders/orders.component';
     EditActionComponent,
     DashboardComponent,
     OrderComponent,
-    OrdersComponent
+    OrdersComponent,
+    PersonpickerComponent
   ],
   imports: [
     BrowserModule,
