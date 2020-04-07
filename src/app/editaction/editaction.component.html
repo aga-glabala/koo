@@ -190,14 +190,14 @@
     <div class="col-sm-5">
 
       <label for="person-select" class="sr-only">Nazwa użytkownika</label>
-      <input id="person-select" type="text" class="form-control" placeholder="Imię i nazwisko" formControlName="person"
-        [ngbTypeahead]="personSelectorSearch" [resultFormatter]="personSelectorFormatter"
-        [inputFormatter]="personSelectorFormatter" [editable]="false" />
+      <koo-personpicker id="newacion-select" [group]="actionForm.get('newperson')" controlName="person" 
+        placeholder="Imię i nazwisko"></koo-personpicker>
     </div>
     <div class="col-sm-5">
       <label for="newacion-newpersondescription" class="sr-only">Opis co osoba będzie robić</label>
       <input type="text" formControlName="description" class="form-control" id="newacion-newpersondescription"
         placeholder="Co będzie robić?">
+        
     </div>
     <div class="col-sm-2"><button type="button" class="btn btn-secondary" (click)="addNewHelper()">Dodaj
         osobę</button></div>

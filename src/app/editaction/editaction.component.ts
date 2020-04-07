@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { PeopleService } from '../people.service';
@@ -35,7 +33,6 @@ export class EditActionComponent implements OnInit {
 
   ngOnInit() {
     this.getAction();
-    this.getPeople();
   }
 
   getAction(): void {
@@ -51,26 +48,15 @@ export class EditActionComponent implements OnInit {
       this.action.id = null;
     }
   }
-  getPeople(): void {
-    this.people = this.peopleService.getPeople();
-  }
 
   onSubmit() {
     // Process checkout data here
     console.warn('Action data', this.actionFormService.form);
   }
 
-  personSelectorSearch = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(term => term.length < 2 ? []
-        : this.people.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-    )
-  personSelectorFormatter = (result: Person) => result.name;
-
   addNewHelper() {
     this.actionFormService.addNewHelper();
+    this.actionForm.get('newperson').reset();
   }
   removeHelper(id: number) {
     this.actionFormService.removeHelper(id);
@@ -78,6 +64,7 @@ export class EditActionComponent implements OnInit {
   }
   addNewProduct() {
     this.actionFormService.addNewProduct();
+    this.actionForm.get('newproduct').reset();
   }
   removeProduct(id: number) {
     this.actionFormService.removeProduct(id);
