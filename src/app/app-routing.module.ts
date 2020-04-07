@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { hasCustomClaim, canActivate, AuthPipe, AuthPipeGenerator } from '@angular/fire/auth-guard';
+import { hasCustomClaim, canActivate, AuthPipeGenerator, AngularFireAuthGuard } from '@angular/fire/auth-guard';
 
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -28,9 +28,9 @@ const routes: Routes = [
   { path: 'action/:actionid/order', component: OrderComponent, ...canActivate(acceptedOnly) },
   { path: 'action/:actionid/orders', component: OrdersComponent, ...canActivate(acceptedOnly) },
   { path: 'action/:id', component: ActionComponent, ...canActivate(acceptedOnly) },
-  { path: 'newaction', component: EditActionComponent, data: {mode: 'new'}, ...canActivate(acceptedOnly) },
-  { path: 'action/:id/duplicate', component: EditActionComponent, data: {mode: 'duplicate'}, ...canActivate(acceptedOnly) },
-  { path: 'action/:id/edit', component: EditActionComponent, data: {mode: 'edit'}, ...canActivate(acceptedOnly) },
+  { path: 'newaction', component: EditActionComponent, canActivate: [AngularFireAuthGuard], data: {mode: 'new', authGuardPipe: acceptedOnly }},
+  { path: 'action/:id/duplicate', component: EditActionComponent, canActivate: [AngularFireAuthGuard], data: {mode: 'duplicate', authGuardPipe: acceptedOnly }},
+  { path: 'action/:id/edit', component: EditActionComponent, canActivate: [AngularFireAuthGuard], data: {mode: 'edit', authGuardPipe: acceptedOnly }},
   { path: 'not-accepted', component: NotAcceptedComponent, ...canActivate(redirectIfAccepted) },
   { path: 'dashboard', component: DashboardComponent, ...canActivate(redirectIfNotAccepted) },
   { path: '',   redirectTo: '/dashboard', pathMatch: 'full' },
