@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { Observable } from 'rxjs';
+
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 
@@ -10,7 +13,7 @@ import { ActionsService } from '../actions.service';
 })
 export class ActionsComponent implements OnInit {
   page: number = 1;
-  actions : Action[];
+  actions: Observable<Action[]>;
   dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
   constructor(private route: ActivatedRoute, private router: Router, private actionsService: ActionsService) { }
@@ -24,7 +27,7 @@ export class ActionsComponent implements OnInit {
   }
 
   getActions(): void {
-    this.actions = this.actionsService.getActions();
+    this.actions = this.actionsService.actions;
   }
 
   pageChangeAction(newPage: number) {

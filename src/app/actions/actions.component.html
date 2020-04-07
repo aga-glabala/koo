@@ -6,7 +6,7 @@
 </nav>
 
 <h1>Akcje</h1>
-<div class="row mb-4" *ngFor="let action of actions | paginate: { itemsPerPage: 25, currentPage: page }">
+<div class="row mb-4" *ngFor="let action of actions | async | paginate: { itemsPerPage: 25, currentPage: page }">
     <div class="col-md-3">
         <img src="{{action.photoUrl}}" alt="Zdjęcie {{action.name}}" class="img-fluid"> 
     </div>

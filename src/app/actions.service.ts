@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+
 import { Action } from './models/action';
 import { ACTIONS } from './mocks/actions-mock';
 import { PRODUCTS } from './mocks/product-mock';
@@ -7,7 +11,10 @@ import { PRODUCTS } from './mocks/product-mock';
   providedIn: 'root'
 })
 export class ActionsService {
-  constructor() {}
+  actions: Observable<any[]>;
+  constructor(firestore: AngularFirestore) {
+    this.actions = firestore.collection('actions').valueChanges();
+  }
 
   getActions(): Action[] {
       return ACTIONS;
