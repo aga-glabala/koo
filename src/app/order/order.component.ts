@@ -24,29 +24,31 @@ export class OrderComponent implements OnInit {
 
   getAction(): void {
     const id = this.route.snapshot.paramMap.get('actionid');
-    this.action = this.actionService.getAction(id);
-    if(this.action) {
-      let products = {};
+    this.actionService.getAction(id).subscribe((action) => {
+      this.action = action;
+      if(this.action) {
+        let products = {};
 
-      this.action.products.forEach(product=>{
-        products[product.name + product.variant]=new FormControl('');  
-        this.products[product.name + product.variant] = product;
-      });
+        this.action.products.forEach(product=>{
+          products[product.name + product.variant]=new FormControl('');  
+          this.products[product.name + product.variant] = product;
+        });
 
-      this.orderForm = new FormGroup({
-        picker: new FormControl(''),
-        products: new FormGroup(products)
-      });
+        this.orderForm = new FormGroup({
+          picker: new FormControl(''),
+          products: new FormGroup(products)
+        });
 
-      this.orderForm.get('products').valueChanges.subscribe(values => {
-        this.sumOrder = 0;
-        for(let product in values) {
-          this.sumOrder += values[product] * this.products[product].price;
-        }
-      });
-    } else {
-      this.orderForm = this.formBuilder.group({});
-    }
+        this.orderForm.get('products').valueChanges.subscribe(values => {
+          this.sumOrder = 0;
+          for(let product in values) {
+            this.sumOrder += values[product] * this.products[product].price;
+          }
+        });
+      } else {
+        this.orderForm = this.formBuilder.group({});
+      }
+    });
   }
 
   onSubmit() {

@@ -27,7 +27,7 @@ export class ActionsComponent implements OnInit {
   }
 
   getActions(): void {
-    this.actions = this.actionsService.actions;
+    this.actions = this.actionsService.getActions();
   }
 
   pageChangeAction(newPage: number) {

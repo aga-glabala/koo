@@ -26,7 +26,9 @@ export class MyOrdersComponent implements OnInit {
   }
 
   getActions(): void {
-    this.actions = this.actionsService.getActions();
+    this.actionsService.getActions().subscribe((actions) => {
+      this.actions = actions;
+    });
   }
 
   pageChangeAction(newPage: number) {

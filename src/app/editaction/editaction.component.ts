@@ -37,16 +37,16 @@ export class EditActionComponent implements OnInit {
 
   getAction(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.action = this.actionService.getAction(id);
-
-    if(this.action) {
-      this.actionFormService.loadAction(this.action);
-    }
     this.mode = this.route.snapshot.data.mode;
-
-    if(this.mode == 'duplicate') {
-      this.action.id = null;
-    }
+    this.actionService.getAction(id).subscribe((action) => {
+      this.action = action;
+      if (action) {
+        this.actionFormService.loadAction(this.action);
+      }
+      if (this.mode == 'duplicate') {
+        this.action.id = null;
+      }
+    });
   }
 
   onSubmit() {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
+import { loggedIn } from '@angular/fire/auth-guard/auth-guard';
 
 @Component({
   selector: 'app-action',
@@ -20,6 +21,12 @@ export class ActionComponent implements OnInit {
 
   getAction(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.action = this.actionService.getAction(id);
+    this.actionService.getAction(id).subscribe((data) => {
+      console.log(data);
+      this.action = data;
+      this.actionService.getActionProducts(id).subscribe((products) => {
+        this.action.products = products;
+      });
+    });
   }
 }
