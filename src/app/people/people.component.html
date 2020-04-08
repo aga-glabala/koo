@@ -6,12 +6,32 @@
 </nav>
 
 <h1>Użytkownicy</h1>
-<div class="row mb-4" *ngFor="let person of people | paginate: { itemsPerPage: 25, currentPage: page }">
-    <div class="col-md-3 col-lg-1">
-        <img src="{{person.photoUrl}}" class="img-fluid" alt="Zdjęcie profilowe {{person.name}}"> 
-    </div>
-    <div class="col-md-9 col-lg-11">
-        <h2><a routerLink="/person/{{person.id}}">{{person.name}}</a></h2>
-    </div>
-</div>
+<p>Dane dla ostatnich trzech miesięcy</p>
+<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th>Zdjęcie</th>
+            <th>Login</th>
+            <th>Zorganizowanych akcji</th>
+            <th>Pomagał</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let person of people | paginate: { itemsPerPage: 25, currentPage: page }">
+            <td>
+                <img src="{{person.photoUrl}}" class="user-img" alt="Zdjęcie profilowe {{person.name}}"> 
+            </td>
+            <td>
+                <a routerLink="/person/{{person.id}}">{{person.name}}</a>
+            </td>
+            <td>3</td>
+            <td>3</td>
+            <td>
+                <button class="btn btn-success">Zrób administratorem</button>&nbsp;
+                <button class="btn btn-danger">Usuń użytkownika</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
 <pagination-controls (pageChange)="pageChangeAction($event)"></pagination-controls>
