@@ -14,6 +14,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
 import { OrderComponent } from './order/order.component';
 import { OrdersComponent } from './orders/orders.component';
+import { UserQueueComponent } from './userqueue/userqueue.component';
 
 const acceptedOnly = () => hasCustomClaim('accepted');
 const redirectIfNotAccepted: AuthPipeGenerator = () => pipe(hasCustomClaim('accepted'), map(isAccepted => isAccepted || ['not-accepted']));
@@ -22,6 +23,8 @@ const redirectIfAccepted: AuthPipeGenerator = () => pipe(hasCustomClaim('accepte
 const routes: Routes = [
   { path: 'people', component: PeopleComponent, ...canActivate(acceptedOnly) },
   { path: 'people/:page', component: PeopleComponent, ...canActivate(acceptedOnly) },
+  { path: 'userqueue', component: UserQueueComponent, ...canActivate(acceptedOnly) },
+  { path: 'userqueue/:page', component: UserQueueComponent, ...canActivate(acceptedOnly) },
   { path: 'person/:id', component: PersonComponent, ...canActivate(acceptedOnly) },
   { path: 'actions', component: ActionsComponent, ...canActivate(acceptedOnly) },
   { path: 'actions/:page', component: ActionsComponent, ...canActivate(acceptedOnly) },

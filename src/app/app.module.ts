@@ -20,6 +20,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { PersonpickerComponent } from './personpicker/personpicker.component';
 import { environment } from '../environments/environment';
 import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
+import { UserQueueComponent } from './userqueue/userqueue.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
     OrderComponent,
     OrdersComponent,
     PersonpickerComponent,
-    NotAcceptedComponent
+    NotAcceptedComponent,
+    UserQueueComponent
   ],
   imports: [
     BrowserModule,

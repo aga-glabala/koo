@@ -1,0 +1,33 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active">Użytkownicy do zaakceptowania</li>
+    </ol>
+</nav>
+
+<h1>Użytkownicy do zaakceptowania</h1>
+<p>Użytkownicy, którzy próbowali się zalogować do systemu</p>
+<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th>Zdjęcie</th>
+            <th>Login</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let person of people | paginate: { itemsPerPage: 25, currentPage: page }">
+            <td>
+                <img src="{{person.photoUrl}}" class="user-img" alt="Zdjęcie profilowe {{person.name}}"> 
+            </td>
+            <td>
+                <a routerLink="/person/{{person.id}}">{{person.name}}</a>
+            </td>
+            <td>
+                <button class="btn btn-success">Dodaj użytkownika</button>&nbsp;
+                <button class="btn btn-danger">Usuń użytkownika</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<pagination-controls (pageChange)="pageChangeAction($event)"></pagination-controls>
