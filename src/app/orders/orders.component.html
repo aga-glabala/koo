@@ -10,93 +10,144 @@
 <h1>Zamówienia do akcji {{ action.name }}</h1>
 
 <table class="table table-striped">
-    <tr>
-        <th>Nazwa</th>
-        <th>Pomidory</th>
-        <th>Ogórki</th>
-        <th>Produkt</th>
-        <th>Produkt</th>
-        <th>Produkt</th>
-        <th>Produkt</th>
-        <th>Produkt</th>
-        <th>Produkt</th>
-        <th>Produkt</th>
-        <th rowspan="3">Suma</th>
-    </tr>
-    <tr>
-        <th>Wariant</th>
-        <th>kg</th>
-        <th>kg</th>
-        <th>skrzynka</th>
-        <th>litr</th>
-        <th>0.5L</th>
-        <th>30ml</th>
-        <th>kg</th>
-        <th>Butelka</th>
-        <th>szt.</th>
-    </tr>
-    <tr>
-        <th>Cena</th>
-        <th>5</th>
-        <th>3</th>
-        <th>23</th>
-        <th>12</th>
-        <th>14</th>
-        <th>56</th>
-        <th>5</th>
-        <th>9</th>
-        <th>1</th>
-    </tr>
-    <tr>
-        <td>Agnieszka Świecznik</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>30zł</td>
-    </tr>
-    <tr>
-        <td>Urszula Zawadzka</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>30zł</td>
-    </tr>
-    <tr>
-        <td>Magda Golińska-Domolążek</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>30zł</td>
-    </tr>
-    <tr>
-        <td>Marta Zdrojewska</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>1</td>
-        <td>30zł</td>
-    </tr>
+    <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Pomidory</th>
+            <th>Ogórki</th>
+            <th>Produkt</th>
+            <th>Produkt</th>
+            <th>Produkt</th>
+            <th>Produkt</th>
+            <th>Produkt</th>
+            <th>Produkt</th>
+            <th>Produkt</th>
+            <th rowspan="3">Suma</th>
+            <th rowspan="3">Zapłacone</th>
+            <th rowspan="3">Odebrane</th>
+        </tr>
+        <tr>
+            <th>Wariant</th>
+            <th>kg</th>
+            <th>kg</th>
+            <th>skrzynka</th>
+            <th>litr</th>
+            <th>0.5L</th>
+            <th>30ml</th>
+            <th>kg</th>
+            <th>Butelka</th>
+            <th>szt.</th>
+        </tr>
+        <tr>
+            <th>Cena</th>
+            <th>5</th>
+            <th>3</th>
+            <th>23</th>
+            <th>12</th>
+            <th>14</th>
+            <th>56</th>
+            <th>5</th>
+            <th>9</th>
+            <th>1</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Agnieszka Świecznik</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>30zł</td>
+            <td class="bg-success">
+                <svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                </svg>
+            </td>
+            <td class="bg-success">
+                <svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                </svg>
+            </td>
+        </tr>
+        <tr>
+            <td>Urszula Zawadzka</td>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>30zł</td>
+            <td class="bg-danger">
+              <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+              </svg>
+            </td>
+            <td class="bg-danger">
+              <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+              </svg>
+            </td>
+        </tr>
+        <tr>
+            <td>Magda Golińska-Domolążek</td>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>30zł</td>
+            <td>
+              <button class="btn btn-danger"><svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+              </svg> Do zapłaty</button>
+            </td>
+            <td>
+                <button class="btn btn-danger"><svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                  <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+                </svg> Do odebrania</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Marta Zdrojewska</td>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>30zł</td>
+            <td>
+              <button class="btn btn-success"><svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+            </svg> Zapłacone</button>
+            </td>
+            <td>
+                <button class="btn btn-success"><svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                </svg> Odebrane</button>
+            </td>
+        </tr>
+    </tbody>
 </table>
+<p>TODO: właściciel akcji i pomocnicy mogą oznaczać kto zapłacił i odebrał, jak w dwóch ostatnich wierszach </p>
