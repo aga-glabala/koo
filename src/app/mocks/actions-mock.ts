@@ -5,7 +5,7 @@ import { PEOPLE } from './people-mock';
 export const ACTIONS: Action[] = [{
     id: '1',
     name: 'Kremy',
-    photoUrl: 'http://picsum.photos/400/200',
+    photoUrl: 'http://picsum.photos/400/400',
     createdBy: undefined,
     orderDate: new Date('2020-03-28'),
     payDate: new Date('2020-03-28'),
@@ -19,7 +19,7 @@ export const ACTIONS: Action[] = [{
 },{
     id: '2',
     name: 'Pomidory',
-    photoUrl: 'http://picsum.photos/400/200',
+    photoUrl: 'http://picsum.photos/400/400',
     createdBy: undefined,
     orderDate: new Date('2020-04-02'),
     payDate: new Date('2020-04-02'),

@@ -15,6 +15,7 @@ import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
 import { OrderComponent } from './order/order.component';
 import { OrdersComponent } from './orders/orders.component';
 import { UserQueueComponent } from './userqueue/userqueue.component';
+import { MyOrdersComponent } from './myorders/myorders.component';
 
 const acceptedOnly = () => hasCustomClaim('accepted');
 const redirectIfNotAccepted: AuthPipeGenerator = () => pipe(hasCustomClaim('accepted'), map(isAccepted => isAccepted || ['not-accepted']));
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'action/:id/edit', component: EditActionComponent, canActivate: [AngularFireAuthGuard], data: {mode: 'edit', authGuardPipe: acceptedOnly }},
   { path: 'not-accepted', component: NotAcceptedComponent, ...canActivate(redirectIfAccepted) },
   { path: 'dashboard', component: DashboardComponent, ...canActivate(redirectIfNotAccepted) },
+  { path: 'myorders', component: MyOrdersComponent, ...canActivate(acceptedOnly) },
   { path: '',   redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 

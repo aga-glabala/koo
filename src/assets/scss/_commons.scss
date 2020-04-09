@@ -1,3 +1,15 @@
+html {
+    background-color: #fbfbfb;
+}
+
+body {
+    background-color: transparent;
+}
+
+table {
+    background-color: $white;
+}
+
 .breadcrumb {
     border: 0;
     background: transparent;
@@ -57,4 +69,15 @@ h1 {
 
 .col-form-label {
     text-align: right;
+}
+
+.action-card {
+    box-shadow: 0 0 5px $gray-200;
+    background-color: $white;
+    margin-bottom: 30px;
+    overflow: hidden;
+
+    h2, h3 {
+        margin-top: 15px;
+    }
 }
