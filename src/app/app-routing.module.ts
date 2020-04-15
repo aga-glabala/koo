@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { hasCustomClaim, canActivate, AuthPipeGenerator, AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { hasCustomClaim, canActivate, AuthPipeGenerator, AngularFireAuthGuard, loggedIn } from '@angular/fire/auth-guard';
 
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,9 +17,9 @@ import { OrdersComponent } from './orders/orders.component';
 import { UserQueueComponent } from './userqueue/userqueue.component';
 import { MyOrdersComponent } from './myorders/myorders.component';
 
-const acceptedOnly = () => hasCustomClaim('accepted');
-const redirectIfNotAccepted: AuthPipeGenerator = () => pipe(hasCustomClaim('accepted'), map(isAccepted => isAccepted || ['not-accepted']));
-const redirectIfAccepted: AuthPipeGenerator = () => pipe(hasCustomClaim('accepted'), map(isAccepted => !isAccepted || ['dashboard']));
+const acceptedOnly = () => loggedIn;
+const redirectIfNotAccepted: AuthPipeGenerator = () => pipe(loggedIn, map(isAccepted => isAccepted || ['not-accepted']));
+const redirectIfAccepted: AuthPipeGenerator = () => pipe(loggedIn, map(isAccepted => !isAccepted || ['dashboard']));
 
 const routes: Routes = [
   { path: 'people', component: PeopleComponent, ...canActivate(acceptedOnly) },
