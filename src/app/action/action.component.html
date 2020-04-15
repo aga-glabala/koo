@@ -67,8 +67,7 @@
     <ngb-panel title="Pomagają">
         <ng-template ngbPanelContent>
             <ul>
-                <li>Magda wydaje</li>
-                <li>Ula rozlicza</li>
+                <li *ngFor="let helper of action.helpers">{{helper.person.name}} {{helper.description}}</li>
             </ul>
         </ng-template>
     </ngb-panel>

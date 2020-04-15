@@ -19,7 +19,7 @@ export const ACTIONS: Action[] = [{
 },{
     id: '2',
     name: 'Pomidory',
-    photoUrl: 'http://picsum.photos/400/400',
+    photoUrl: 'http://picsum.photos/401/400',
     createdBy: undefined,
     orderDate: new Date('2020-04-02'),
     payDate: new Date('2020-04-02'),
@@ -29,5 +29,47 @@ export const ACTIONS: Action[] = [{
     collection: 'Morbi sollicitudin ut enim eu suscipit. Donec accumsan ullamcorper est vel euismod. Duis in leo elementum, malesuada leo vitae, posuere est. Curabitur ac neque lectus. Vivamus maximus rutrum ante vel lobortis. Ut porta purus sit amet nisl cursus, et mollis magna semper. Phasellus elementum orci sed magna convallis molestie. Quisque eu condimentum elit, sed dictum libero. Vestibulum id sapien cursus, suscipit est vel, ultrices libero. Fusce pharetra nunc non nulla condimentum, sed dignissim enim porttitor. Etiam sit amet enim id erat gravida posuere. Donec ultricies lacus vel suscipit porttitor. Sed aliquam libero ipsum, eu condimentum dui blandit sit amet. Suspendisse potenti. Aenean ut massa id eros tempor eleifend.',
     payment: 'Płacimy na konto 233243523432535436463454',
     helpers: [new Helper(PEOPLE[0], "Rozlicza"), new Helper(PEOPLE[1], "Wydaje")],
+    products: []
+},{
+    id: '2',
+    name: 'Eko Zagrody',
+    photoUrl: 'http://picsum.photos/400/401',
+    createdBy: undefined,
+    orderDate: new Date('2020-04-02'),
+    payDate: new Date('2020-04-02'),
+    collectionDate: new Date('2020-04-04'),
+    rules: 'Curabitur a ultricies augue, a lobortis est. Nam fringilla malesuada odio at imperdiet. Curabitur varius arcu sed sodales facilisis. Vivamus vestibulum leo id nisi pellentesque, vel sodales orci elementum. Suspendisse pretium urna lectus, ac lacinia mauris iaculis sed. Nullam dictum est vitae gravida placerat. Praesent libero lorem, porttitor at convallis sed, ornare eu erat.',
+    description: 'Cras ante ipsum, porta ac semper vitae, auctor a urna. Curabitur vel leo eleifend, convallis dolor in, ultrices nisl. Etiam nec ultrices arcu, et tempus est. Nam in iaculis orci, vitae aliquam elit. Nam placerat, odio et aliquam semper, nulla leo placerat metus, id suscipit sapien ipsum id dolor. Maecenas eget elit dolor. Nam at dui vel ante auctor finibus ac at nisi. Mauris ut luctus augue, ac pellentesque diam.',
+    collection: 'Morbi sollicitudin ut enim eu suscipit. Donec accumsan ullamcorper est vel euismod. Duis in leo elementum, malesuada leo vitae, posuere est. Curabitur ac neque lectus. Vivamus maximus rutrum ante vel lobortis. Ut porta purus sit amet nisl cursus, et mollis magna semper. Phasellus elementum orci sed magna convallis molestie. Quisque eu condimentum elit, sed dictum libero. Vestibulum id sapien cursus, suscipit est vel, ultrices libero. Fusce pharetra nunc non nulla condimentum, sed dignissim enim porttitor. Etiam sit amet enim id erat gravida posuere. Donec ultricies lacus vel suscipit porttitor. Sed aliquam libero ipsum, eu condimentum dui blandit sit amet. Suspendisse potenti. Aenean ut massa id eros tempor eleifend.',
+    payment: 'Płacimy na konto 233243523432535436463454',
+    helpers: [new Helper(PEOPLE[2], "Rozlicza"), new Helper(PEOPLE[0], "Wydaje")],
+    products: []
+},{
+    id: '3',
+    name: 'Serabio',
+    photoUrl: 'http://picsum.photos/399/400',
+    createdBy: undefined,
+    orderDate: new Date('2020-04-02'),
+    payDate: new Date('2020-04-02'),
+    collectionDate: new Date('2020-04-04'),
+    rules: 'Curabitur a ultricies augue, a lobortis est. Nam fringilla malesuada odio at imperdiet. Curabitur varius arcu sed sodales facilisis. Vivamus vestibulum leo id nisi pellentesque, vel sodales orci elementum. Suspendisse pretium urna lectus, ac lacinia mauris iaculis sed. Nullam dictum est vitae gravida placerat. Praesent libero lorem, porttitor at convallis sed, ornare eu erat.',
+    description: 'Cras ante ipsum, porta ac semper vitae, auctor a urna. Curabitur vel leo eleifend, convallis dolor in, ultrices nisl. Etiam nec ultrices arcu, et tempus est. Nam in iaculis orci, vitae aliquam elit. Nam placerat, odio et aliquam semper, nulla leo placerat metus, id suscipit sapien ipsum id dolor. Maecenas eget elit dolor. Nam at dui vel ante auctor finibus ac at nisi. Mauris ut luctus augue, ac pellentesque diam.',
+    collection: 'Morbi sollicitudin ut enim eu suscipit. Donec accumsan ullamcorper est vel euismod. Duis in leo elementum, malesuada leo vitae, posuere est. Curabitur ac neque lectus. Vivamus maximus rutrum ante vel lobortis. Ut porta purus sit amet nisl cursus, et mollis magna semper. Phasellus elementum orci sed magna convallis molestie. Quisque eu condimentum elit, sed dictum libero. Vestibulum id sapien cursus, suscipit est vel, ultrices libero. Fusce pharetra nunc non nulla condimentum, sed dignissim enim porttitor. Etiam sit amet enim id erat gravida posuere. Donec ultricies lacus vel suscipit porttitor. Sed aliquam libero ipsum, eu condimentum dui blandit sit amet. Suspendisse potenti. Aenean ut massa id eros tempor eleifend.',
+    payment: 'Płacimy na konto 233243523432535436463454',
+    helpers: [new Helper(PEOPLE[0], "Rozlicza"), new Helper(PEOPLE[3], "Wydaje")],
+    products: []
+},{
+    id: '4',
+    name: 'Knittex',
+    photoUrl: 'http://picsum.photos/400/399',
+    createdBy: undefined,
+    orderDate: new Date('2020-04-02'),
+    payDate: new Date('2020-04-02'),
+    collectionDate: new Date('2020-04-04'),
+    rules: 'Curabitur a ultricies augue, a lobortis est. Nam fringilla malesuada odio at imperdiet. Curabitur varius arcu sed sodales facilisis. Vivamus vestibulum leo id nisi pellentesque, vel sodales orci elementum. Suspendisse pretium urna lectus, ac lacinia mauris iaculis sed. Nullam dictum est vitae gravida placerat. Praesent libero lorem, porttitor at convallis sed, ornare eu erat.',
+    description: 'Cras ante ipsum, porta ac semper vitae, auctor a urna. Curabitur vel leo eleifend, convallis dolor in, ultrices nisl. Etiam nec ultrices arcu, et tempus est. Nam in iaculis orci, vitae aliquam elit. Nam placerat, odio et aliquam semper, nulla leo placerat metus, id suscipit sapien ipsum id dolor. Maecenas eget elit dolor. Nam at dui vel ante auctor finibus ac at nisi. Mauris ut luctus augue, ac pellentesque diam.',
+    collection: 'Morbi sollicitudin ut enim eu suscipit. Donec accumsan ullamcorper est vel euismod. Duis in leo elementum, malesuada leo vitae, posuere est. Curabitur ac neque lectus. Vivamus maximus rutrum ante vel lobortis. Ut porta purus sit amet nisl cursus, et mollis magna semper. Phasellus elementum orci sed magna convallis molestie. Quisque eu condimentum elit, sed dictum libero. Vestibulum id sapien cursus, suscipit est vel, ultrices libero. Fusce pharetra nunc non nulla condimentum, sed dignissim enim porttitor. Etiam sit amet enim id erat gravida posuere. Donec ultricies lacus vel suscipit porttitor. Sed aliquam libero ipsum, eu condimentum dui blandit sit amet. Suspendisse potenti. Aenean ut massa id eros tempor eleifend.',
+    payment: 'Płacimy na konto 233243523432535436463454',
+    helpers: [new Helper(PEOPLE[2], "Rozlicza"), new Helper(PEOPLE[1], "Wydaje")],
     products: []
 },];

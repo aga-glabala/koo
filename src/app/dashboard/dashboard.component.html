@@ -84,86 +84,22 @@
     </div>
 </h2>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6" *ngFor="let action of actions">
         <div class="action-card">
             <div class="row">
                 <div class="col-md-4">
-                    <img class="img-fluid" src="http://picsum.photos/401/400">
+                    <img class="img-fluid" [src]="action.photoUrl">
                 </div>
                 <div class="col-md-8">
-                    <h3><a routerLink="/action/1">Warzywa u Uli</a></h3>
+                    <h3><a routerLink="/action/1">{{ action.name }}</a></h3>
                     <p>Zamawiamy: <strong>3 dni</strong></p>
                     <p>Bierze udział: 56 osób</p>
-                    <a routerLink="/action/1/order" class="btn btn-primary">Zamawianie</a>&nbsp;
-                    <a routerLink="/action/1/orders" class="btn btn-primary">Tabelka</a>
+                    <a routerLink="/action/{{action.id}}/order" class="btn btn-primary">Zamawianie</a>&nbsp;
+                    <a routerLink="/action/{{action.id}}/orders" class="btn btn-primary">Tabelka</a>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <div class="action-card">
-            <div class="row">
-                <div class="col-md-4">
-                    <img class="img-fluid" src="http://picsum.photos/400/401">
-                </div>
-                <div class="col-md-8">
-                    <h3 class="card-title"><a routerLink="/action/1">Warzywa u Uli</a></h3>
-                    <p class="card-text">Zamawiamy: <strong>3 dni</strong></p>
-                    <p class="card-text">Bierze udział: 56 osób</p>
-                    <a routerLink="/action/1/order" class="btn btn-primary">Zamawianie</a>&nbsp;
-                    <a routerLink="/action/1/orders" class="btn btn-primary">Tabelka</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="action-card">
-            <div class="row">
-                <div class="col-md-4">
-                    <img class="img-fluid" src="http://picsum.photos/400/400">
-                </div>
-                <div class="col-md-8">
-                    <h3 class="card-title"><a routerLink="/action/1">Warzywa u Uli</a></h3>
-                    <p class="card-text">Zamawiamy: <strong>3 dni</strong></p>
-                    <p class="card-text">Bierze udział: 56 osób</p>
-                    <a routerLink="/action/1/order" class="btn btn-primary">Zamawianie</a>&nbsp;
-                    <a routerLink="/action/1/orders" class="btn btn-primary">Tabelka</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="action-card">
-            <div class="row">
-                <div class="col-md-4">
-                    <img class="img-fluid" src="http://picsum.photos/399/400">
-                </div>
-                <div class="col-md-8">
-                    <h3 class="card-title"><a routerLink="/action/1">Warzywa u Uli</a></h3>
-                    <p class="card-text">Zamawiamy: <strong>3 dni</strong></p>
-                    <p class="card-text">Bierze udział: 56 osób</p>
-                    <a routerLink="/action/1/order" class="btn btn-primary">Zamawianie</a>&nbsp;
-                    <a routerLink="/action/1/orders" class="btn btn-primary">Tabelka</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="action-card">
-            <div class="row">
-                <div class="col-md-4">
-                    <img class="img-fluid" src="http://picsum.photos/400/399">
-                </div>
-                <div class="col-md-8">
-                    <h3 class="card-title"><a routerLink="/action/1">Warzywa u Uli</a></h3>
-                    <p class="card-text">Zamawiamy: <strong>3 dni</strong></p>
-                    <p class="card-text">Bierze udział: 56 osób</p>
-                    <a routerLink="/action/1/order" class="btn btn-primary">Zamawianie</a>&nbsp;
-                    <a routerLink="/action/1/orders" class="btn btn-primary">Tabelka</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    </div>  
 </div>
 <ng-template #paymentModal let-modal>
     <div class="modal-header">

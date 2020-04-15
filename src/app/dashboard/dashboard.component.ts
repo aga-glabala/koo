@@ -1,5 +1,7 @@
 import { Component, OnInit, ApplicationRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Action } from '../models/action';
+import { ActionsService } from '../actions.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,10 +10,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DashboardComponent implements OnInit {
   payment = '';
+  actions : Action[];
 
-  constructor(private modalService: NgbModal, private appRef: ApplicationRef) { }
+  constructor(private actionsService: ActionsService, private modalService: NgbModal, private appRef: ApplicationRef) { }
 
   ngOnInit(): void {
+    this.getActions();
+  }  
+  
+  getActions(): void {
+    this.actions = this.actionsService.getActions();
   }
   
   open(content, payment) {
