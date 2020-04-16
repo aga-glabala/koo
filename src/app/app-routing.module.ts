@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { hasCustomClaim, canActivate, AuthPipeGenerator, AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { hasCustomClaim, canActivate, AuthPipeGenerator, AngularFireAuthGuard, loggedIn } from '@angular/fire/auth-guard';
 
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,27 +17,27 @@ import { OrdersComponent } from './orders/orders.component';
 import { UserQueueComponent } from './userqueue/userqueue.component';
 import { MyOrdersComponent } from './myorders/myorders.component';
 
-const acceptedOnly = () => hasCustomClaim('accepted');
-const redirectIfNotAccepted: AuthPipeGenerator = () => pipe(hasCustomClaim('accepted'), map(isAccepted => isAccepted || ['not-accepted']));
-const redirectIfAccepted: AuthPipeGenerator = () => pipe(hasCustomClaim('accepted'), map(isAccepted => !isAccepted || ['dashboard']));
+const acceptedOnly = () => loggedIn;
+const redirectIfNotAccepted: AuthPipeGenerator = () => pipe(loggedIn, map(isAccepted => isAccepted || ['not-accepted']));
+const redirectIfAccepted: AuthPipeGenerator = () => pipe(loggedIn, map(isAccepted => !isAccepted || ['dashboard']));
 
 const routes: Routes = [
-  { path: 'people', component: PeopleComponent},
-  { path: 'people/:page', component: PeopleComponent },
-  { path: 'userqueue', component: UserQueueComponent },
-  { path: 'userqueue/:page', component: UserQueueComponent },
-  { path: 'person/:id', component: PersonComponent },
-  { path: 'actions', component: ActionsComponent },
-  { path: 'actions/:page', component: ActionsComponent },
-  { path: 'action/:actionid/order', component: OrderComponent },
-  { path: 'action/:actionid/orders', component: OrdersComponent },
-  { path: 'action/:id', component: ActionComponent },
-  { path: 'newaction', component: EditActionComponent},
-  { path: 'action/:id/duplicate', component: EditActionComponent},
-  { path: 'action/:id/edit', component: EditActionComponent },
-  { path: 'not-accepted', component: NotAcceptedComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'myorders', component: MyOrdersComponent },
+  { path: 'people', component: PeopleComponent, ...canActivate(acceptedOnly) },
+  { path: 'people/:page', component: PeopleComponent, ...canActivate(acceptedOnly) },
+  { path: 'userqueue', component: UserQueueComponent, ...canActivate(acceptedOnly) },
+  { path: 'userqueue/:page', component: UserQueueComponent, ...canActivate(acceptedOnly) },
+  { path: 'person/:id', component: PersonComponent, ...canActivate(acceptedOnly) },
+  { path: 'actions', component: ActionsComponent, ...canActivate(acceptedOnly) },
+  { path: 'actions/:page', component: ActionsComponent, ...canActivate(acceptedOnly) },
+  { path: 'action/:actionid/order', component: OrderComponent, ...canActivate(acceptedOnly) },
+  { path: 'action/:actionid/orders', component: OrdersComponent, ...canActivate(acceptedOnly) },
+  { path: 'action/:id', component: ActionComponent, ...canActivate(acceptedOnly) },
+  { path: 'newaction', component: EditActionComponent, canActivate: [AngularFireAuthGuard], data: {mode: 'new', authGuardPipe: acceptedOnly }},
+  { path: 'action/:id/duplicate', component: EditActionComponent, canActivate: [AngularFireAuthGuard], data: {mode: 'duplicate', authGuardPipe: acceptedOnly }},
+  { path: 'action/:id/edit', component: EditActionComponent, canActivate: [AngularFireAuthGuard], data: {mode: 'edit', authGuardPipe: acceptedOnly }},
+  { path: 'not-accepted', component: NotAcceptedComponent, ...canActivate(redirectIfAccepted) },
+  { path: 'dashboard', component: DashboardComponent, ...canActivate(redirectIfNotAccepted) },
+  { path: 'myorders', component: MyOrdersComponent, ...canActivate(acceptedOnly) },
   { path: '',   redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 
