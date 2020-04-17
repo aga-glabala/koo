@@ -1,4 +1,4 @@
-import { Component, OnInit, ApplicationRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
@@ -12,7 +12,7 @@ export class DashboardComponent implements OnInit {
   payment = '';
   actions : Action[];
 
-  constructor(private actionsService: ActionsService, private modalService: NgbModal, private appRef: ApplicationRef) { }
+  constructor(private actionsService: ActionsService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.getActions();
@@ -25,11 +25,6 @@ export class DashboardComponent implements OnInit {
   open(content, payment) {
     let modal = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
     this.payment = payment;
-
-    // todo
-    // when dashboard route has ...canActivate them modal is not showing, no idea why.
-    // this is ugly fix to solve this problem
-    this.appRef.tick();
     return false;
   }
 }

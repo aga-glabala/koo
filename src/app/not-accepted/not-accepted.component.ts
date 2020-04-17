@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
-import { auth } from 'firebase/app';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-not-accepted',
@@ -10,17 +8,13 @@ import { auth } from 'firebase/app';
 })
 export class NotAcceptedComponent implements OnInit {
 
-  constructor(public auth: AngularFireAuth, private router: Router) { }
+  constructor(public auth: AuthService) { }
 
   ngOnInit(): void {
   }
 
   login() {
-    const provider = new auth.FacebookAuthProvider();
-    provider.addScope('public_profile');
-    provider.addScope('email');
-    auth().signInWithRedirect(provider);
-    this.router.navigate(['/']);
+    this.auth.login();
   }
 }
  

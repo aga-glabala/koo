@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +10,9 @@ export class AppComponent {
   title = 'koo';
   public isMenuCollapsed = true;
 
-  constructor(public auth: AngularFireAuth, private router: Router) {
+  constructor(public auth: AuthService) {
   }
   logout() {
-    this.auth.signOut().then(() => this.router.navigate(['/not-accepted']));
+    this.auth.logout();
   }
 }
