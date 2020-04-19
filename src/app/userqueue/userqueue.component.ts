@@ -31,6 +31,14 @@ export class UserQueueComponent implements OnInit {
     this.people = this.peopleService.getPeople();
   }
 
+  acceptUser(id: string) {
+    this.peopleService.acceptUser(id).subscribe(() => {
+      console.log('accepted');
+    }, (error) => {
+      console.error(error);
+    });
+  }
+
   pageChangeAction(newPage: number) {
     this.router.navigate(['/userqueue/'+newPage]);
     this.page = newPage;

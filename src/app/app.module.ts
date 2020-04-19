@@ -6,6 +6,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,13 +45,17 @@ import { NgbDateFirestoreAdapter } from './adapters/date.adapter';
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+    AngularFireFunctionsModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
     NgbModule,
   ],
-  providers: [NgbDateFirestoreAdapter],
+  providers: [
+    NgbDateFirestoreAdapter,
+    { provide: REGION, useValue: 'europe-west3' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
