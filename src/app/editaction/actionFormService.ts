@@ -41,6 +41,7 @@ export class ActionFormService {
     this.products.push(new Product(this.form.value.newproduct.name, 
         this.form.value.newproduct.variant, 
         this.form.value.newproduct.price));
+    this.form.get('newproduct').reset();
   }
 
   removeProduct(id: number) {
@@ -49,6 +50,7 @@ export class ActionFormService {
 
   addNewHelper() {
     this.helpers.push(new Helper(this.form.value.newperson.person, this.form.value.newperson.description));
+    this.form.get('newperson').reset();
   }
 
   removeHelper(id: number) {

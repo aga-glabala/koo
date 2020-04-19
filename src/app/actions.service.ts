@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Action } from './models/action';
-import { ACTIONS } from './mocks/actions-mock';
-import { PRODUCTS } from './mocks/product-mock';
+import { Product } from './models/product';
+import { NgbDateFirestoreAdapter } from './adapters/date.adapter';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +14,12 @@ import { PRODUCTS } from './mocks/product-mock';
 export class ActionsService {
   private actions: Observable<Action[]>;
 
-  constructor(private firestore: AngularFirestore) {
+  constructor(private firestore: AngularFirestore, private dateAdapter: NgbDateFirestoreAdapter) {
     this.actions = firestore.collection('actions').valueChanges().pipe(
       map((data: any) => {
         data.forEach((action) => {
           console.log(data);
-          action.collectionDate = new Date(action.collectionDate.seconds * 1000);
-          action.payDate = new Date(action.payDate.seconds * 1000);
-          action.orderDate = new Date(action.orderDate.seconds * 1000);
+          this._fromStoreAction(action);
         });
         return data;
       })
@@ -35,10 +33,7 @@ export class ActionsService {
   getAction(id: string): Observable<Action> {
     return this.firestore.collection('actions').doc(id).valueChanges().pipe(
       map((action: any) => {
-        action.collectionDate = new Date(action.collectionDate.seconds * 1000);
-        action.payDate = new Date(action.payDate.seconds * 1000);
-        action.orderDate = new Date(action.orderDate.seconds * 1000);
-        action.createdBy = action.createdBy.name;
+        this._fromStoreAction(action);
         // TODO helpers
         return action as Action;
       })
@@ -46,6 +41,36 @@ export class ActionsService {
   }
 
   getActionProducts(actionId: string): Observable<any[]> {
-    return this.firestore.collection('actions/' + actionId + '/products').valueChanges();
+    return this.firestore.collection<Product[]>('actions/' + actionId + '/products').valueChanges();
+  }
+
+  saveAction(id, action, products, helpers) {
+    this._toStoreAction(action);
+    this.firestore.collection('actions').doc(id).update(action.newaction);
+  }
+
+  addAction(action, products, helpers) {
+    this._toStoreAction(action);
+    let fs = this.firestore;
+    this.firestore.collection('actions').add(action)
+      .then(function(refId) {
+        let productsCollection = fs.collection('actions').doc(refId.id).collection('products');
+
+        for(let product of products) {
+          productsCollection.add({...product});
+        }
+      });
+  }
+
+  private _toStoreAction(action) {
+    action.collectionDate = this.dateAdapter.toModel(action.collectionDate);
+    action.payDate = this.dateAdapter.toModel(action.payDate);
+    action.orderDate = this.dateAdapter.toModel(action.orderDate);
+  }
+
+  private _fromStoreAction(action) {
+    action.collectionDate = this.dateAdapter.fromModel(action.collectionDate);
+    action.payDate = this.dateAdapter.fromModel(action.payDate);
+    action.orderDate = this.dateAdapter.fromModel(action.orderDate);
   }
 }

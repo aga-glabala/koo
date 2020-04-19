@@ -38,25 +38,32 @@ export class EditActionComponent implements OnInit {
   getAction(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.mode = this.route.snapshot.data.mode;
-    this.actionService.getAction(id).subscribe((action) => {
-      this.action = action;
-      if (action) {
-        this.actionFormService.loadAction(this.action);
-      }
-      if (this.mode == 'duplicate') {
-        this.action.id = null;
-      }
-    });
+    if(id) {
+      this.actionService.getAction(id).subscribe((action) => {
+        this.action = action;
+        if (action) {
+          this.actionFormService.loadAction(this.action);
+        }
+        if (this.mode == 'duplicate') {
+          this.action.id = null;
+        }
+      });
+      this.actionService.getActionProducts(id).subscribe((products) => {
+        this.actionFormService.products = products;
+      });
+    }
   }
 
   onSubmit() {
-    // Process checkout data here
-    console.warn('Action data', this.actionFormService.form);
+    if(this.action) {
+      this.actionService.saveAction(this.action.id, this.actionFormService.form.value.newaction, this.products, this.helpers);
+    } else {
+      this.actionService.addAction(this.actionFormService.form.value.newaction, this.products, this.helpers);
+    }
   }
 
   addNewHelper() {
     this.actionFormService.addNewHelper();
-    this.actionForm.get('newperson').reset();
   }
   removeHelper(id: number) {
     this.actionFormService.removeHelper(id);
@@ -64,7 +71,6 @@ export class EditActionComponent implements OnInit {
   }
   addNewProduct() {
     this.actionFormService.addNewProduct();
-    this.actionForm.get('newproduct').reset();
   }
   removeProduct(id: number) {
     this.actionFormService.removeProduct(id);

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgxPaginationModule } from 'ngx-pagination';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
@@ -22,6 +22,7 @@ import { environment } from '../environments/environment';
 import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
 import { UserQueueComponent } from './userqueue/userqueue.component';
 import { MyOrdersComponent } from './myorders/myorders.component';
+import { NgbDateFirestoreAdapter } from './adapters/date.adapter';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,7 @@ import { MyOrdersComponent } from './myorders/myorders.component';
     NgxPaginationModule,
     NgbModule,
   ],
-  providers: [],
+  providers: [NgbDateFirestoreAdapter],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

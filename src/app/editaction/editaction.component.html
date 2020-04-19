@@ -1,207 +1,209 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home {{mode}}</a></li>
-    <li class="breadcrumb-item" *ngIf="mode != 'new'"><a routerLink="/actions">Akcje</a></li>
-    <li class="breadcrumb-item active" *ngIf="mode != 'new'"><a routerLink="/action/{{action.id}}">{{ action.name }}</a></li>
-    <li class="breadcrumb-item active" *ngIf="mode == 'new'" aria-current="page">Nowa akcja</li>
-    <li class="breadcrumb-item active" *ngIf="mode == 'duplicate'" aria-current="page">Duplikat</li>
-    <li class="breadcrumb-item active" *ngIf="mode == 'edit'" aria-current="page">Edycja</li>
-  </ol>
-</nav>
+<div *ngIf="mode == 'new' || action">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item" *ngIf="mode != 'new'"><a routerLink="/actions">Akcje</a></li>
+      <li class="breadcrumb-item active" *ngIf="mode != 'new'"><a routerLink="/action/{{action.id}}">{{ action.name }}</a></li>
+      <li class="breadcrumb-item active" *ngIf="mode == 'new'" aria-current="page">Nowa akcja</li>
+      <li class="breadcrumb-item active" *ngIf="mode == 'duplicate'" aria-current="page">Duplikat</li>
+      <li class="breadcrumb-item active" *ngIf="mode == 'edit'" aria-current="page">Edycja</li>
+    </ol>
+  </nav>
 
-<h1 *ngIf="mode == 'new'">Nowa akcja</h1>
-<h1 *ngIf="mode == 'duplicate'">Duplikowanie akcji "{{action.name}}"</h1>
-<h1 *ngIf="mode == 'edit'">Edycja akcji "{{action.name}}"</h1>
+  <h1 *ngIf="mode == 'new'">Nowa akcja</h1>
+  <h1 *ngIf="mode == 'duplicate'">Duplikowanie akcji "{{action.name}}"</h1>
+  <h1 *ngIf="mode == 'edit'">Edycja akcji "{{action.name}}"</h1>
 
-<form [formGroup]="actionForm" (ngSubmit)="onSubmit()">
-  <div formGroupName="newaction">
-    <div class="form-group row">
-      <label for="newacion-name" class="col-sm-2 col-form-label">Nazwa</label>
-      <div class="col-sm-6">
-        <input type="text" formControlName="name" class="form-control" id="newacion-name" placeholder="">
+  <form [formGroup]="actionForm" (ngSubmit)="onSubmit()">
+    <div formGroupName="newaction">
+      <div class="form-group row">
+        <label for="newacion-name" class="col-sm-2 col-form-label">Nazwa</label>
+        <div class="col-sm-6">
+          <input type="text" formControlName="name" class="form-control" id="newacion-name" placeholder="">
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label for="newacion-photo" class="col-sm-2 col-form-label">Link do zdjęcia</label>
-      <div class="col-sm-4">
-        <input type="text" formControlName="photoUrl" class="form-control" id="newacion-photo"
-          placeholder="todo - dodać ładowanie zdjęć" />
+      <div class="form-group row">
+        <label for="newacion-photo" class="col-sm-2 col-form-label">Link do zdjęcia</label>
+        <div class="col-sm-4">
+          <input type="text" formControlName="photoUrl" class="form-control" id="newacion-photo"
+            placeholder="todo - dodać ładowanie zdjęć" />
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label for="newacion-dateorder" class="col-sm-2 col-form-label">Data zamawiania</label>
-      <div class="col-sm-4">
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-dateorder" name="newacion-dateorder"
-            formControlName="orderDate" ngbDatepicker #newacionDateorder="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn calendar" (click)="newacionDateorder.toggle()" type="button">
-              <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"
-                  clip-rule="evenodd" />
-                <path fill-rule="evenodd"
-                  d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z"
-                  clip-rule="evenodd" />
-              </svg>
-            </button>
+      <div class="form-group row">
+        <label for="newacion-dateorder" class="col-sm-2 col-form-label">Data zamawiania</label>
+        <div class="col-sm-4">
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-dateorder" name="newacion-dateorder"
+              formControlName="orderDate" ngbDatepicker #newacionDateorder="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn calendar" (click)="newacionDateorder.toggle()" type="button">
+                <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"
+                    clip-rule="evenodd" />
+                  <path fill-rule="evenodd"
+                    d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z"
+                    clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label for="newacion-datepay" class="col-sm-2 col-form-label">Data opłacenia</label>
-      <div class="col-sm-4">
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-datepay" name="newacion-datepay"
-            formControlName="payDate" ngbDatepicker #newacionDatepay="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn calendar" (click)="newacionDatepay.toggle()" type="button">
-              <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"
-                  clip-rule="evenodd" />
-                <path fill-rule="evenodd"
-                  d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z"
-                  clip-rule="evenodd" />
-              </svg>
-            </button>
+      <div class="form-group row">
+        <label for="newacion-datepay" class="col-sm-2 col-form-label">Data opłacenia</label>
+        <div class="col-sm-4">
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-datepay" name="newacion-datepay"
+              formControlName="payDate" ngbDatepicker #newacionDatepay="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn calendar" (click)="newacionDatepay.toggle()" type="button">
+                <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"
+                    clip-rule="evenodd" />
+                  <path fill-rule="evenodd"
+                    d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z"
+                    clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label for="newacion-datecollection" class="col-sm-2 col-form-label">Data odbioru</label>
-      <div class="col-sm-4">
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd" name="newacion-datecollection"
-            id="newacion-datecollection" formControlName="collectionDate" ngbDatepicker
-            #newacionDatecollection="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn calendar" (click)="newacionDatecollection.toggle()" type="button">
-              <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"
-                  clip-rule="evenodd" />
-                <path fill-rule="evenodd"
-                  d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z"
-                  clip-rule="evenodd" />
-              </svg>
-            </button>
+      <div class="form-group row">
+        <label for="newacion-datecollection" class="col-sm-2 col-form-label">Data odbioru</label>
+        <div class="col-sm-4">
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="newacion-datecollection"
+              id="newacion-datecollection" formControlName="collectionDate" ngbDatepicker
+              #newacionDatecollection="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn calendar" (click)="newacionDatecollection.toggle()" type="button">
+                <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"
+                    clip-rule="evenodd" />
+                  <path fill-rule="evenodd"
+                    d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z"
+                    clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label for="newacion-description" class="col-sm-2 col-form-label">Opis</label>
-      <div class="col-sm-8">
-        <textarea formControlName="description" class="form-control" id="newacion-description"
-          placeholder="Co to za akcja?"></textarea>
+      <div class="form-group row">
+        <label for="newacion-description" class="col-sm-2 col-form-label">Opis</label>
+        <div class="col-sm-8">
+          <textarea formControlName="description" class="form-control" id="newacion-description"
+            placeholder="Co to za akcja?"></textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="newacion-rules" class="col-sm-2 col-form-label">Zasady</label>
+        <div class="col-sm-8">
+          <textarea formControlName="rules" class="form-control" id="newacion-rules"
+            placeholder="Czy obowiązują jakieś specjalne zasady lub ograniczenia?"></textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="newacion-collection" class="col-sm-2 col-form-label">Możliwy odbiór</label>
+        <div class="col-sm-8">
+          <textarea formControlName="collection" class="form-control" id="newacion-collection"
+            placeholder="Można odebrać gdzieś wcześniej/później? Gdzie?"></textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="newacion-payment" class="col-sm-2 col-form-label">Płatność</label>
+        <div class="col-sm-8">
+          <textarea type="text" formControlName="payment" class="form-control" id="newacion-payment" placeholder=""></textarea>
+        </div>
       </div>
     </div>
-    <div class="form-group row">
-      <label for="newacion-rules" class="col-sm-2 col-form-label">Zasady</label>
-      <div class="col-sm-8">
-        <textarea formControlName="rules" class="form-control" id="newacion-rules"
-          placeholder="Czy obowiązują jakieś specjalne zasady lub ograniczenia?"></textarea>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="newacion-collection" class="col-sm-2 col-form-label">Możliwy odbiór</label>
-      <div class="col-sm-8">
-        <textarea formControlName="collection" class="form-control" id="newacion-collection"
-          placeholder="Można odebrać gdzieś wcześniej/później? Gdzie?"></textarea>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="newacion-payment" class="col-sm-2 col-form-label">Płatność</label>
-      <div class="col-sm-8">
-        <textarea type="text" formControlName="payment" class="form-control" id="newacion-payment" placeholder=""></textarea>
-      </div>
-    </div>
-  </div>
-  <h2 class="mt-5">Produkty</h2>
-  <table class="table" *ngIf="products.length > 0">
-    <thead>
-      <th>Produkt</th>
-      <th>Wariant (czerwony, 1kg, 1l)</th>
-      <th>Cena</th>
-      <th></th>
-    </thead>
-    <tr *ngFor="let product of products; let i = index">
-      <td>{{ product.name }}</td>
-      <td>{{ product.variant }}</td>
-      <td>{{ product.price }}</td>
-      <td>
-        <button class="btn btn-danger" (click)="removeProduct(i)">
-          <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
-            <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clip-rule="evenodd"/>
-          </svg>
-        </button>
-      </td>
-    </tr>
-  </table>
-  <div class="form-group row" formGroupName="newproduct">
-    <div class="col-sm-4">
-      <label for="newacion-productname" class="sr-only">Nazwa produktu</label>
-      <input type="text" formControlName="name" class="form-control" id="newacion-productname"
-        placeholder="Nazwa produktu">
-    </div>
-    <div class="col-sm-3">
-      <label for="newacion-productvariant" class="sr-only">Wariant</label>
-      <input type="text" formControlName="variant" class="form-control" id="newacion-productvariant"
-        placeholder="Wariant">
-    </div>
-    <div class="col-sm-3">
-      <label for="newacion-productprice" class="sr-only">Cena</label>
-      <input type="number" formControlName="price" class="form-control" id="newacion-productprice" placeholder="Cena">
-    </div>
-    <div class="col-sm-2"><button type="button" class="btn btn-secondary" (click)="addNewProduct()">Dodaj
-        produkt</button></div>
-  </div>
-
-  <h2 class="mt-5">Pomocnicy</h2>
-  <table class="table" *ngIf="helpers.length > 0">
-    <thead>
-      <tr>
-        <th>Osoba</th>
-        <th>Opis</th>
+    <h2 class="mt-5">Produkty</h2>
+    <table class="table" *ngIf="products && products.length > 0">
+      <thead>
+        <th>Produkt</th>
+        <th>Wariant (czerwony, 1kg, 1l)</th>
+        <th>Cena</th>
         <th></th>
+      </thead>
+      <tr *ngFor="let product of products; let i = index">
+        <td>{{ product.name }}</td>
+        <td>{{ product.variant }}</td>
+        <td>{{ product.price }}</td>
+        <td>
+          <button class="btn btn-danger" (click)="removeProduct(i)">
+            <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </td>
       </tr>
-    </thead>
-    <tr *ngFor="let helper of helpers; let i = index">
-      <td>{{ helper.person.name }}</td>
-      <td>{{ helper.description }}</td>
-      <td>
-        <button class="btn btn-danger" (click)="removeHelper(i)">
-          <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
-            <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clip-rule="evenodd"/>
-          </svg>
-        </button>
-      </td>
-    </tr>
-  </table>
-  <div class="form-group row" formGroupName="newperson">
-    <div class="col-sm-5">
-
-      <label for="person-select" class="sr-only">Nazwa użytkownika</label>
-      <koo-personpicker idname="person-select" [group]="actionForm.get('newperson')" controlName="person" 
-        placeholder="Imię i nazwisko"></koo-personpicker>
+    </table>
+    <div class="form-group row" formGroupName="newproduct">
+      <div class="col-sm-4">
+        <label for="newacion-productname" class="sr-only">Nazwa produktu</label>
+        <input type="text" formControlName="name" class="form-control" id="newacion-productname"
+          placeholder="Nazwa produktu">
+      </div>
+      <div class="col-sm-3">
+        <label for="newacion-productvariant" class="sr-only">Wariant</label>
+        <input type="text" formControlName="variant" class="form-control" id="newacion-productvariant"
+          placeholder="Wariant">
+      </div>
+      <div class="col-sm-3">
+        <label for="newacion-productprice" class="sr-only">Cena</label>
+        <input type="number" formControlName="price" class="form-control" id="newacion-productprice" placeholder="Cena">
+      </div>
+      <div class="col-sm-2"><button type="button" class="btn btn-secondary" (click)="addNewProduct()">Dodaj
+          produkt</button></div>
     </div>
-    <div class="col-sm-5">
-      <label for="newacion-newpersondescription" class="sr-only">Opis co osoba będzie robić</label>
-      <input type="text" formControlName="description" class="form-control" id="newacion-newpersondescription"
-        placeholder="Co będzie robić?">
-        
-    </div>
-    <div class="col-sm-2"><button type="button" class="btn btn-secondary" (click)="addNewHelper()">Dodaj
-        osobę</button></div>
-  </div>
 
-  <button type="submit" [disabled]="!actionForm.valid" class="btn btn-primary mt-5 mb-5">Dodaj akcję</button>
-</form>
+    <h2 class="mt-5">Pomocnicy</h2>
+    <table class="table" *ngIf="helpers && helpers.length > 0">
+      <thead>
+        <tr>
+          <th>Osoba</th>
+          <th>Opis</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tr *ngFor="let helper of helpers; let i = index">
+        <td>{{ helper.person.name }}</td>
+        <td>{{ helper.description }}</td>
+        <td>
+          <button class="btn btn-danger" (click)="removeHelper(i)">
+            <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </td>
+      </tr>
+    </table>
+    <div class="form-group row" formGroupName="newperson">
+      <div class="col-sm-5">
+
+        <label for="person-select" class="sr-only">Nazwa użytkownika</label>
+        <koo-personpicker idname="person-select" [group]="actionForm.get('newperson')" controlName="person" 
+          placeholder="Imię i nazwisko"></koo-personpicker>
+      </div>
+      <div class="col-sm-5">
+        <label for="newacion-newpersondescription" class="sr-only">Opis co osoba będzie robić</label>
+        <input type="text" formControlName="description" class="form-control" id="newacion-newpersondescription"
+          placeholder="Co będzie robić?">
+          
+      </div>
+      <div class="col-sm-2"><button type="button" class="btn btn-secondary" (click)="addNewHelper()">Dodaj
+          osobę</button></div>
+    </div>
+
+    <button type="submit" [disabled]="!actionForm.valid" class="btn btn-primary mt-5 mb-5">Dodaj akcję</button>
+  </form>
+</div>

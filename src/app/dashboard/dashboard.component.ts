@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,7 @@ import { ActionsService } from '../actions.service';
 })
 export class DashboardComponent implements OnInit {
   payment = '';
-  actions : Action[];
+  actions : Observable<Action[]>;
 
   constructor(private actionsService: ActionsService, private modalService: NgbModal) { }
 
