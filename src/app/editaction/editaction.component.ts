@@ -39,7 +39,7 @@ export class EditActionComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.mode = this.route.snapshot.data.mode;
     if(id) {
-      this.actionService.getAction(id).subscribe((action) => {
+      this.actionService.getAction(id).then((action) => {
         this.action = action;
         if (action) {
           this.actionFormService.loadAction(this.action);
@@ -47,9 +47,6 @@ export class EditActionComponent implements OnInit {
         if (this.mode == 'duplicate') {
           this.action.id = null;
         }
-      });
-      this.actionService.getActionProducts(id).subscribe((products) => {
-        this.actionFormService.products = products;
       });
     }
   }

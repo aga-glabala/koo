@@ -30,13 +30,17 @@ export class ActionsService {
       return this.actions;
   }
 
-  getAction(id: string): Observable<Action> {
-    return this.firestore.collection('actions').doc(id).valueChanges().pipe(
-      map((action: any) => {
-        this._fromStoreAction(action);
-        return action as Action;
-      })
-    );
+  getAction(id: string): Promise<Action> {
+    const docRef = this.firestore.collection('actions').doc(id);
+    const products = docRef.collection('products').get();
+    return Promise.all([
+      docRef.ref.get(),
+      products.toPromise()
+    ]).then((values) => {
+      const action = values[0].data() as Action;
+      action.products = values[1].docs.map((doc) => doc.data() as Product);
+      return action;
+    });
   }
 
   getActionProducts(actionId: string): Observable<any[]> {
@@ -93,38 +97,6 @@ export class ActionsService {
           
         }
       });
-
-      
-
-      // let productsCollection = actionRef.collection('products').get().pipe(
-      //   map((data: any) => {
-      //     data.forEach((product) => {
-      //       console.log(product);
-      //     });
-      //   })
-      // );
-
-      // for(let product of products) {
-      //   if(!product.id) {
-      //     product.id = uuid.v4();
-      //   }
-      //   //productsCollection.doc(product.id).update({...product});
-      // }
-
-      // let helpersCollection = actionRef.collection('helpers');
-
-      // for(let helper of helpers) {
-      //   if(!helper.id) {
-      //     helper.id = uuid.v4();
-      //   }
-
-      //   helpersCollection.doc(helper.id).update({
-      //     id: helper.id,
-      //     helperId: helper.person.id,
-      //     name: helper.person.name,
-      //     description: helper.description
-      //   });
-    //   }
     }
   }
 
