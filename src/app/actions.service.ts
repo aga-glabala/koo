@@ -39,6 +39,7 @@ export class ActionsService {
     ]).then((values) => {
       const action = values[0].data() as Action;
       action.products = values[1].docs.map((doc) => doc.data() as Product);
+      this._fromStoreAction(action);
       return action;
     });
   }
