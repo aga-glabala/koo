@@ -14,6 +14,7 @@ export class ActionFormService {
   ) {
     this.form = this.fb.group({
         newaction: this.fb.group({
+          actionid: '',
           name: '',
           photoUrl: '',
           orderDate: '',
@@ -65,6 +66,7 @@ export class ActionFormService {
             ...data
         }
     };
+    formdata.newaction.actionid = data.id;
     formdata.newaction.orderDate = {'day': formdata.newaction.orderDate.getDate(), 'month': formdata.newaction.orderDate.getMonth() + 1, 'year': formdata.newaction.orderDate.getFullYear()}
     formdata.newaction.payDate = {'day': formdata.newaction.payDate.getDate(), 'month': formdata.newaction.payDate.getMonth() + 1, 'year': formdata.newaction.payDate.getFullYear()}
     formdata.newaction.collectionDate = {'day': formdata.newaction.collectionDate.getDate(), 'month': formdata.newaction.collectionDate.getMonth() + 1, 'year': formdata.newaction.collectionDate.getFullYear()}

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as uuid from 'uuid';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -18,7 +19,6 @@ export class ActionsService {
     this.actions = firestore.collection('actions').valueChanges().pipe(
       map((data: any) => {
         data.forEach((action) => {
-          console.log(data);
           this._fromStoreAction(action);
         });
         return data;
@@ -34,7 +34,6 @@ export class ActionsService {
     return this.firestore.collection('actions').doc(id).valueChanges().pipe(
       map((action: any) => {
         this._fromStoreAction(action);
-        // TODO helpers
         return action as Action;
       })
     );
@@ -44,23 +43,91 @@ export class ActionsService {
     return this.firestore.collection<Product[]>('actions/' + actionId + '/products').valueChanges();
   }
 
-  saveAction(id, action, products, helpers) {
-    this._toStoreAction(action);
-    this.firestore.collection('actions').doc(id).update(action.newaction);
+  getActionHelpers(actionId: string): Observable<any[]> {
+    return this.firestore.collection<Product[]>('actions/' + actionId + '/helpers').valueChanges();
   }
 
-  addAction(action, products, helpers) {
+  saveAction(action, products, helpers) {
     this._toStoreAction(action);
-    let fs = this.firestore;
-    this.firestore.collection('actions').add(action)
-      .then(function(refId) {
-        let productsCollection = fs.collection('actions').doc(refId.id).collection('products');
+    let edit: boolean = true;
+    let that = this;
+    if(action.actionid) {
+      action.id = action.actionid;
+      delete action.actionid;
+    } else {
+      action.id = uuid.v4();
+      edit = false;
+    }
+    console.log(action);
+    const actionRef = this.firestore.collection('actions').doc(action.id);
+    if(edit) {
+      actionRef.update(action).then(_afterSaveAction);
+    } else {
+      actionRef.set(action).then(_afterSaveAction);
+    }
+
+    function _afterSaveAction() {
+      let productsCollection = actionRef.collection('products');
+      that.getActionProducts(action.id).subscribe((storedProducts) => {
+        // remove removed products from store
+        for(let storedProduct of storedProducts) {
+          var found: boolean = false;
+          for(let product of products) {
+            if(product.id && product.id === storedProduct.id) {
+              found = true;
+            }
+          }
+          //czy to nie wywoła nowego odświeżenia w subscribe? 
+          if(!found) {
+            productsCollection.doc(storedProduct.id).delete();
+          }
+        }
 
         for(let product of products) {
-          productsCollection.add({...product});
+          if(!product.id) {
+            product.id = uuid.v4();
+            productsCollection.doc(product.id).set({...product});
+          } else {
+            productsCollection.doc(product.id).update({...product});
+          }
+          
         }
       });
+
+      
+
+      // let productsCollection = actionRef.collection('products').get().pipe(
+      //   map((data: any) => {
+      //     data.forEach((product) => {
+      //       console.log(product);
+      //     });
+      //   })
+      // );
+
+      // for(let product of products) {
+      //   if(!product.id) {
+      //     product.id = uuid.v4();
+      //   }
+      //   //productsCollection.doc(product.id).update({...product});
+      // }
+
+      // let helpersCollection = actionRef.collection('helpers');
+
+      // for(let helper of helpers) {
+      //   if(!helper.id) {
+      //     helper.id = uuid.v4();
+      //   }
+
+      //   helpersCollection.doc(helper.id).update({
+      //     id: helper.id,
+      //     helperId: helper.person.id,
+      //     name: helper.person.name,
+      //     description: helper.description
+      //   });
+    //   }
+    }
   }
+
 
   private _toStoreAction(action) {
     action.collectionDate = this.dateAdapter.toModel(action.collectionDate);

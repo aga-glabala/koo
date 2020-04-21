@@ -16,6 +16,7 @@
 
   <form [formGroup]="actionForm" (ngSubmit)="onSubmit()">
     <div formGroupName="newaction">
+      <input type="hidden" formControlName="actionid">
       <div class="form-group row">
         <label for="newacion-name" class="col-sm-2 col-form-label">Nazwa</label>
         <div class="col-sm-6">

@@ -55,11 +55,7 @@ export class EditActionComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.action) {
-      this.actionService.saveAction(this.action.id, this.actionFormService.form.value.newaction, this.products, this.helpers);
-    } else {
-      this.actionService.addAction(this.actionFormService.form.value.newaction, this.products, this.helpers);
-    }
+    this.actionService.saveAction(this.actionFormService.form.value.newaction, this.products, this.helpers);
   }
 
   addNewHelper() {
