@@ -19,7 +19,7 @@ export class OrdersComponent implements OnInit {
 
   getAction(): void {
     const id = this.route.snapshot.paramMap.get('actionid');
-    this.actionService.getAction(id).then((action) => {
+    this.actionService.getAction(id).subscribe((action) => {
       this.action = action;
     });
   }

@@ -39,7 +39,7 @@ export class EditActionComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.mode = this.route.snapshot.data.mode;
     if(id) {
-      this.actionService.getAction(id).then((action) => {
+      this.actionService.getAction(id).subscribe((action) => {
         this.action = action;
         if (action) {
           this.actionFormService.loadAction(this.action);

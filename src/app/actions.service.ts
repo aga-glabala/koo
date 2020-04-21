@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import * as uuid from 'uuid';
 
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Action } from './models/action';
 import { Product } from './models/product';
 import { NgbDateFirestoreAdapter } from './adapters/date.adapter';
+import { Helper } from './models/person';
 
 @Injectable({
   providedIn: 'root'
@@ -30,18 +31,29 @@ export class ActionsService {
       return this.actions;
   }
 
-  getAction(id: string): Promise<Action> {
+  getAction(id: string): Observable<Action> {
     const docRef = this.firestore.collection('actions').doc(id);
     const products = docRef.collection('products').get();
-    return Promise.all([
-      docRef.ref.get(),
-      products.toPromise()
-    ]).then((values) => {
-      const action = values[0].data() as Action;
-      action.products = values[1].docs.map((doc) => doc.data() as Product);
-      this._fromStoreAction(action);
-      return action;
-    });
+    const helpers = docRef.collection('helpers').get();
+    return combineLatest([
+      docRef.get().pipe(
+        map((doc) => doc.data() as Action)
+      ),
+      products.pipe(
+        map((querySnapshot) => querySnapshot.docs.map((doc) => doc.data() as Product))
+      ),
+      helpers.pipe(
+        map((querySnapshot) => querySnapshot.docs.map((doc) => doc.data() as Helper))
+      )
+    ]).pipe(
+      map((values) => {
+        const action = values[0];
+        action.products = values[1];
+        action.helpers = values[2];
+        this._fromStoreAction(action);
+        return action;
+      })
+    );
   }
 
   getActionProducts(actionId: string): Observable<any[]> {

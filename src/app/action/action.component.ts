@@ -21,7 +21,7 @@ export class ActionComponent implements OnInit {
 
   getAction(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.actionService.getAction(id).then((data) => {
+    this.actionService.getAction(id).subscribe((data) => {
       this.action = data;
     });
   }
