@@ -131,9 +131,13 @@ export class ActionsService {
 
 
   private _toStoreAction(action) {
-    action.collectionDate = this.dateAdapter.toModel(action.collectionDate);
-    action.payDate = this.dateAdapter.toModel(action.payDate);
-    action.orderDate = this.dateAdapter.toModel(action.orderDate);
+    action.collectionDate = this.dateAdapter.toModel(action.collectionDate, action.collectionTime);
+    action.payDate = this.dateAdapter.toModel(action.payDate, action.payTime);
+    action.orderDate = this.dateAdapter.toModel(action.orderDate, action.orderTime);
+
+    delete action.orderTime;
+    delete action.payTime;
+    delete action.collectionTime;
   }
 
   private _fromStoreAction(action) {

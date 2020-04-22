@@ -18,8 +18,11 @@ export class ActionFormService {
           name: '',
           photoUrl: '',
           orderDate: '',
+          orderTime: {"hour": 0, "minute": 0},
           payDate: '',
+          payTime: {"hour": 0, "minute": 0},
           collectionDate: '',
+          collectionTime: {"hour": 0, "minute": 0},
           description: '',
           rules: '',
           collection: '',
@@ -67,9 +70,14 @@ export class ActionFormService {
         }
     };
     formdata.newaction.actionid = data.id;
-    formdata.newaction.orderDate = {'day': formdata.newaction.orderDate.getDate(), 'month': formdata.newaction.orderDate.getMonth() + 1, 'year': formdata.newaction.orderDate.getFullYear()}
-    formdata.newaction.payDate = {'day': formdata.newaction.payDate.getDate(), 'month': formdata.newaction.payDate.getMonth() + 1, 'year': formdata.newaction.payDate.getFullYear()}
-    formdata.newaction.collectionDate = {'day': formdata.newaction.collectionDate.getDate(), 'month': formdata.newaction.collectionDate.getMonth() + 1, 'year': formdata.newaction.collectionDate.getFullYear()}
+    formdata.newaction.orderDate = {'day': data.orderDate.getDate(), 'month': data.orderDate.getMonth() + 1, 'year': data.orderDate.getFullYear()};
+    formdata.newaction.payDate = {'day': data.payDate.getDate(), 'month': data.payDate.getMonth() + 1, 'year': data.payDate.getFullYear()};
+    formdata.newaction.collectionDate = {'day': data.collectionDate.getDate(), 'month': data.collectionDate.getMonth() + 1, 'year': data.collectionDate.getFullYear()};
+
+    formdata.newaction.orderTime = {'hour': data.orderDate.getHours(), 'minute': data.orderDate.getMinutes()};
+    formdata.newaction.payTime = {'hour': data.payDate.getHours(), 'minute': data.payDate.getMinutes()};
+    formdata.newaction.collectionTime = {'hour': data.collectionDate.getHours(), 'minute': data.collectionDate.getMinutes()};
+
 
     this.form.patchValue(formdata);
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { firestore } from 'firebase';
 
 @Injectable()
@@ -17,12 +17,13 @@ export class NgbDateFirestoreAdapter {
   /**
    * Converts a NgbDateStruct to a Firestore TimeStamp
    */
-  toModel(ngbDate: NgbDateStruct): firestore.Timestamp {
+  toModel(ngbDate: NgbDateStruct, ngbTime: NgbTimeStruct): firestore.Timestamp {
     const jsDate = new Date(
       ngbDate.year ? ngbDate.year : new Date().getFullYear(),
       ngbDate.month ? ngbDate.month - 1 : new Date().getMonth() - 1,
       ngbDate.day ? ngbDate.day : new Date().getDate(),
-      12
+      ngbTime.hour,
+      ngbTime.minute
     );
     return firestore.Timestamp.fromDate(jsDate);
   }
