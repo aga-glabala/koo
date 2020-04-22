@@ -4,7 +4,7 @@
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed" aria-controls="navbarText" aria-expanded="!isMenuCollapsed" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div *ngIf="auth.user | async as user" class="collapse navbar-collapse" id="navbarText" [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" id="navbarText" [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item ">
           <a class="nav-link" href="#">Strona główna</a>
@@ -26,7 +26,7 @@
         </li>
       </ul>
       <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>{{ user.displayName }}</button>
+        <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>Agnieszka</button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button ngbDropdownItem>Zaproś znajomego</button>
           <button ngbDropdownItem>Zobacz mój profil</button>
