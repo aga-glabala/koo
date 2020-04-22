@@ -37,11 +37,11 @@
                 <dt *ngIf="action.createdBy">Utworzona przez:</dt>
                 <dd *ngIf="action.createdBy">{{ action.createdBy.name }}</dd>
                 <dt>Zamówienia do:</dt>
-                    <dd>{{ action.orderDate.toLocaleString(undefined, dateOptions) }}</dd>
+                    <dd>{{ prettyDate(action.orderDate) }}</dd>
                 <dt>Płacimy do:</dt>
-                    <dd>{{ action.payDate.toLocaleString(undefined, dateOptions) }}</dd>
+                    <dd>{{ prettyDate(action.payDate) }}</dd>
                 <dt>Odbieramy:</dt>
-                    <dd>{{ action.collectionDate.toLocaleString(undefined, dateOptions) }}</dd>
+                    <dd>{{ prettyDate(action.collectionDate) }}</dd>
             </dl>
         </div>
     </div>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
-import { loggedIn } from '@angular/fire/auth-guard/auth-guard';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-action',
@@ -17,6 +17,12 @@ export class ActionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAction();
+    moment.locale('pl');
+  }
+
+  prettyDate(date: Date) {
+    let mdate = moment(date);
+    return mdate.format('dddd, DD MMMM h:mm') + " (" + mdate.fromNow() + ")";
   }
 
   getAction(): void {
