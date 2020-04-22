@@ -18,6 +18,8 @@ export class PersonComponent implements OnInit {
 
   getPerson(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.person = this.peopleService.getPerson(id);
+    this.peopleService.getPerson(id).subscribe((person) => {
+      this.person = person;
+    });
   }
 }

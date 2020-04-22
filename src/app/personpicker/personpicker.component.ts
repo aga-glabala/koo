@@ -23,7 +23,9 @@ export class PersonpickerComponent implements OnInit {
   }
 
   getPeople(): void {
-    this.people = this.peopleService.getPeople();
+    this.peopleService.getPeople(true).subscribe((people) => {
+      this.people = people;
+    });
   }
 
   personSelectorSearch = (text$: Observable<string>) =>

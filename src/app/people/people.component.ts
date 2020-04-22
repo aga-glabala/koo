@@ -23,7 +23,9 @@ export class PeopleComponent implements OnInit {
   }
 
   getPeople(): void {
-    this.people = this.peopleService.getPeople();
+    this.peopleService.getPeople(true).subscribe((people) => {
+      this.people = people;
+    });
   }
 
   pageChangeAction(newPage: number) {

@@ -28,7 +28,9 @@ export class UserQueueComponent implements OnInit {
   }
 
   getPeople(): void {
-    this.people = this.peopleService.getPeople();
+    this.peopleService.getPeople(false).subscribe((people) => {
+      this.people = people;
+    });
   }
 
   acceptUser(id: string) {
