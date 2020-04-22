@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
+import { DateHelper } from '../helpers/date.helper';
 
 @Component({
   selector: 'app-actions',
@@ -14,9 +15,8 @@ import { ActionsService } from '../actions.service';
 export class ActionsComponent implements OnInit {
   page: number = 1;
   actions: Observable<Action[]>;
-  dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-  constructor(private route: ActivatedRoute, private router: Router, private actionsService: ActionsService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private actionsService: ActionsService, public dateHelper: DateHelper) { }
 
   ngOnInit(): void { 
     this.getActions();

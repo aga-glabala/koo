@@ -23,7 +23,8 @@ import { environment } from '../environments/environment';
 import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
 import { UserQueueComponent } from './userqueue/userqueue.component';
 import { MyOrdersComponent } from './myorders/myorders.component';
-import { NgbDateFirestoreAdapter } from './adapters/date.adapter';
+import { NgbDateFirestoreAdapter } from './helpers/date.adapter';
+import { DateHelper } from './helpers/date.helper';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { NgbDateFirestoreAdapter } from './adapters/date.adapter';
   ],
   providers: [
     NgbDateFirestoreAdapter,
+    DateHelper,
     { provide: REGION, useValue: 'europe-west3' }
   ],
   bootstrap: [AppComponent]

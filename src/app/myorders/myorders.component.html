@@ -15,9 +15,9 @@
                 </div>
                 <div class="col-md-8 pl-0">
                     <h3><a routerLink="/action/{{action.id}}">{{action.name}}</a></h3>
-                    <div>Data zamawiania: <strong>{{action.orderDate.toLocaleString(undefined, dateOptions)}}</strong></div>
-                    <div>Data płacenia: <strong>{{action.payDate.toLocaleString(undefined, dateOptions)}}</strong></div>
-                    <div>Data odbioru: <strong>{{action.collectionDate.toLocaleString(undefined, dateOptions)}}</strong></div>
+                    <div>Data zamawiania: <strong [title]="dateHelper.prettyLongDate(action.orderDate)">{{dateHelper.prettyShortDate(action.orderDate)}}</strong></div>
+                    <div>Data płacenia: <strong [title]="dateHelper.prettyLongDate(action.payDate)">{{dateHelper.prettyShortDate(action.payDate)}}</strong></div>
+                    <div>Data odbioru: <strong [title]="dateHelper.prettyLongDate(action.collectionDate)">{{dateHelper.prettyShortDate(action.collectionDate)}}</strong></div>
                     <div>
                         <a href="#" class="btn btn-secondary" (click)="openModal(paymentModal, action.payment)">Zapłać</a>&nbsp;
                         <a href="#" class="btn btn-secondary">Edytuj</a>
@@ -35,9 +35,9 @@
                 <div class="col-md-8 pl-0">
                     <h3><a routerLink="/action/{{action.id}}">{{action.name}}</a></h3>
                     <div>Odbiór dla <strong>Marta Zdrojewska</strong></div>
-                    <div>Data zamawiania: <strong>{{action.orderDate.toLocaleString(undefined, dateOptions)}}</strong></div>
-                    <div>Data płacenia: <strong>{{action.payDate.toLocaleString(undefined, dateOptions)}}</strong></div>
-                    <div>Data odbioru: <strong>{{action.collectionDate.toLocaleString(undefined, dateOptions)}}</strong></div>
+                    <div>Data zamawiania: <strong [title]="dateHelper.prettyLongDate(action.orderDate)">{{dateHelper.prettyShortDate(action.orderDate)}}</strong></div>
+                    <div>Data płacenia: <strong [title]="dateHelper.prettyLongDate(action.payDate)">{{dateHelper.prettyShortDate(action.payDate)}}</strong></div>
+                    <div>Data odbioru: <strong [title]="dateHelper.prettyLongDate(action.collectionDate)">{{dateHelper.prettyShortDate(action.collectionDate)}}</strong></div>
                     <div>
                         <a href="#" class="btn btn-secondary" (click)="openModal(paymentModal, action.payment)">Zapłać</a>&nbsp;
                         <a href="#" class="btn btn-secondary">Edytuj</a>

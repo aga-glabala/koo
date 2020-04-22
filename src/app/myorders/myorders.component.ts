@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DateHelper } from '../helpers/date.helper';
 
 @Component({
   selector: 'app-myorders',
@@ -13,9 +14,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class MyOrdersComponent implements OnInit {
   page: number = 1;
   actions : Action[];
-  dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   payment : string = '';
-  constructor(private route: ActivatedRoute, private router: Router, private actionsService: ActionsService, private modalService: NgbModal) { }
+  constructor(private route: ActivatedRoute, private router: Router, private actionsService: ActionsService, private modalService: NgbModal, public dateHelper: DateHelper) { }
 
   ngOnInit(): void { 
     this.getActions();

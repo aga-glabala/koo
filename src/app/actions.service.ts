@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 
 import { Action } from './models/action';
 import { Product } from './models/product';
-import { NgbDateFirestoreAdapter } from './adapters/date.adapter';
+import { NgbDateFirestoreAdapter } from './helpers/date.adapter';
 import { Helper } from './models/person';
 
 @Injectable({

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
-import * as moment from 'moment';
+import { DateHelper } from '../helpers/date.helper';
 
 @Component({
   selector: 'app-action',
@@ -10,19 +10,11 @@ import * as moment from 'moment';
   styleUrls: ['./action.component.scss']
 })
 export class ActionComponent implements OnInit {
-
-  dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   action: Action;
-  constructor(private route: ActivatedRoute, private actionService: ActionsService) { }
+  constructor(private route: ActivatedRoute, private actionService: ActionsService, public dateHelper: DateHelper) { }
 
   ngOnInit(): void {
     this.getAction();
-    moment.locale('pl');
-  }
-
-  prettyDate(date: Date) {
-    let mdate = moment(date);
-    return mdate.format('dddd, DD MMMM h:mm') + " (" + mdate.fromNow() + ")";
   }
 
   getAction(): void {
