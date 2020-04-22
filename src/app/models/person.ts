@@ -9,6 +9,13 @@ export class Person {
 }
 
 export class Helper {
-    constructor(public person: Person,
-                public description: string) {}
+    id: string;
+    name: string;
+    helperId: string;
+    description: string;
+    constructor(person: Person, description: string) {
+        this.name = person.name;
+        this.helperId = person.id;
+        this.description = description
+   }
 }

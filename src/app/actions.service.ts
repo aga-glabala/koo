@@ -56,8 +56,12 @@ export class ActionsService {
     );
   }
 
-  getActionProducts(actionId: string): Observable<any[]> {
-    return this.firestore.collection<Product[]>('actions/' + actionId + '/products').valueChanges();
+  getActionProducts(actionId: string): Observable<Product[]> {
+    return this.firestore.collection<Product[]>('actions/' + actionId + '/products').get().pipe(
+      map((querySnapshot) => {
+        return querySnapshot.docs.map((doc) => doc.data() as Product);
+      })
+    );
   }
 
   getActionHelpers(actionId: string): Observable<any[]> {
@@ -84,32 +88,44 @@ export class ActionsService {
     }
 
     function _afterSaveAction() {
-      let productsCollection = actionRef.collection('products');
       that.getActionProducts(action.id).subscribe((storedProducts) => {
-        // remove removed products from store
-        for(let storedProduct of storedProducts) {
-          var found: boolean = false;
-          for(let product of products) {
-            if(product.id && product.id === storedProduct.id) {
-              found = true;
-            }
-          }
-          //czy to nie wywoła nowego odświeżenia w subscribe? 
-          if(!found) {
-            productsCollection.doc(storedProduct.id).delete();
-          }
-        }
-
-        for(let product of products) {
-          if(!product.id) {
-            product.id = uuid.v4();
-            productsCollection.doc(product.id).set({...product});
-          } else {
-            productsCollection.doc(product.id).update({...product});
-          }
-          
-        }
+        _removeAndUpdate(products, storedProducts, actionRef.collection('products'));
       });
+
+      let simpleHelpers = [];
+      for(let helper of helpers) {
+        simpleHelpers.push({id: helper.id, helperId: helper.helperId, name: helper.name, description: helper.description});
+      }
+
+      that.getActionHelpers(action.id).subscribe((storedHelpers) => {
+        _removeAndUpdate(simpleHelpers, storedHelpers, actionRef.collection('helpers'));
+      });
+    }
+
+    function _removeAndUpdate(objs, storedObjs, collection) {
+      // remove removed objects from store
+      for(let storedObj of storedObjs) {
+        var found: boolean = false;
+        for(let obj of objs) {
+          if(obj.id && obj.id === storedObj.id) {
+            found = true;
+          }
+        }
+        //czy to nie wywoła nowego odświeżenia w subscribe? 
+        if(!found) {
+          collection.doc(storedObj.id).delete();
+        }
+      }
+
+      for(let obj of objs) {
+        if(!obj.id) {
+          obj.id = uuid.v4();
+          collection.doc(obj.id).set({...obj});
+        } else {
+          collection.doc(obj.id).update({...obj});
+        }
+        
+      }
     }
   }
 

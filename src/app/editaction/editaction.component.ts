@@ -41,14 +41,15 @@ export class EditActionComponent implements OnInit {
     if(id) {
       this.actionService.getAction(id).subscribe((action) => {
         this.action = action;
-        if (action) {
-          this.actionFormService.loadAction(this.action);
-        }
         if (this.mode == 'duplicate') {
           this.action.id = null;
         }
+        if (action) {
+          this.actionFormService.loadAction(this.action);
+        }
       });
     }
+    
   }
 
   onSubmit() {

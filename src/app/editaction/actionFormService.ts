@@ -73,7 +73,7 @@ export class ActionFormService {
 
     this.form.patchValue(formdata);
 
-    this.products = data.products;
-    this.helpers = data.helpers;
+    this.products = data.products ? data.products : [];
+    this.helpers = data.helpers ? data.helpers : [];
   }
 }

@@ -176,7 +176,7 @@
         </tr>
       </thead>
       <tr *ngFor="let helper of helpers; let i = index">
-        <td>{{ helper.person.name }}</td>
+        <td>{{ helper.name }}</td>
         <td>{{ helper.description }}</td>
         <td>
           <button class="btn btn-danger" (click)="removeHelper(i)">
