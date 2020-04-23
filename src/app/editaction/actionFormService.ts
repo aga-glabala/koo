@@ -21,6 +21,7 @@ export class ActionFormService {
           orderTime: {"hour": 0, "minute": 0},
           payDate: '',
           payTime: {"hour": 0, "minute": 0},
+          payLock: false,
           collectionDate: '',
           collectionTime: {"hour": 0, "minute": 0},
           description: '',

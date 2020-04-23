@@ -9,6 +9,7 @@ export class Action {
                 public createdBy: Person,
                 public orderDate: Date,
                 public payDate: Date,
+                public payLock: boolean,
                 public collectionDate: Date,
                 public rules: string,
                 public description: string,

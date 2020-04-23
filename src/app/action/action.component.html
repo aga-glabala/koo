@@ -42,6 +42,8 @@
                     <dd>{{ dateHelper.prettyDate(action.payDate) }}</dd>
                 <dt>Odbieramy:</dt>
                     <dd>{{ dateHelper.prettyDate(action.collectionDate) }}</dd>
+                <dt>Można już płacić?</dt>
+                    <dd>{{ action.payLock ? "Nie" : "Tak"}}</dd>
             </dl>
         </div>
     </div>

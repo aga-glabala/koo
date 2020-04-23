@@ -19,20 +19,20 @@
       <input type="hidden" formControlName="actionid">
       <div class="form-group row">
         <label for="newacion-name" class="col-sm-2 col-form-label">Nazwa</label>
-        <div class="col-sm-6">
+        <div class="col-sm-10 col-md-6">
           <input type="text" formControlName="name" class="form-control" id="newacion-name" placeholder="">
         </div>
       </div>
       <div class="form-group row">
         <label for="newacion-photo" class="col-sm-2 col-form-label">Link do zdjęcia</label>
-        <div class="col-sm-4">
+        <div class="col-sm-10 col-md-4">
           <input type="text" formControlName="photoUrl" class="form-control" id="newacion-photo"
             placeholder="todo - dodać ładowanie zdjęć" />
         </div>
       </div>
       <div class="form-group row">
         <label for="newacion-dateorder" class="col-sm-2 col-form-label">Data zamawiania</label>
-        <div class="col-sm-4">
+        <div class="col-sm-7 col-md-6">
           <div class="input-group">
             <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-dateorder" name="newacion-dateorder"
               formControlName="orderDate" ngbDatepicker #newacionDateorder="ngbDatepicker">
@@ -55,7 +55,7 @@
       </div>
       <div class="form-group row">
         <label for="newacion-datepay" class="col-sm-2 col-form-label">Data opłacenia</label>
-        <div class="col-sm-4">
+        <div class="col-sm-7 col-md-6">
           <div class="input-group">
             <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-datepay" name="newacion-datepay"
               formControlName="payDate" ngbDatepicker #newacionDatepay="ngbDatepicker">
@@ -75,10 +75,18 @@
             <ngb-timepicker formControlName="payTime" [spinners]="false"></ngb-timepicker>
           </div>
         </div>
+        <div class="col-sm-3 col-md-2">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" formControlName="payLock">
+              Na znak
+            </label>
+          </div>
+        </div>
       </div>
       <div class="form-group row">
         <label for="newacion-datecollection" class="col-sm-2 col-form-label">Data odbioru</label>
-        <div class="col-sm-4">
+        <div class="col-sm-7 col-md-6">
           <div class="input-group">
             <input class="form-control" placeholder="yyyy-mm-dd" name="newacion-datecollection"
               id="newacion-datecollection" formControlName="collectionDate" ngbDatepicker
@@ -102,28 +110,28 @@
       </div>
       <div class="form-group row">
         <label for="newacion-description" class="col-sm-2 col-form-label">Opis</label>
-        <div class="col-sm-8">
+        <div class="col-sm-10 col-md-8">
           <textarea formControlName="description" class="form-control" id="newacion-description"
             placeholder="Co to za akcja?"></textarea>
         </div>
       </div>
       <div class="form-group row">
         <label for="newacion-rules" class="col-sm-2 col-form-label">Zasady</label>
-        <div class="col-sm-8">
+        <div class="col-sm-10 col-md-8">
           <textarea formControlName="rules" class="form-control" id="newacion-rules"
             placeholder="Czy obowiązują jakieś specjalne zasady lub ograniczenia?"></textarea>
         </div>
       </div>
       <div class="form-group row">
         <label for="newacion-collection" class="col-sm-2 col-form-label">Możliwy odbiór</label>
-        <div class="col-sm-8">
+        <div class="col-sm-10 col-md-8">
           <textarea formControlName="collection" class="form-control" id="newacion-collection"
             placeholder="Można odebrać gdzieś wcześniej/później? Gdzie?"></textarea>
         </div>
       </div>
       <div class="form-group row">
         <label for="newacion-payment" class="col-sm-2 col-form-label">Płatność</label>
-        <div class="col-sm-8">
+        <div class="col-sm-10 col-md-8">
           <textarea type="text" formControlName="payment" class="form-control" id="newacion-payment" placeholder=""></textarea>
         </div>
       </div>
