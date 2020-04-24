@@ -2,10 +2,10 @@ export class Person {
 
     constructor(public id: string,
                 public name: string,
-                public invitedBy: Person,
-                public photoUrl: string,
-                public phone: number,
-                public fbLink: string) {}
+                public invitedBy: Person = null,
+                public photoUrl: string = null,
+                public phone: number = null,
+                public fbLink: string = null) {}
 }
 
 export class Helper {

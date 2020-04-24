@@ -35,7 +35,7 @@
         <div class="col-md-8">
             <dl class="inline-definition">
                 <dt *ngIf="action.createdBy">Utworzona przez:</dt>
-                <dd *ngIf="action.createdBy">{{ action.createdBy.name }}</dd>
+                <dd *ngIf="action.createdBy">{{ action.createdBy.name }}<span *ngIf="action.createdOn">, {{ dateHelper.prettyDate(action.createdOn) }}</span></dd>
                 <dt>Zamówienia do:</dt>
                     <dd>{{ dateHelper.prettyDate(action.orderDate) }}</dd>
                 <dt>Płacimy do:</dt>

@@ -1,14 +1,16 @@
+import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import * as uuid from 'uuid';
 
 import { AngularFirestore } from '@angular/fire/firestore';
+import * as firebase from 'firebase';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Action } from './models/action';
 import { Product } from './models/product';
 import { NgbDateFirestoreAdapter } from './helpers/date.adapter';
-import { Helper } from './models/person';
+import { Helper, Person } from './models/person';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ import { Helper } from './models/person';
 export class ActionsService {
   private actions: Observable<Action[]>;
 
-  constructor(private firestore: AngularFirestore, private dateAdapter: NgbDateFirestoreAdapter) {
+  constructor(private firestore: AngularFirestore, private authService: AuthService, private dateAdapter: NgbDateFirestoreAdapter) {
     this.actions = firestore.collection('actions').valueChanges().pipe(
       map((data: any) => {
         data.forEach((action) => {
@@ -78,6 +80,8 @@ export class ActionsService {
     } else {
       action.id = uuid.v4();
       edit = false;
+      action.createdBy = {...new Person(this.authService.currentUser.id, this.authService.currentUser.name)};
+      action.createdOn = firebase.firestore.Timestamp.fromDate(new Date());
     }
     console.log(action);
     const actionRef = this.firestore.collection('actions').doc(action.id);
@@ -144,5 +148,6 @@ export class ActionsService {
     action.collectionDate = this.dateAdapter.fromModel(action.collectionDate);
     action.payDate = this.dateAdapter.fromModel(action.payDate);
     action.orderDate = this.dateAdapter.fromModel(action.orderDate);
+    action.createdOn = this.dateAdapter.fromModel(action.createdOn);
   }
 }

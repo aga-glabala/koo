@@ -7,6 +7,7 @@ export class Action {
                 public name: string,
                 public photoUrl: string,
                 public createdBy: Person,
+                public createdOn: Date,
                 public orderDate: Date,
                 public payDate: Date,
                 public payLock: boolean,
