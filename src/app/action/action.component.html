@@ -49,23 +49,23 @@
     </div>
     <ngb-accordion #acc="ngbAccordion" activeIds="">
         <ngb-panel title="Opis">
-            <ng-template ngbPanelContent>
-            {{ action.description }}
+            <ng-template ngbPanelContent >
+            <div [innerHtml]="action.description"></div>
             </ng-template>
         </ngb-panel>
         <ngb-panel title="Zasady">
             <ng-template ngbPanelContent>
-            {{ action.rules }}
+                <div [innerHtml]="action.rules"></div>
             </ng-template>
         </ngb-panel>
         <ngb-panel title="Możliwy odbiór">
             <ng-template ngbPanelContent>
-            {{ action.collection }}
+                <div [innerHtml]="action.collection"></div>
             </ng-template>
         </ngb-panel>
         <ngb-panel title="Płatność">
             <ng-template ngbPanelContent>
-            {{ action.payment }}
+                <div [innerHtml]="action.payment"></div>
             </ng-template>
         </ngb-panel>
         <ngb-panel title="Pomagają">

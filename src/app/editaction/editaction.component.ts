@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
+
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { PeopleService } from '../people.service';
@@ -18,6 +21,8 @@ export class EditActionComponent implements OnInit {
   action: Action;
   people : Person[];
   mode = 'new';
+  public Editor = ClassicEditor;
+  toolbarConfig = { toolbar: [ 'heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'link',  ] };
 
   constructor(private route: ActivatedRoute, private actionService: ActionsService, private actionFormService: ActionFormService, private peopleService: PeopleService) {
   }

@@ -8,6 +8,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
 
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PeopleComponent } from './people/people.component';
@@ -51,6 +53,7 @@ import { DateHelper } from './helpers/date.helper';
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
+    CKEditorModule,
     NgbModule,
   ],
   providers: [
