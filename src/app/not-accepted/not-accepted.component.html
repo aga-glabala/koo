@@ -1,5 +1,5 @@
 <div *ngIf="auth.user | async as user; else showLogin">
-    <h1>Cześć, {{user.displayName}}</h1>
+    <h1>Cześć, {{user.name}}</h1>
     <p>Próbujesz się zalogować do Łódzkiej Kooperatywy. Jeśli jesteś w grupie na FB, daj znać adminowi, żeby Cię zaakceptował w systemie. </p>
     <p>Jeśli nie ma cię w grupie Kooperatywa Łódź na FB, poszukaj wśród znajomych kogoś kto mógłby cię w grupę kooperatywy wprowadzić.</p>
 </div>
