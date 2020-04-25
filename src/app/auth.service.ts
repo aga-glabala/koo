@@ -12,7 +12,8 @@ import { switchMap, map } from 'rxjs/operators';
 export class AuthService {
 
     user: Observable<Person>;
-    currentUser: Person;
+    // todo
+    currentUser: Person = new Person('ghCeS1L0sOMmfokqTXPLt6Pd1v73', 'Aga');
 
     constructor(
         private afAuth: AngularFireAuth,

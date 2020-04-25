@@ -1,42 +1,46 @@
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a routerLink="/actions">Akcje</a></li>
-        <li class="breadcrumb-item active"><a routerLink="/action/{{ action.id }}">{{ action.name }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Nowe zamówienie</li>
-    </ol>
-</nav>
+<div *ngIf="action">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/actions">Akcje</a></li>
+            <li class="breadcrumb-item active"><a routerLink="/action/{{ action.id }}">{{ action.name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Nowe zamówienie</li>
+        </ol>
+    </nav> 
 
-<h1>Nowe zamówienie do akcji {{ action.name }}</h1>
-<form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
-    <table class="table" formGroupName="products">
-        <thead>
-            <tr>
-                <th>Nazwa</th>
-                <th>Wariant</th>
-                <th>Cena (zł)</th>
-                <th>Zamów</th>
+    <h1>Nowe zamówienie do akcji {{ action.name }}</h1>
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+        <input type="hidden" formControlName="id">
+        <table class="table" formGroupName="products">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Wariant</th>
+                    <th>Cena (zł)</th>
+                    <th>Zamów</th>
+                </tr>
+            </thead>
+            <tr *ngFor="let product of action.products">
+                <td>{{product.name}}</td>
+                <td>{{product.variant}}</td>
+                <td>{{product.price}}</td>
+                <td><input type="number" formControlName="{{product.id}}" class="form-control" ></td>
             </tr>
-        </thead>
-        <tr *ngFor="let product of action.products">
-            <td>{{product.name}}</td>
-            <td>{{product.variant}}</td>
-            <td>{{product.price}}</td>
-            <td><input type="number" formControlName="{{product.name + product.variant}}" class="form-control" ></td>
-        </tr>
-        <tr>
-            <td colspan="3" class="text-right">W sumie:</td>
-            <td>{{ sumOrder }}zł</td>
-        </tr>
-    </table>   
+            <tr>
+                <td colspan="3" class="text-right">W sumie:</td>
+                <td>{{ sumOrder }}zł</td>
+            </tr>
+        </table>   
 
 
-    <div class="form-group row">
-        <label for="picker" class="col-sm-2 col-form-label">Odbiera</label>
-        <div class="col-sm-8">
-            <koo-personpicker idname="picker" [group]="orderForm" controlName="picker" placeholder="Ktoś odbiera za ciebie?"></koo-personpicker>
+        <div class="form-group row">
+            <label for="picker" class="col-sm-2 col-form-label">Odbiera</label>
+            <div class="col-sm-8">
+                <koo-personpicker idname="picker" [group]="orderForm" controlName="picker" placeholder="Ktoś odbiera za ciebie?"></koo-personpicker>
+            </div>
         </div>
-    </div>
 
-    <button type="submit" class="btn btn-primary">Zapisz zamówienie</button> 
-</form>
+        <button type="submit" class="btn btn-primary">Zapisz zamówienie</button> 
+    </form>
+
+</div>
