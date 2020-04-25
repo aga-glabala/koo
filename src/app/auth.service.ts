@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { Person } from './models/person';
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -22,6 +22,10 @@ export class AuthService {
     ) {
       this.user = this.afAuth.user.pipe(
         switchMap((user) => {
+          if (!user) {
+            this.currentUser = null;
+            return of(null);
+          }
           return this.afs.doc('/users/' + user.uid).get().pipe(
             map((personRef) => {
               const person = personRef.data() as Person;
@@ -43,5 +47,19 @@ export class AuthService {
 
     logout() {
       this.afAuth.signOut().then(() => this.router.navigate(['/not-accepted']));
+    }
+
+    isAccepted(): Observable<boolean> {
+      return this.afAuth.idTokenResult.pipe(
+        take(1),
+        map((idTokenResult) => idTokenResult ? idTokenResult.claims.accepted === true : false)
+      );
+    }
+
+    isAdmin(): Observable<boolean> {
+      return this.afAuth.idTokenResult.pipe(
+        take(1),
+        map((idTokenResult) => idTokenResult ? idTokenResult.claims.admin === true : false)
+      );
     }
 }
