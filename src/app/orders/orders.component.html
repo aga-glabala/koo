@@ -1,139 +1,143 @@
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a routerLink="/actions">Akcje</a></li>
-        <li class="breadcrumb-item active"><a routerLink="/action/{{ action.id }}">{{ action.name }}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Zamówienia</li>
-    </ol>
-</nav>
+<div *ngIf="action">
 
-<h1>Zamówienia do akcji {{ action.name }}</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/actions">Akcje</a></li>
+            <li class="breadcrumb-item active"><a routerLink="/action/{{ action.id }}">{{ action.name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Zamówienia</li>
+        </ol>
+    </nav>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Nazwa</th>
-            <th>Pomidory</th>
-            <th>Ogórki</th>
-            <th>Krem do rąk</th>
-            <th>Krem do rąk</th>
-            <th>Cebula</th>
-            <th>Seler</th>
-            <th>Skarpetki</th>
-            <th rowspan="3">Suma</th>
-            <th rowspan="3">Zapłacone</th>
-            <th rowspan="3">Odebrane</th>
-        </tr>
-        <tr>
-            <th>Wariant</th>
-            <th>kg</th>
-            <th>skrzynka</th>
-            <th>200ml</th>
-            <th>100ml</th>
-            <th>1kg</th>
-            <th>1szt.</th>
-            <th>Para</th>
-        </tr>
-        <tr>
-            <th>Cena</th>
-            <th>2</th>
-            <th>5</th>
-            <th>20</th>
-            <th>15</th>
-            <th>5</th>
-            <th>5</th>
-            <th>10</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Agnieszka Świecznik</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
-            <td>1</td>
-            <td>0</td>
-            <td>0</td>
-            <td>30zł</td>
-            <td class="bg-success">
-                <svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+    <h1>Zamówienia do akcji {{ action.name }}</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Pomidory</th>
+                <th>Ogórki</th>
+                <th>Krem do rąk</th>
+                <th>Krem do rąk</th>
+                <th>Cebula</th>
+                <th>Seler</th>
+                <th>Skarpetki</th>
+                <th rowspan="3">Suma</th>
+                <th rowspan="3">Zapłacone</th>
+                <th rowspan="3">Odebrane</th>
+            </tr>
+            <tr>
+                <th>Wariant</th>
+                <th>kg</th>
+                <th>skrzynka</th>
+                <th>200ml</th>
+                <th>100ml</th>
+                <th>1kg</th>
+                <th>1szt.</th>
+                <th>Para</th>
+            </tr>
+            <tr>
+                <th>Cena</th>
+                <th>2</th>
+                <th>5</th>
+                <th>20</th>
+                <th>15</th>
+                <th>5</th>
+                <th>5</th>
+                <th>10</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Agnieszka Świecznik</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td>30zł</td>
+                <td class="bg-success">
+                    <svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    </svg>
+                </td>
+                <td class="bg-success">
+                    <svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    </svg>
+                </td>
+            </tr>
+            <tr>
+                <td>Urszula Zawadzka</td>
+                <td>0</td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td>30zł</td>
+                <td class="bg-danger">
+                <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
                 </svg>
-            </td>
-            <td class="bg-success">
-                <svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                </td>
+                <td class="bg-danger">
+                <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
                 </svg>
-            </td>
-        </tr>
-        <tr>
-            <td>Urszula Zawadzka</td>
-            <td>0</td>
-            <td>1</td>
-            <td>0</td>
-            <td>0</td>
-            <td>1</td>
-            <td>0</td>
-            <td>0</td>
-            <td>30zł</td>
-            <td class="bg-danger">
-              <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
-              </svg>
-            </td>
-            <td class="bg-danger">
-              <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
-              </svg>
-            </td>
-        </tr>
-        <tr>
-            <td>Magda Golińska-Domolążek</td>
-            <td>0</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>30zł</td>
-            <td>
-              <button class="btn btn-danger"><svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
-              </svg> Do zapłaty</button>
-            </td>
-            <td>
+                </td>
+            </tr>
+            <tr>
+                <td>Magda Golińska-Domolążek</td>
+                <td>0</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>30zł</td>
+                <td>
                 <button class="btn btn-danger"><svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                  <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
-                </svg> Do odebrania</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Marta Zdrojewska</td>
-            <td>0</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>30zł</td>
-            <td>
-              <button class="btn btn-success"><svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-            </svg> Zapłacone</button>
-            </td>
-            <td>
+                    <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+                </svg> Do zapłaty</button>
+                </td>
+                <td>
+                    <button class="btn btn-danger"><svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+                    </svg> Do odebrania</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Marta Zdrojewska</td>
+                <td>0</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>30zł</td>
+                <td>
                 <button class="btn btn-success"><svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                </svg> Odebrane</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<p>TODO: właściciel akcji i pomocnicy mogą oznaczać kto zapłacił i odebrał, jak w dwóch ostatnich wierszach </p>
+                </svg> Zapłacone</button>
+                </td>
+                <td>
+                    <button class="btn btn-success"><svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    </svg> Odebrane</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <p>TODO: właściciel akcji i pomocnicy mogą oznaczać kto zapłacił i odebrał, jak w dwóch ostatnich wierszach </p>
+
+</div>

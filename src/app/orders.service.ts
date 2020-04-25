@@ -26,9 +26,6 @@ export class OrdersService {
       order.id = uuid.v4();
       edit = false;
     }
-    console.log(order);
-
-    //todo ładowanie zamówienia
     //todo upewnić się że jest zalogowany user
 
     let orderDoc = {
@@ -46,9 +43,9 @@ export class OrdersService {
 
     const orderRef = this.firestore.doc('actions/' + actionId + '/orders/' + order.id);
     if(edit) {
-      orderRef.update(orderDoc);
+      return orderRef.update(orderDoc);
     } else {
-      orderRef.set(orderDoc);
+      return orderRef.set(orderDoc);
     }
   }
 }

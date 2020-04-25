@@ -86,9 +86,9 @@ export class ActionsService {
     console.log(action);
     const actionRef = this.firestore.collection('actions').doc(action.id);
     if(edit) {
-      actionRef.update(action).then(_afterSaveAction);
+      return actionRef.update(action).then(_afterSaveAction);
     } else {
-      actionRef.set(action).then(_afterSaveAction);
+      return actionRef.set(action).then(_afterSaveAction);
     }
 
     function _afterSaveAction() {

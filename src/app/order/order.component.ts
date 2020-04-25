@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
@@ -18,7 +18,7 @@ export class OrderComponent implements OnInit {
   orderForm;
   sumOrder : number = 0;
   products = {};
-  constructor(private route: ActivatedRoute, private actionService: ActionsService, private formBuilder: FormBuilder, private ordersService : OrdersService) {
+  constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService, private formBuilder: FormBuilder, private ordersService : OrdersService) {
   }
 
   ngOnInit(): void { 
@@ -66,7 +66,6 @@ export class OrderComponent implements OnInit {
               }
             };
             that.orderForm.patchValue(formdata);
-            console.log(that.orderForm.value);
           }
         });
       } else {
@@ -81,6 +80,9 @@ export class OrderComponent implements OnInit {
 
   onSubmit() {
     // Process checkout data here
-    this.ordersService.saveOrder(this.action.id, this.orderForm.value);
+    let that = this;
+    this.ordersService.saveOrder(this.action.id, this.orderForm.value).then(function() {
+      that.router.navigate(['/action/'+that.action.id+'/orders']);
+    });
   }
 }

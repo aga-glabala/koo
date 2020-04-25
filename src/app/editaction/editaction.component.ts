@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -24,7 +24,7 @@ export class EditActionComponent implements OnInit {
   public Editor = ClassicEditor;
   toolbarConfig = { toolbar: [ 'heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'link',  ] };
 
-  constructor(private route: ActivatedRoute, private actionService: ActionsService, private actionFormService: ActionFormService, private peopleService: PeopleService) {
+  constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService, private actionFormService: ActionFormService, private peopleService: PeopleService) {
   }
   get actionForm(): FormGroup {
     return this.actionFormService.form;
@@ -58,7 +58,10 @@ export class EditActionComponent implements OnInit {
   }
 
   onSubmit() {
-    this.actionService.saveAction(this.actionFormService.form.value.newaction, this.products, this.helpers);
+    let that = this;
+    this.actionService.saveAction(this.actionFormService.form.value.newaction, this.products, this.helpers).then(function() {
+      that.router.navigate(['/action/'+that.action.id]);
+    });
   }
 
   addNewHelper() {
