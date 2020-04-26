@@ -122,7 +122,7 @@ export class ActionsService {
       }
 
       for(let obj of objs) {
-        if(!obj.id) {
+        if(!obj.id || !edit) {
           obj.id = uuid.v4();
           collection.doc(obj.id).set({...obj});
         } else {

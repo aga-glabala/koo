@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import * as uuid from 'uuid';
 
 import { Helper } from '../models/person';
 import { Product } from '../models/product';
@@ -45,7 +44,7 @@ export class ActionFormService {
   }
 
   addNewProduct() {
-    this.products.push(new Product(uuid.v4(),
+    this.products.push(new Product(undefined,
         this.form.value.newproduct.name, 
         this.form.value.newproduct.variant, 
         this.form.value.newproduct.price));

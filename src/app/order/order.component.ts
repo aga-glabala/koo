@@ -12,7 +12,7 @@ import { Order } from '../models/order';
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
-
+ 
   action : Action;
   order: Order;
   orderForm;

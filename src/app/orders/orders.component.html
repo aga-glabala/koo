@@ -9,135 +9,92 @@
         </ol>
     </nav>
 
-    <h1>Zamówienia do akcji {{ action.name }}</h1>
+    <h1 class="mb-1">Zamówienia do akcji {{ action.name }}</h1>
+    <p *ngIf="action.createdBy"><strong>Organizator:</strong>{{action.createdBy.name}}</p>
+    <p>
+        <span *ngIf="action.payLock">Jeszcze nie płacimy</span>
+        <span *ngIf="!action.payLock">{{action.payment}}</span>
+    </p>
+    <p><span *ngIf="action.createdBy"><strong>Utworzona przez:</strong>{{ action.createdBy.name }}</span>
+        <span title="{{ dateHelper.prettyLongDate(action.orderDate) }}"><strong>Zamówienia do:</strong> {{ dateHelper.prettyShortDate(action.orderDate) }}</span>,&nbsp;
+        <span title="{{ dateHelper.prettyLongDate(action.payDate) }}"><strong>Płacimy do:</strong> {{ dateHelper.prettyShortDate(action.payDate) }}</span>,&nbsp;
+        <span title="{{ dateHelper.prettyLongDate(action.collectionDate) }}"><strong>Odbieramy:</strong> {{ dateHelper.prettyShortDate(action.collectionDate) }}</span>
+    </p>
+    <p *ngIf="action.helpers"><span *ngFor="let helper of action.helpers"><strong>{{helper.name}}</strong> {{helper.description}} </span></p>
 
-    <table class="table table-striped">
+    <table class="table table-striped mt-5">
         <thead>
             <tr>
                 <th>Nazwa</th>
-                <th>Pomidory</th>
-                <th>Ogórki</th>
-                <th>Krem do rąk</th>
-                <th>Krem do rąk</th>
-                <th>Cebula</th>
-                <th>Seler</th>
-                <th>Skarpetki</th>
+                <th *ngFor="let product of action.products">{{product.name}}</th>
+                <th rowspan="3">Odbiera</th>
                 <th rowspan="3">Suma</th>
                 <th rowspan="3">Zapłacone</th>
                 <th rowspan="3">Odebrane</th>
             </tr>
             <tr>
                 <th>Wariant</th>
-                <th>kg</th>
-                <th>skrzynka</th>
-                <th>200ml</th>
-                <th>100ml</th>
-                <th>1kg</th>
-                <th>1szt.</th>
-                <th>Para</th>
+                <th *ngFor="let product of action.products">{{product.variant}}</th>
             </tr>
             <tr>
                 <th>Cena</th>
-                <th>2</th>
-                <th>5</th>
-                <th>20</th>
-                <th>15</th>
-                <th>5</th>
-                <th>5</th>
-                <th>10</th>
+                <th *ngFor="let product of action.products">{{product.price}}</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Agnieszka Świecznik</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-                <td>0</td>
-                <td>30zł</td>
-                <td class="bg-success">
+            <tr *ngFor="let order of orders">
+                <td>{{order.ownerName}}</td>
+                <td *ngFor="let product of action.products">{{ order.products[product.id] }}</td>
+                <td>{{ order.pickerName }}</td>
+                <td>{{ sums[order.id] }}zł</td>
+
+                <!-- komórki z informacją dla wszystkich -->
+                <td class="bg-success" *ngIf="!actionEditor && order.paid == sums[order.id]">
                     <svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
                     </svg>
+                    Zapłacone
                 </td>
-                <td class="bg-success">
+                <td class="bg-danger" *ngIf="!actionEditor && order.paid != sums[order.id]">
+                    <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                        <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+                    </svg>
+                    Nie zapłacone
+                </td>
+                <td class="bg-success" *ngIf="!actionEditor && order.picked">
                     <svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                    </svg>
+                    </svg> Odebrane
                 </td>
-            </tr>
-            <tr>
-                <td>Urszula Zawadzka</td>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-                <td>0</td>
-                <td>1</td>
-                <td>0</td>
-                <td>0</td>
-                <td>30zł</td>
-                <td class="bg-danger">
-                <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                    <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
-                </svg>
+                <td class="bg-danger" *ngIf="!actionEditor && !order.picked">
+                    <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                        <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+                    </svg> Nie odebrane
                 </td>
-                <td class="bg-danger">
-                <svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                    <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
-                </svg>
+
+                <!-- komórki dla właściciela i pomagaczy -->
+                <td *ngIf="actionEditor">
+                    <button *ngIf="order.paid == sums[order.id]" class="btn btn-success"><svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    </svg> Zapłacone</button>
+                    <button *ngIf="order.paid != sums[order.id]" class="btn btn-danger"><svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                        <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+                      </svg> Nie zapłacone</button>
                 </td>
-            </tr>
-            <tr>
-                <td>Magda Golińska-Domolążek</td>
-                <td>0</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>30zł</td>
-                <td>
-                <button class="btn btn-danger"><svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                    <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
-                </svg> Do zapłaty</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger"><svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                    <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
-                    </svg> Do odebrania</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Marta Zdrojewska</td>
-                <td>0</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>30zł</td>
-                <td>
-                <button class="btn btn-success"><svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                </svg> Zapłacone</button>
-                </td>
-                <td>
-                    <button class="btn btn-success"><svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <td *ngIf="actionEditor">
+                    <button *ngIf="order.picked" class="btn btn-success"><svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
                     </svg> Odebrane</button>
+                    <button *ngIf="!order.picked" class="btn btn-danger"><svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                        <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="evenodd"/>
+                    </svg> Nie odebrane</button>
                 </td>
             </tr>
         </tbody>
     </table>
-    <p>TODO: właściciel akcji i pomocnicy mogą oznaczać kto zapłacił i odebrał, jak w dwóch ostatnich wierszach </p>
 
 </div>

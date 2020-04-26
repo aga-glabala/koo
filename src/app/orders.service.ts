@@ -15,8 +15,11 @@ export class OrdersService {
     
   }
 
+  getOrders(actionId: string) {
+    return this.firestore.collection('actions/' + actionId + '/orders/').valueChanges();
+  }
+
   getOrder(actionId: string) {
-    //todo upewnić się że jest zalogowany user
     return this.firestore.collection('actions/' + actionId + '/orders/', ref => ref.where("ownerId", "==", this.auth.currentUser.id).limit(1)).valueChanges();
   }
 
@@ -26,7 +29,6 @@ export class OrdersService {
       order.id = uuid.v4();
       edit = false;
     }
-    //todo upewnić się że jest zalogowany user
 
     let orderDoc = {
       id: order.id,
