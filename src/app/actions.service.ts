@@ -74,10 +74,7 @@ export class ActionsService {
     this._toStoreAction(action);
     let edit: boolean = true;
     let that = this;
-    if(action.actionid) {
-      action.id = action.actionid;
-      delete action.actionid;
-    } else {
+    if(!action.id) {
       action.id = uuid.v4();
       edit = false;
       action.createdBy = {...new Person(this.authService.currentUser.id, this.authService.currentUser.name)};

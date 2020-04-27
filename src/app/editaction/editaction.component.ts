@@ -60,7 +60,7 @@ export class EditActionComponent implements OnInit {
   onSubmit() {
     let that = this;
     this.actionService.saveAction(this.actionFormService.form.value.newaction, this.products, this.helpers).then(function() {
-      that.router.navigate(['/action/'+that.action.id]);
+      that.router.navigate(['/action/'+that.actionFormService.form.value.newaction.id]);
     });
   }
 
