@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-import { Action } from '../models/action';
+import { Action, ProductField } from '../models/action';
 import { ActionsService } from '../actions.service';
-import { PeopleService } from '../people.service';
 import { ActionFormService } from './actionFormService';
 import { Person, Helper } from '../models/person';
 import { Product } from '../models/product';
+import { ProductFieldModalComponent } from '../product-field-modal/product-field-modal.component';
 
 @Component({
   selector: 'app-editaction',
@@ -23,8 +24,10 @@ export class EditActionComponent implements OnInit {
   mode = 'new';
   public Editor = ClassicEditor;
   toolbarConfig = { toolbar: [ 'heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'link',  ] };
+  customFields : ProductField[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService, private actionFormService: ActionFormService, private peopleService: PeopleService) {
+  constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService, 
+    private actionFormService: ActionFormService, private modalService: NgbModal) {
   }
   get actionForm(): FormGroup {
     return this.actionFormService.form;
@@ -76,6 +79,12 @@ export class EditActionComponent implements OnInit {
   }
   removeProduct(id: number) {
     this.actionFormService.removeProduct(id);
+    return false;
+  }
+
+  openProductFieldModal() {
+    const modalRef = this.modalService.open(ProductFieldModalComponent);
+    modalRef.componentInstance.fields = this.customFields;
     return false;
   }
 }

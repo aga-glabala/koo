@@ -17,6 +17,12 @@ export class Action {
                 public collection: string,
                 public payment: string,
                 public helpers: Helper[], 
-                public products: Product[]
+                public products: Product[],
+                public customFields: ProductField[]
                 ) {}
+}
+
+export class ProductField {
+    constructor(public id : string, 
+                public name: string) {}
 }

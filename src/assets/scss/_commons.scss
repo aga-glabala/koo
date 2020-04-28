@@ -85,3 +85,10 @@ h1 {
 .loader-data:empty {
     background-color: red;
 }
+
+.col-form-label {
+    text-align: left; 
+    @media (min-width: 576px) {
+        text-align: right; 
+    }
+}
