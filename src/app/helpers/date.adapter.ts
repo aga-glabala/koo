@@ -17,7 +17,7 @@ export class NgbDateFirestoreAdapter {
   /**
    * Converts a NgbDateStruct to a Firestore TimeStamp
    */
-  toModel(ngbDate: NgbDateStruct, ngbTime: NgbTimeStruct): firestore.Timestamp {
+  toModel(ngbDate: NgbDateStruct, ngbTime: NgbTimeStruct): Date {
     const jsDate = new Date(
       ngbDate.year ? ngbDate.year : new Date().getFullYear(),
       ngbDate.month ? ngbDate.month - 1 : new Date().getMonth() - 1,
@@ -25,7 +25,7 @@ export class NgbDateFirestoreAdapter {
       ngbTime.hour,
       ngbTime.minute
     );
-    return firestore.Timestamp.fromDate(jsDate);
+    return jsDate;
   }
 
 }

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
@@ -57,6 +58,7 @@ import { ProductFieldModalComponent } from './product-field-modal/product-field-
     NgxPaginationModule,
     CKEditorModule,
     NgbModule,
+    HttpClientModule,
   ],
   providers: [
     NgbDateFirestoreAdapter,

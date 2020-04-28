@@ -62,8 +62,8 @@ export class EditActionComponent implements OnInit {
 
   onSubmit() {
     let that = this;
-    this.actionService.saveAction(this.actionFormService.form.value.newaction, this.products, this.helpers).then(function() {
-      that.router.navigate(['/action/'+that.actionFormService.form.value.newaction.id]);
+    this.actionService.saveAction(this.actionFormService.form.value.newaction, this.products, this.helpers).subscribe((action) => {
+      that.router.navigate(['/action/' + action.id]);
     });
   }
 

@@ -2,10 +2,12 @@ import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import * as uuid from 'uuid';
 
+import { HttpClient } from '@angular/common/http';
+
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
-import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry, map } from 'rxjs/operators';
 
 import { Action } from './models/action';
 import { Product } from './models/product';
@@ -16,135 +18,60 @@ import { Helper, Person } from './models/person';
   providedIn: 'root'
 })
 export class ActionsService {
-  private actions: Observable<Action[]>;
-
-  constructor(private firestore: AngularFirestore, private authService: AuthService, private dateAdapter: NgbDateFirestoreAdapter) {
-    this.actions = firestore.collection('actions').valueChanges().pipe(
-      map((data: any) => {
-        data.forEach((action) => {
-          this._fromStoreAction(action);
-        });
-        return data;
-      })
-    );
+  constructor(private http: HttpClient, private authService: AuthService, private dateAdapter: NgbDateFirestoreAdapter) {
   }
 
   getActions(): Observable<Action[]> {
-      return this.actions;
+    return this.http.get('/api/actions/').pipe(
+      map((actions: Action[]) => actions.map(this._fromStoreAction))
+    );
   }
 
   getAction(id: string): Observable<Action> {
-    const docRef = this.firestore.collection('actions').doc(id);
-    const products = docRef.collection('products').get();
-    const helpers = docRef.collection('helpers').get();
-    return combineLatest([
-      docRef.get().pipe(
-        map((doc) => doc.data() as Action)
-      ),
-      products.pipe(
-        map((querySnapshot) => querySnapshot.docs.map((doc) => doc.data() as Product))
-      ),
-      helpers.pipe(
-        map((querySnapshot) => querySnapshot.docs.map((doc) => doc.data() as Helper))
-      )
-    ]).pipe(
-      map((values) => {
-        const action = values[0];
-        action.products = values[1];
-        action.helpers = values[2];
-        this._fromStoreAction(action);
-        return action;
-      })
+    return this.http.get('/api/actions/' + id).pipe(
+      map(this._fromStoreAction)
     );
   }
 
-  getActionProducts(actionId: string): Observable<Product[]> {
-    return this.firestore.collection<Product[]>('actions/' + actionId + '/products').get().pipe(
-      map((querySnapshot) => {
-        return querySnapshot.docs.map((doc) => doc.data() as Product);
-      })
-    );
-  }
-
-  getActionHelpers(actionId: string): Observable<any[]> {
-    return this.firestore.collection<Product[]>('actions/' + actionId + '/helpers').valueChanges();
-  }
-
-  saveAction(action, products, helpers) {
-    this._toStoreAction(action);
-    let edit: boolean = true;
-    let that = this;
-    if(!action.id) {
-      action.id = uuid.v4();
+  saveAction(action, products, helpers): Observable<Action> {
+    let edit = true;
+    action.products = products;
+    action.helpers = helpers;
+    if (!action.id) {
       edit = false;
       action.createdBy = {...new Person(this.authService.currentUser.id, this.authService.currentUser.name)};
-      action.createdOn = firebase.firestore.Timestamp.fromDate(new Date());
+      action.createdOn = new Date();
     }
-    console.log(action);
-    const actionRef = this.firestore.collection('actions').doc(action.id);
-    if(edit) {
-      return actionRef.update(action).then(_afterSaveAction);
+    delete action.actionid;
+    const data = this._toStoreAction(action);
+    console.log(data);
+    if (edit) {
+      return this.http.put<Action>('/api/actions/' + data.id, data);
     } else {
-      return actionRef.set(action).then(_afterSaveAction);
-    }
-
-    function _afterSaveAction() {
-      that.getActionProducts(action.id).subscribe((storedProducts) => {
-        _removeAndUpdate(products, storedProducts, actionRef.collection('products'));
-      });
-
-      let simpleHelpers = [];
-      for(let helper of helpers) {
-        simpleHelpers.push({id: helper.id, helperId: helper.helperId, name: helper.name, description: helper.description});
-      }
-
-      that.getActionHelpers(action.id).subscribe((storedHelpers) => {
-        _removeAndUpdate(simpleHelpers, storedHelpers, actionRef.collection('helpers'));
-      });
-    }
-
-    function _removeAndUpdate(objs, storedObjs, collection) {
-      // remove removed objects from store
-      for(let storedObj of storedObjs) {
-        var found: boolean = false;
-        for(let obj of objs) {
-          if(obj.id && obj.id === storedObj.id) {
-            found = true;
-          }
-        }
-        //czy to nie wywoła nowego odświeżenia w subscribe? 
-        if(!found) {
-          collection.doc(storedObj.id).delete();
-        }
-      }
-
-      for(let obj of objs) {
-        if(!obj.id || !edit) {
-          obj.id = uuid.v4();
-          collection.doc(obj.id).set({...obj});
-        } else {
-          collection.doc(obj.id).update({...obj});
-        }
-        
-      }
+      return this.http.post<Action>('/api/actions', data);
     }
   }
 
 
-  private _toStoreAction(action) {
-    action.collectionDate = this.dateAdapter.toModel(action.collectionDate, action.collectionTime);
-    action.payDate = this.dateAdapter.toModel(action.payDate, action.payTime);
-    action.orderDate = this.dateAdapter.toModel(action.orderDate, action.orderTime);
+  private _toStoreAction(action): any {
+    const data: any = {...action};
+    data.collectionDate = this.dateAdapter.toModel(action.collectionDate, action.collectionTime);
+    data.payDate = this.dateAdapter.toModel(action.payDate, action.payTime);
+    data.orderDate = this.dateAdapter.toModel(action.orderDate, action.orderTime);
+    // data.createdOn = this.dateAdapter.toModel(action.createdOn, action.collectionTime);
 
-    delete action.orderTime;
-    delete action.payTime;
-    delete action.collectionTime;
+    delete data.collectionTime;
+    delete data.payTime;
+    delete data.orderTime;
+    return data;
   }
 
-  private _fromStoreAction(action) {
-    action.collectionDate = this.dateAdapter.fromModel(action.collectionDate);
-    action.payDate = this.dateAdapter.fromModel(action.payDate);
-    action.orderDate = this.dateAdapter.fromModel(action.orderDate);
-    action.createdOn = this.dateAdapter.fromModel(action.createdOn);
+  private _fromStoreAction(data): Action {
+    const action = {...data} as Action;
+    action.collectionDate = new Date(data.collectionDate);
+    action.payDate = new Date(data.payDate);
+    action.orderDate = new Date(data.orderDate);
+    action.createdOn = new Date(data.createdOn);
+    return action;
   }
 }

@@ -1,0 +1,24 @@
+{
+  "name": "koo-backend",
+  "version": "1.0.0",
+  "description": "Backend for Kooperatywa",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/aga-glabala/koo"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
