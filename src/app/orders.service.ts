@@ -1,53 +1,52 @@
 import { Injectable } from '@angular/core';
 import * as uuid from 'uuid';
 
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { HttpClient } from '@angular/common/http';
+import { Order } from './models/order';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
 
-  constructor(private firestore: AngularFirestore, private auth: AuthService) {
-    
+  constructor(private http: HttpClient, private auth: AuthService) {
   }
 
-  getOrders(actionId: string) {
-    return this.firestore.collection('actions/' + actionId + '/orders/').valueChanges();
+  getOrders(actionId: string): Observable<Order[]> {
+    return this.http.get<Order[]>('/api/actions/' + actionId + '/orders');
   }
 
-  getOrder(actionId: string) {
-    return this.firestore.collection('actions/' + actionId + '/orders/', ref => ref.where("ownerId", "==", this.auth.currentUser.id).limit(1)).valueChanges();
+  getOrder(actionId: string): Observable<Order> {
+    return this.auth.user.pipe(
+      switchMap((user) => this.http.get<Order>('/api/actions/' + actionId + '/orders?forUser=' + user.id))
+    );
   }
 
   saveOrder(actionId, order) {
-    let edit: boolean = true;
-    if(!order.id) {
-      order.id = uuid.v4();
-      edit = false;
-    }
+    const edit = !!order.id;
 
-    let orderDoc = {
-      id: order.id,
+    const orderDoc = {
+      actionId,
       ownerId: this.auth.currentUser.id,
       ownerName: this.auth.currentUser.name,
       products: order.products
     };
 
-    if(order.picker) {
+    if (order.id) {
+      orderDoc['id'] = order.id;
+    }
+    if (order.picker) {
       orderDoc['pickerId'] = order.picker.id;
       orderDoc['pickerName'] = order.picker.name;
     }
 
-
-    const orderRef = this.firestore.doc('actions/' + actionId + '/orders/' + order.id);
-    if(edit) {
-      return orderRef.update(orderDoc);
+    if (edit) {
+      return this.http.put<Order>('/api/orders/' + order.id, orderDoc);
     } else {
-      return orderRef.set(orderDoc);
+      return this.http.post<Order>('/api/orders', orderDoc);
     }
   }
 }

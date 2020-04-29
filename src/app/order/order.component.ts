@@ -81,7 +81,7 @@ export class OrderComponent implements OnInit {
   onSubmit() {
     // Process checkout data here
     let that = this;
-    this.ordersService.saveOrder(this.action.id, this.orderForm.value).then(function() {
+    this.ordersService.saveOrder(this.action.id, this.orderForm.value).subscribe((order) => {
       that.router.navigate(['/action/'+that.action.id+'/orders']);
     });
   }

@@ -88,3 +88,82 @@ function convertActionToBson(action) {
     delete action.id;
   }
 }
+
+// ORDERS
+
+app.get('/actions/:actionId/orders', (req, res) => {
+  db.collection('orders').find({ actionId: req.params.actionId }).toArray((err, result) => {
+    if (err) return console.log(err)
+    result.forEach(convertOrderFromBson);
+    res.send(result)
+  })
+})
+
+app.get('/orders/:id', (req, res) => {
+  db.collection('orders').findOne({ _id: new mongo.ObjectID(req.params.id) }, (err, result) => {
+    console.log('find one');
+    if (err) return console.log(err)
+    if (!result) {
+      res.sendStatus(404);
+      return;
+    }
+    convertOrderFromBson(result);
+    res.send(result)
+  })
+})
+
+app.get('/actions/:actionId/orders', (req, res) => {
+  db.collection('orders').findOne({ actionId: req.params.actionId, ownerId: req.params.forUser }, (err, result) => {
+    console.log('find one');
+    if (err) return console.log(err)
+    if (!result) {
+      res.sendStatus(404);
+      return;
+    }
+    convertOrderFromBson(result);
+    res.send(result)
+  })
+})
+
+app.post('/orders', (req, res) => {
+  const data = req.body;
+  convertOrderToBson(data);
+  db.collection('orders').insertOne(data, (err, result) => {
+    if (err) return console.log(err)
+    console.log('saved to database ');
+    res.redirect('/orders/'+result.insertedId);
+  })
+})
+
+app.put('/orders/:id', (req, res) => {
+  const data = req.body;
+  convertOrderToBson(data);
+  db.collection('orders')
+  .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id) }, {
+    $set: data
+  }, {
+    upsert: true
+  }, (err, result) => {
+    if (err) return res.send(err)
+    res.send(result)
+  })
+})
+
+app.delete('/orders/:id', (req, res) => {
+  db.collection('orders').findOneAndDelete({ _id: new mongo.ObjectID(req.params.id) }, (err, result) => {
+    if (err) return res.send(500, err)
+    res.send('A darth vadar quote got deleted')
+  })
+})
+
+function convertOrderFromBson(action) {
+  action.id = action._id;
+  delete action._id;
+}
+
+function convertOrderToBson(action) {
+  if (action.id) {
+    action._id = new mongo.ObjectID(action.id);
+    delete action.id;
+  }
+}

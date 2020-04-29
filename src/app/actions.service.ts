@@ -4,15 +4,12 @@ import * as uuid from 'uuid';
 
 import { HttpClient } from '@angular/common/http';
 
-import { AngularFirestore } from '@angular/fire/firestore';
-import * as firebase from 'firebase';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Action } from './models/action';
-import { Product } from './models/product';
 import { NgbDateFirestoreAdapter } from './helpers/date.adapter';
-import { Helper, Person } from './models/person';
+import { Person } from './models/person';
 
 @Injectable({
   providedIn: 'root'
