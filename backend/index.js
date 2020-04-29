@@ -21,6 +21,8 @@ mongo.MongoClient.connect(
   })
 })
 
+// ACTIONS
+
 app.get('/actions', (req, res) => {
   db.collection('actions').find().toArray((err, result) => {
     if (err) return console.log(err)
@@ -62,7 +64,9 @@ app.put('/actions/:id', (req, res) => {
     upsert: true
   }, (err, result) => {
     if (err) return res.send(err)
-    res.send(result)
+    const data = req.body;
+    convertActionFromBson(data);
+    res.send(data)
   })
 })
 
