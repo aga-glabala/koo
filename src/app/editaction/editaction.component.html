@@ -176,6 +176,12 @@
         <label for="newacion-productprice" class="sr-only">Cena</label>
         <input type="number" min="0" formControlName="price" class="form-control" id="newacion-productprice" placeholder="Cena">
       </div>
+      <div formGroupName="customFields">
+        <div class="col-sm-3" *ngFor="let customField of customFields">
+          <label for="newacion-productprice" class="sr-only">{{ customField.name }}</label>
+          <input type="text" [formControlName]="customField.id" class="form-control" id="newacion-productprice" [placeholder]="customField.name">
+        </div>
+      </div>
       <div class="col-sm-2"><button type="button" class="btn btn-secondary" (click)="addNewProduct()">Dodaj
           produkt</button></div>
     </div>

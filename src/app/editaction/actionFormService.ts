@@ -37,8 +37,9 @@ export class ActionFormService {
         newproduct: this.fb.group({
           name: '',
           variant: '',
-          price: ''
-        })
+          price: '',
+          customFields: this.fb.group({})
+        }),
       });
 
   }
@@ -62,6 +63,10 @@ export class ActionFormService {
 
   removeHelper(id: number) {
     this.helpers.splice(id, 1);
+  }
+
+  addNewCustomField(id: string) {
+    (this.form.get('newproduct').get('customFields') as FormGroup).addControl(id, this.fb.control(''))
   }
 
   loadAction(data): void {

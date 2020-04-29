@@ -85,6 +85,7 @@ export class EditActionComponent implements OnInit {
   openProductFieldModal() {
     const modalRef = this.modalService.open(ProductFieldModalComponent);
     modalRef.componentInstance.fields = this.customFields;
+    modalRef.componentInstance.formService = this.actionFormService;
     return false;
   }
 }
