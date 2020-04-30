@@ -15,7 +15,7 @@
         <span *ngIf="action.payLock">Jeszcze nie płacimy</span>
         <span *ngIf="!action.payLock">{{action.payment}}</span>
     </p>
-    <p><span *ngIf="action.createdBy"><strong>Utworzona przez:</strong>{{ action.createdBy.name }}</span>
+    <p>
         <span title="{{ dateHelper.prettyLongDate(action.orderDate) }}"><strong>Zamówienia do:</strong> {{ dateHelper.prettyShortDate(action.orderDate) }}</span>,&nbsp;
         <span title="{{ dateHelper.prettyLongDate(action.payDate) }}"><strong>Płacimy do:</strong> {{ dateHelper.prettyShortDate(action.payDate) }}</span>,&nbsp;
         <span title="{{ dateHelper.prettyLongDate(action.collectionDate) }}"><strong>Odbieramy:</strong> {{ dateHelper.prettyShortDate(action.collectionDate) }}</span>
@@ -39,6 +39,10 @@
             <tr>
                 <th>Cena</th>
                 <th *ngFor="let product of action.products">{{product.price}}</th>
+            </tr>
+            <tr *ngFor="let customField of action.customFields">
+                <th>{{ customField.name }}</th>
+                <th *ngFor="let product of action.products"><span *ngIf="product.customFields">{{ product.customFields[customField.id] }}</span></th>
             </tr>
         </thead>
         <tbody>

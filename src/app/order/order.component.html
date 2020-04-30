@@ -17,6 +17,7 @@
                     <th>Nazwa</th>
                     <th>Wariant</th>
                     <th>Cena (zł)</th>
+                    <th *ngFor="let field of action.customFields">{{ field.name }}</th>
                     <th>Zamów</th>
                 </tr>
             </thead>
@@ -24,6 +25,7 @@
                 <td>{{product.name}}</td>
                 <td>{{product.variant}}</td>
                 <td>{{product.price}}</td>
+                <td *ngFor="let field of action.customFields"><span *ngIf="product.customField">{{ product.customFields[field.id] }}</span></td>
                 <td><input type="number" min="0" formControlName="{{product.id}}" class="form-control" ></td>
             </tr>
             <tr>

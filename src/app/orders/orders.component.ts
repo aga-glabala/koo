@@ -27,7 +27,7 @@ export class OrdersComponent implements OnInit {
   getAction(actionId: string): void {
     this.actionService.getAction(actionId).subscribe((action) => {
       this.action = action;
-      this.actionEditor = this.action.createdBy && (this.action.createdBy.id == this.auth.currentUser.id);
+      this.actionEditor = this.action.createdBy && this.auth.currentUser && (this.action.createdBy.id == this.auth.currentUser.id);
       
       for(let helper of this.action.helpers) {
         if(this.auth.currentUser.id == helper.helperId) {

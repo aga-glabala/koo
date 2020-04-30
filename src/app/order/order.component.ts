@@ -51,9 +51,9 @@ export class OrderComponent implements OnInit {
           }
         });
 
-        that.getOrder(actionId).subscribe(function(orders) {
-          if(orders && orders.length > 0) {
-            that.order = orders[0] as Order;
+        that.getOrder(actionId).subscribe(function(order) {
+          if(order) {
+            that.order = order;
 
             let formdata = {
               id: that.order.id,

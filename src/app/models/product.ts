@@ -3,5 +3,6 @@ export class Product {
                 public id: string,
                 public name: string,
                 public variant: string,
-                public price: number) {}
+                public price: number,
+                public customFields: {}) {}
 }

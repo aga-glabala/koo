@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Helper } from '../models/person';
 import { Product } from '../models/product';
+import { ProductField } from '../models/action';
 
 @Injectable()
 export class ActionFormService {
@@ -44,11 +45,19 @@ export class ActionFormService {
 
   }
 
-  addNewProduct() {
-    this.products.push(new Product(undefined,
-        this.form.value.newproduct.name, 
-        this.form.value.newproduct.variant, 
-        this.form.value.newproduct.price));
+  addNewProduct(customFields : ProductField[]) {
+    const product = new Product(undefined,
+      this.form.value.newproduct.name, 
+      this.form.value.newproduct.variant, 
+      this.form.value.newproduct.price,
+      {});
+
+    product.customFields = {};
+    for(let field of customFields) {
+      product.customFields[field.id] = this.form.value.newproduct.customFields[field.id];
+    }
+
+    this.products.push(product);
     this.form.get('newproduct').reset();
   }
 
@@ -85,6 +94,11 @@ export class ActionFormService {
     formdata.newaction.payTime = {'hour': data.payDate.getHours(), 'minute': data.payDate.getMinutes()};
     formdata.newaction.collectionTime = {'hour': data.collectionDate.getHours(), 'minute': data.collectionDate.getMinutes()};
 
+    if(data.customFields) {
+      for(let field of data.customFields) {
+        this.addNewCustomField(field.id);
+      }
+    }
 
     this.form.patchValue(formdata);
 

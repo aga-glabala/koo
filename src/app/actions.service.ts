@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Action } from './models/action';
+
+import { Action, ProductField } from './models/action';
 import { NgbDateFirestoreAdapter } from './helpers/date.adapter';
 import { Person } from './models/person';
 
@@ -30,7 +31,7 @@ export class ActionsService {
     );
   }
 
-  saveAction(action, products, helpers): Observable<Action> {
+  saveAction(action, products, helpers, customFields: ProductField[]): Observable<Action> {
     let edit = true;
     action.products = products;
     action.helpers = helpers;
@@ -39,8 +40,8 @@ export class ActionsService {
       action.createdBy = {...new Person(this.authService.currentUser.id, this.authService.currentUser.name)};
       action.createdOn = new Date();
     }
-    delete action.actionid;
     const data = this._toStoreAction(action);
+    data.customFields = customFields;
     console.log(data);
     if (edit) {
       return this.http.put<Action>('/api/actions/' + data.id, data);

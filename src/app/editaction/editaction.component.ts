@@ -53,6 +53,7 @@ export class EditActionComponent implements OnInit {
           this.action.id = null;
         }
         if (action) {
+          this.customFields = this.action.customFields || [];
           this.actionFormService.loadAction(this.action);
         }
       });
@@ -62,7 +63,7 @@ export class EditActionComponent implements OnInit {
 
   onSubmit() {
     let that = this;
-    this.actionService.saveAction(this.actionFormService.form.value.newaction, this.products, this.helpers).subscribe((action) => {
+    this.actionService.saveAction(this.actionFormService.form.value.newaction, this.products, this.helpers, this.customFields).subscribe((action) => {
       that.router.navigate(['/action/' + action.id]);
     });
   }
@@ -75,7 +76,7 @@ export class EditActionComponent implements OnInit {
     return false;
   }
   addNewProduct() {
-    this.actionFormService.addNewProduct();
+    this.actionFormService.addNewProduct(this.customFields);
   }
   removeProduct(id: number) {
     this.actionFormService.removeProduct(id);
