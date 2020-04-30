@@ -152,7 +152,7 @@
         <td>{{ product.name }}</td>
         <td>{{ product.variant }}</td>
         <td>{{ product.price }}</td>
-        <td *ngFor="let field of action.customFields"><span *ngIf="product.customField">{{ product.customFields[field.id] }}</span></td>
+        <td *ngFor="let field of action.customFields"><span *ngIf="product.customFields">{{ product.customFields[field.id] }}</span></td>
         <td>
           <button class="btn btn-danger" (click)="removeProduct(i)">
             <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

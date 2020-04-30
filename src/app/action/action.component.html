@@ -114,7 +114,7 @@
                 <td>{{ product.name }}</td>
                 <td>{{ product.variant }}</td>
                 <td>{{ product.price }}</td>
-                <td *ngFor="let field of action.customFields"><span *ngIf="product.customField">{{ product.customFields[field.id] }}</span></td>
+                <td *ngFor="let field of action.customFields"><span *ngIf="product.customFields">{{ product.customFields[field.id] }}</span></td>
             </tr>
         </tbody>
     </table>
