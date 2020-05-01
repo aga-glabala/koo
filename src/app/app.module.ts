@@ -29,6 +29,7 @@ import { MyOrdersComponent } from './myorders/myorders.component';
 import { NgbDateFirestoreAdapter } from './helpers/date.adapter';
 import { DateHelper } from './helpers/date.helper';
 import { ProductFieldModalComponent } from './product-field-modal/product-field-modal.component';
+import { ProductEditorModalComponent } from './product-editor-modal/product-editor-modal.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ProductFieldModalComponent } from './product-field-modal/product-field-
     NotAcceptedComponent,
     UserQueueComponent,
     MyOrdersComponent,
-    ProductFieldModalComponent
+    ProductFieldModalComponent,
+    ProductEditorModalComponent
   ],
   imports: [
     BrowserModule,

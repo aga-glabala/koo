@@ -1,0 +1,30 @@
+
+<div class="modal-header">
+    <h4 class="modal-title">Edytor produktu</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form #productForm="ngForm">
+        <div class="form-group"> 
+            <label for="name">Nazwa</label>
+            <input class="form-control" id="name" name="name" type="text" [(ngModel)]="product.name"> 
+        </div>
+        <div class="form-group"> 
+            <label for="variant">Wariant</label>
+            <input class="form-control" id="variant" name="variant" type="text" [(ngModel)]="product.variant"> 
+        </div>
+        <div class="form-group"> 
+            <label for="price">Cena</label>
+            <input class="form-control" id="price" name="price" type="text" [(ngModel)]="product.price"> 
+        </div>
+        <div class="form-group" *ngFor="let field of fields; let i = index"> 
+            <label for="field-{{field.id}}">{{field.name}}</label>
+            <input class="form-control" id="field-{{field.id}}" name="{{field.name}}" type="text" [(ngModel)]="product.customFields[field.id]"> 
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" (click)="activeModal.dismiss()" class="btn btn-success">Zamknij</button>
+</div>

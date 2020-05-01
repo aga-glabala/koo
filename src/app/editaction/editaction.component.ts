@@ -11,6 +11,7 @@ import { ActionFormService } from './actionFormService';
 import { Person, Helper } from '../models/person';
 import { Product } from '../models/product';
 import { ProductFieldModalComponent } from '../product-field-modal/product-field-modal.component';
+import { ProductEditorModalComponent } from '../product-editor-modal/product-editor-modal.component';
 
 @Component({
   selector: 'app-editaction',
@@ -78,8 +79,14 @@ export class EditActionComponent implements OnInit {
   addNewProduct() {
     this.actionFormService.addNewProduct(this.customFields);
   }
-  removeProduct(id: number) {
-    this.actionFormService.removeProduct(id);
+  removeProduct(index: number) {
+    this.actionFormService.removeProduct(index);
+    return false;
+  }
+  editProduct(index: number) {
+    const modalRef = this.modalService.open(ProductEditorModalComponent);
+    modalRef.componentInstance.fields = this.customFields;
+    modalRef.componentInstance.product = this.actionFormService.products[index];
     return false;
   }
 
