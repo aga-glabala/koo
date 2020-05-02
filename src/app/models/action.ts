@@ -16,6 +16,7 @@ export class Action {
                 public description: string,
                 public collection: string,
                 public payment: string,
+                public productsEditable: boolean,
                 public helpers: Helper[], 
                 public products: Product[],
                 public customFields: ProductField[]

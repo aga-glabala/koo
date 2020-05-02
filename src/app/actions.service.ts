@@ -1,6 +1,5 @@
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
-import * as uuid from 'uuid';
 
 import { HttpClient } from '@angular/common/http';
 

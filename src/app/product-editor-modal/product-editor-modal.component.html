@@ -1,7 +1,7 @@
 
 <div class="modal-header">
     <h4 class="modal-title">Edytor produktu</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.close(false)">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -26,5 +26,5 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" (click)="activeModal.dismiss()" class="btn btn-success">Zamknij</button>
+    <button type="button" (click)="activeModal.close(true)" class="btn btn-success">Zapisz</button>
 </div>

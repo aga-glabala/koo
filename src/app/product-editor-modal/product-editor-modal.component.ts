@@ -20,4 +20,8 @@ export class ProductEditorModalComponent implements OnInit {
     }
   }
 
+  save() {
+    this.activeModal.dismiss();
+  }
+
 }

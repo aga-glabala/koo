@@ -5,6 +5,10 @@ import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { OrdersService } from '../orders.service';
 import { Order } from '../models/order';
+import { ProductEditorModalComponent } from '../product-editor-modal/product-editor-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Product } from '../models/product';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-order',
@@ -18,7 +22,8 @@ export class OrderComponent implements OnInit {
   orderForm;
   sumOrder : number = 0;
   products = {};
-  constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService, private formBuilder: FormBuilder, private ordersService : OrdersService) {
+  constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService, private formBuilder: FormBuilder, 
+    private ordersService : OrdersService, private modalService: NgbModal) {
   }
 
   ngOnInit(): void { 
@@ -76,6 +81,22 @@ export class OrderComponent implements OnInit {
 
   getOrder(actionId) {
     return this.ordersService.getOrder(actionId);
+  }
+
+  addProduct() {
+    let product = new Product(uuid.v4(), '', '', 0, {});
+    const modalRef = this.modalService.open(ProductEditorModalComponent);
+    modalRef.componentInstance.fields = this.action.customFields;
+    modalRef.componentInstance.product = product;
+    let that = this;
+
+    modalRef.result.then(function(save) {
+      if(save) {
+        that.action.products.push(product);
+        that.products[product.id] = product;
+      }
+    });
+    return false;
   }
 
   onSubmit() {

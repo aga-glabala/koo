@@ -14,11 +14,11 @@
         <table class="table" formGroupName="products">
             <thead>
                 <tr>
-                    <th>Nazwa</th>
+                    <th>Nazwa</th> 
                     <th>Wariant</th>
                     <th>Cena (zł)</th>
                     <th *ngFor="let field of action.customFields">{{ field.name }}</th>
-                    <th>Zamów</th>
+                    <th>Zamawiam</th>
                 </tr>
             </thead>
             <tr *ngFor="let product of action.products">
@@ -29,8 +29,15 @@
                 <td><input type="number" min="0" formControlName="{{product.id}}" class="form-control" ></td>
             </tr>
             <tr>
-                <td colspan="3" class="text-right">W sumie:</td>
+                <td [attr.colspan]="3 + action.customFields.length" class="text-right">W sumie:</td>
                 <td>{{ sumOrder }}zł</td>
+            </tr>
+
+            <tr *ngIf="action.productsEditable">
+                <td [attr.colspan]="4 + action.customFields.length"><div class="alert alert-primary text-center">
+                    Można dodawać swoje produkty:&nbsp;
+                    <button class="btn btn-primary" (click)="addProduct()">Dodaj produkt</button>
+                </div></td>
             </tr>
         </table>   
 

@@ -30,6 +30,7 @@ export class ActionFormService {
           rules: '',
           collection: '',
           payment: '',
+          productsEditable: false
         }),
         newperson: this.fb.group({
           person: '',

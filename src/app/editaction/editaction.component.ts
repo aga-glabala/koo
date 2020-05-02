@@ -84,9 +84,19 @@ export class EditActionComponent implements OnInit {
     return false;
   }
   editProduct(index: number) {
+    let product = {...this.actionFormService.products[index]} as Product;
+
     const modalRef = this.modalService.open(ProductEditorModalComponent);
     modalRef.componentInstance.fields = this.customFields;
-    modalRef.componentInstance.product = this.actionFormService.products[index];
+    modalRef.componentInstance.product = product;
+
+    let that = this;
+
+    modalRef.result.then(function(save) {
+      if(save) {
+        that.actionFormService.products[index] = product;
+      }
+    });
     return false;
   }
 
