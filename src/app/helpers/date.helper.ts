@@ -8,17 +8,14 @@ export class DateHelper {
      moment.locale('pl');
    }
 
-  prettyDate(date: Date) {
-    let mdate = moment(date);
-    return mdate.fromNow()+ " (" + mdate.format('dddd, DD MMMM h:mm')  + ")";
+  prettyDate(date: moment.Moment) {
+    return date.fromNow()+ " (" + date.format('dddd, DD MMMM h:mm')  + ")";
   }
 
-  prettyShortDate(date: Date) {
-    let mdate = moment(date);
-    return mdate.fromNow();
+  prettyShortDate(date: moment.Moment) {
+    return date.fromNow();
   }
-  prettyLongDate(date: Date) {
-    let mdate = moment(date);
-    return mdate.format('dddd, DD MMMM h:mm');
+  prettyLongDate(date: moment.Moment) {
+    return date.format('dddd, DD MMMM h:mm');
   }
 }

@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { NgxPaginationModule } from 'ngx-pagination';
-import { NgbModule, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
@@ -26,10 +26,10 @@ import { environment } from '../environments/environment';
 import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
 import { UserQueueComponent } from './userqueue/userqueue.component';
 import { MyOrdersComponent } from './myorders/myorders.component';
-import { NgbDateFirestoreAdapter } from './helpers/date.adapter';
 import { DateHelper } from './helpers/date.helper';
 import { ProductFieldModalComponent } from './product-field-modal/product-field-modal.component';
 import { ProductEditorModalComponent } from './product-editor-modal/product-editor-modal.component';
+import { ActionFormAdapter } from './helpers/action.adapter';
 
 @NgModule({
   declarations: [
@@ -63,8 +63,8 @@ import { ProductEditorModalComponent } from './product-editor-modal/product-edit
     HttpClientModule,
   ],
   providers: [
-    NgbDateFirestoreAdapter,
     DateHelper,
+    ActionFormAdapter,
     { provide: REGION, useValue: 'europe-west3' }
   ],
   bootstrap: [AppComponent]

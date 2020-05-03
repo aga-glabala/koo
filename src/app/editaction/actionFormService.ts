@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Helper } from '../models/person';
 import { Product } from '../models/product';
-import { ProductField } from '../models/action';
+import { ProductField, Action } from '../models/action';
+import { ActionFormAdapter } from '../helpers/action.adapter';
 
 @Injectable()
 export class ActionFormService {
@@ -12,7 +13,7 @@ export class ActionFormService {
   helpers : Helper[] = [];
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder, private actionAdapter: ActionFormAdapter
   ) {
     this.form = this.fb.group({
         newaction: this.fb.group({
@@ -76,25 +77,11 @@ export class ActionFormService {
   }
 
   addNewCustomField(id: string) {
-    (this.form.get('newproduct').get('customFields') as FormGroup).addControl(id, this.fb.control(''))
+    (this.form.get('newproduct').get('customFields') as FormGroup).addControl(id, this.fb.control(''));
   }
 
   loadAction(data): void {
-
-    // todo przydalaby się jakaś walidacja?
-    let formdata = {
-        newaction: {
-            ...data
-        }
-    };
-    formdata.newaction.orderDate = {'day': data.orderDate.getDate(), 'month': data.orderDate.getMonth() + 1, 'year': data.orderDate.getFullYear()};
-    formdata.newaction.payDate = {'day': data.payDate.getDate(), 'month': data.payDate.getMonth() + 1, 'year': data.payDate.getFullYear()};
-    formdata.newaction.collectionDate = {'day': data.collectionDate.getDate(), 'month': data.collectionDate.getMonth() + 1, 'year': data.collectionDate.getFullYear()};
-
-    formdata.newaction.orderTime = {'hour': data.orderDate.getHours(), 'minute': data.orderDate.getMinutes()};
-    formdata.newaction.payTime = {'hour': data.payDate.getHours(), 'minute': data.payDate.getMinutes()};
-    formdata.newaction.collectionTime = {'hour': data.collectionDate.getHours(), 'minute': data.collectionDate.getMinutes()};
-
+    let formdata = this.actionAdapter.toForm(data);
     if(data.customFields) {
       for(let field of data.customFields) {
         this.addNewCustomField(field.id);
@@ -105,5 +92,12 @@ export class ActionFormService {
 
     this.products = data.products ? data.products : [];
     this.helpers = data.helpers ? data.helpers : [];
+  }
+
+  getData(action : Action, customFields : ProductField[]) {
+    let newAction = this.actionAdapter.fromForm(this.form.get('newaction').value, this.helpers, this.products, customFields, 
+      action ? action.createdBy : undefined, action ? action.createdOn : undefined);
+
+    return newAction;
   }
 }

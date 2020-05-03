@@ -8,14 +8,14 @@ import { map } from 'rxjs/operators';
 
 
 import { Action, ProductField } from './models/action';
-import { NgbDateFirestoreAdapter } from './helpers/date.adapter';
 import { Person } from './models/person';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActionsService {
-  constructor(private http: HttpClient, private authService: AuthService, private dateAdapter: NgbDateFirestoreAdapter) {
+  constructor(private http: HttpClient, private authService: AuthService) {
   }
 
   getActions(): Observable<Action[]> {
@@ -30,17 +30,14 @@ export class ActionsService {
     );
   }
 
-  saveAction(action, products, helpers, customFields: ProductField[]): Observable<Action> {
+  saveAction(action : Action): Observable<Action> {
     let edit = true;
-    action.products = products;
-    action.helpers = helpers;
     if (!action.id) {
       edit = false;
       action.createdBy = {...new Person(this.authService.currentUser.id, this.authService.currentUser.name)};
-      action.createdOn = new Date();
+      action.createdOn = moment();
     }
     const data = this._toStoreAction(action);
-    data.customFields = customFields;
     console.log(data);
     if (edit) {
       return this.http.put<Action>('/api/actions/' + data.id, data);
@@ -52,23 +49,19 @@ export class ActionsService {
 
   private _toStoreAction(action): any {
     const data: any = {...action};
-    data.collectionDate = this.dateAdapter.toModel(action.collectionDate, action.collectionTime);
-    data.payDate = this.dateAdapter.toModel(action.payDate, action.payTime);
-    data.orderDate = this.dateAdapter.toModel(action.orderDate, action.orderTime);
-    // data.createdOn = this.dateAdapter.toModel(action.createdOn, action.collectionTime);
-
-    delete data.collectionTime;
-    delete data.payTime;
-    delete data.orderTime;
+    data.collectionDate = action.collectionDate.toDate();
+    data.payDate = action.payDate.toDate();
+    data.orderDate = action.orderDate.toDate();
+    data.createdOn = action.createdOn.toDate();
     return data;
   }
 
   private _fromStoreAction(data): Action {
     const action = {...data} as Action;
-    action.collectionDate = new Date(data.collectionDate);
-    action.payDate = new Date(data.payDate);
-    action.orderDate = new Date(data.orderDate);
-    action.createdOn = new Date(data.createdOn);
+    action.collectionDate = moment(data.collectionDate);
+    action.payDate = moment(data.payDate);
+    action.orderDate = moment(data.orderDate);
+    action.createdOn = moment(data.createdOn);
     return action;
   }
 }

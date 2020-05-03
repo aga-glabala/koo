@@ -1,5 +1,6 @@
 import { Person, Helper } from './person';
 import { Product } from './product';
+import { Moment } from 'moment';
 
 export class Action {
 
@@ -7,11 +8,11 @@ export class Action {
                 public name: string,
                 public photoUrl: string,
                 public createdBy: Person,
-                public createdOn: Date,
-                public orderDate: Date,
-                public payDate: Date,
+                public createdOn: Moment,
+                public orderDate: Moment,
+                public payDate: Moment,
                 public payLock: boolean,
-                public collectionDate: Date,
+                public collectionDate: Moment,
                 public rules: string,
                 public description: string,
                 public collection: string,
