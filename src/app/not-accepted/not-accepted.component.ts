@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 
@@ -8,13 +9,18 @@ import { AuthService } from '../auth.service';
 })
 export class NotAcceptedComponent implements OnInit {
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   login() {
-    this.auth.login();
+    this.auth.login().then((token) => {
+      // TODO refresh nav bar ?
+      this.router.navigate(['/']);
+    }, (error) => {
+      console.error(error);
+    });
   }
 }
  

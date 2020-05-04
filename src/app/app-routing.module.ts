@@ -14,7 +14,6 @@ import { UserQueueComponent } from './userqueue/userqueue.component';
 import { MyOrdersComponent } from './myorders/myorders.component';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 class CanActivateAccepted implements CanActivate {
@@ -24,9 +23,7 @@ class CanActivateAccepted implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree {
-    return this.authService.isAccepted().pipe(
-      map((isAccepted) => !isAccepted ? this.router.parseUrl('/not-accepted') : true)
-    );
+    return !this.authService.isAccepted() ? this.router.parseUrl('/not-accepted') : true;
   }
 }
 
@@ -38,9 +35,7 @@ class CanActivateAdmin implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree {
-    return this.authService.isAdmin().pipe(
-      map((isAdmin) => !isAdmin ? this.router.parseUrl('/') : true)
-    );
+    return !this.authService.isAdmin() ? this.router.parseUrl('/') : true;
   }
 }
 
@@ -52,9 +47,7 @@ class RedirectIfAccepted implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree {
-    return this.authService.isAccepted().pipe(
-      map((isAccepted) => isAccepted ? this.router.parseUrl('/dashboard') : true)
-    );
+    return this.authService.isAccepted() ? this.router.parseUrl('/dashboard') : true;
   }
 }
 
