@@ -92,3 +92,30 @@ h1 {
         text-align: right; 
     }
 }
+
+.large-tabset {
+    ul {
+        margin-bottom: $spacer * 3;
+
+        .nav-item {
+            margin-right: $spacer;
+
+            .nav-link {
+                padding: $spacer $spacer*2;
+            }
+            .nav-link.active {
+                border-bottom: 1px solid #fbfbfb;
+                border-top: 3px solid $primary;
+                margin-top: -2px;
+            }
+        }
+    }
+}
+
+.submit-container {
+    background-color: $white;
+    border: 1px solid $cyan;
+    padding: $spacer;
+    margin-bottom: $spacer;
+    text-align: right;
+}
