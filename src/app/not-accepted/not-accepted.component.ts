@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 
@@ -8,13 +9,24 @@ import { AuthService } from '../auth.service';
 })
 export class NotAcceptedComponent implements OnInit {
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    this.auth.user.subscribe(user => {
+      if (user && user.accepted && !this.auth.isAccepted()) {
+        this.auth.logout();
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   login() {
-    this.auth.login();
+    this.auth.login().then((profile) => {
+      console.log(profile);
+      this.router.navigate(['/']);
+    }, (error) => {
+      console.error(error);
+    });
   }
 }
  

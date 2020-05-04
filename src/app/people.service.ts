@@ -1,8 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PEOPLE } from './mocks/people-mock';
 import { Person } from './models/person';
-import { AngularFireFunctions } from '@angular/fire/functions';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -11,22 +9,17 @@ import { map } from 'rxjs/operators';
 })
 export class PeopleService {
 
-  constructor(private functions: AngularFireFunctions, private firestore: AngularFirestore) {}
+  constructor(private http: HttpClient) {}
 
   acceptUser(id: string): Observable<any> {
-    const acceptUser = this.functions.httpsCallable('acceptUser');
-    return acceptUser({ userId: id });
+    return this.http.post('/api/users/' + id + '/accept', { });
   }
 
   getPeople(accepted: boolean): Observable<Person[]> {
-    return this.firestore.collection<Person>('users', ref => ref.where('accepted', '==', accepted)).valueChanges().pipe(
-      map((users) => users as Person[])
-    );
+    return this.http.get<Person[]>('/api/users?accepted=' + accepted);
   }
 
   getPerson(id: string): Observable<Person> {
-    return this.firestore.doc<Person>('users/' + id).get().pipe(
-      map((user) => user.data() as Person)
-    );
+    return this.http.get<Person>('/api/users/' + id);
   }
 }

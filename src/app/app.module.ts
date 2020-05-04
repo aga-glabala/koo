@@ -5,9 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
@@ -31,6 +29,10 @@ import { ProductFieldModalComponent } from './product-field-modal/product-field-
 import { ProductEditorModalComponent } from './product-editor-modal/product-editor-modal.component';
 import { ActionFormAdapter } from './helpers/action.adapter';
 
+export function tokenGetter() {
+  return localStorage.getItem('id_token');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,9 +53,6 @@ import { ActionFormAdapter } from './helpers/action.adapter';
   ],
   imports: [
     BrowserModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    AngularFireFunctionsModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -61,11 +60,16 @@ import { ActionFormAdapter } from './helpers/action.adapter';
     CKEditorModule,
     NgbModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        blacklistedRoutes: [/api\/authenticate/],
+      },
+    }),
   ],
   providers: [
     DateHelper,
     ActionFormAdapter,
-    { provide: REGION, useValue: 'europe-west3' }
   ],
   bootstrap: [AppComponent]
 })
