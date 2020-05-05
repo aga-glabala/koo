@@ -4,7 +4,7 @@
     <div class="float-right"><a class="btn btn-primary" routerLink="/myorders">Moje zamówienia</a></div>
 </h2>
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-6" *ngFor="let userOrder of userOrders | async">
         <div class="action-card">
             <div class="row">
                 <div class="col-sm-3 pr-0">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-sm-9">
                     <h3>
-                        Warzywa
+                        {{userOrder.action.name}}
                         <div class="float-right">
                             <a href="#" class="btn btn-secondary" (click)="open(paymentModal, 'Płacimy miliony Adze')">Zapłać</a>&nbsp;
                             <a href="#" class="btn btn-secondary">Edytuj</a>
