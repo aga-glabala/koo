@@ -20,7 +20,7 @@ export class OrdersService {
 
   getOrder(actionId: string): Observable<Order> {
     return this.auth.user.pipe(
-      switchMap((user) => this.http.get<Order>('/api/actions/' + actionId + '/orders?forUser=' + user.id))
+      switchMap((user) => this.http.get<Order>('/api/actions/' + actionId + '/myorders?forUser=' + user.id))
     );
   }
 

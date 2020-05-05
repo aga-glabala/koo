@@ -112,8 +112,8 @@ app.get('/orders/:id', (req, res) => {
   })
 })
 
-app.get('/actions/:actionId/orders', (req, res) => {
-  db.collection('orders').findOne({ actionId: req.params.actionId, ownerId: req.params.forUser }, (err, result) => {
+app.get('/actions/:actionId/myorders', (req, res) => {
+  db.collection('orders').findOne({ actionId: req.params.actionId, ownerId: req.query.forUser }, (err, result) => {
     console.log('find one');
     if (err) return console.log(err)
     if (!result) {
@@ -121,6 +121,7 @@ app.get('/actions/:actionId/orders', (req, res) => {
       return;
     }
     convertOrderFromBson(result);
+    console.log(result);
     res.send(result)
   })
 })
