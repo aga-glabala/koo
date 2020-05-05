@@ -24,6 +24,12 @@ export class OrdersService {
     );
   }
 
+  getUserOrders(): Observable<Order[]> {
+    return this.auth.user.pipe(
+      switchMap((user) => this.http.get<Order[]>('/api/userorders?forUser=' + user.id))
+    );
+  }
+
   saveOrder(actionId, order) {
     const edit = !!order.id;
 

@@ -121,7 +121,6 @@ app.get('/actions/:actionId/myorders', (req, res) => {
       return;
     }
     convertOrderFromBson(result);
-    console.log(result);
     res.send(result)
   })
 })
@@ -154,6 +153,15 @@ app.delete('/orders/:id', (req, res) => {
   db.collection('orders').findOneAndDelete({ _id: new mongo.ObjectID(req.params.id) }, (err, result) => {
     if (err) return res.send(500, err)
     res.send('A darth vadar quote got deleted')
+  })
+})
+
+// todo: get actions where user ordered something
+app.get('/userorders', (req, res) => {
+  db.collection('orders').find({ ownerId: req.query.forUser }).toArray((err, result) => {
+   if (err) return console.log(err)
+   result.forEach(convertOrderFromBson);
+   res.send(result)
   })
 })
 
