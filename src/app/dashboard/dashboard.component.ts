@@ -6,6 +6,8 @@ import { Observable, combineLatest } from 'rxjs';
 import { OrdersService } from '../orders.service';
 import { map, filter } from 'rxjs/operators';
 import { Order, UserOrder } from '../models/order';
+import { Helper } from '../models/person';
+import { DateHelper } from '../helpers/date.helper';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,16 +18,18 @@ export class DashboardComponent implements OnInit {
   payment = '';
   actions : Observable<Action[]>;
   userOrders : Observable<UserOrder[]>;
+  helperActions : Observable<Action[]>;
 
-  constructor(private actionsService: ActionsService, private ordersService: OrdersService, private modalService: NgbModal) { }
+  constructor(private actionsService: ActionsService, private ordersService: OrdersService, private modalService: NgbModal, public dateHelper: DateHelper) { }
 
   ngOnInit(): void {
     this.getActions();
   }  
   
   getActions(): void {
+    this.actions = this.actionsService.getActions();
     this.userOrders = combineLatest([
-      this.actions = this.actionsService.getActions(),
+      this.actions,
       this.ordersService.getUserOrders()
     ]).pipe(
       map((values) => {
@@ -42,10 +46,13 @@ export class DashboardComponent implements OnInit {
         });
       })
     );
+
+    // todo drugi raz uderza po akcje bez sensu
+    this.helperActions = this.actionsService.getHelperActions();
   }
   
   open(content, payment) {
-    let modal = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
     this.payment = payment;
     return false;
   }

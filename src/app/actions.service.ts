@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap, filter } from 'rxjs/operators';
 
 
 import { Action, ProductField } from './models/action';
@@ -46,6 +46,16 @@ export class ActionsService {
     }
   }
 
+  getHelperActions(): Observable<Action[]> {
+    //return this.http.get('/api/actions/').pipe(
+    //  map((actions: Action[]) => actions.map(this._fromStoreAction))
+    //);
+    return this.authService.user.pipe(
+      switchMap((user) => this.http.get<Action[]>('/api/actions/').pipe(
+        map((actions) => actions.filter(action => action.helpers.some(h => h.helperId == user.id)).map(this._fromStoreAction))
+      )) //+ user.id))
+    );
+  }
 
   private _toStoreAction(action): any {
     const data: any = {...action};

@@ -52,19 +52,12 @@
         <th>Odbiór</th>
         <th>Co robię?</th>
     </thead>
-    <tr>
-        <td>Warzywa</td>
-        <td>22.04</td>
-        <td>25.04</td>
-        <td>30.04</td>
-        <td>Rozdaje</td>
-    </tr>
-    <tr>
-        <td>Kosmetyki</td>
-        <td>22.04</td>
-        <td>25.04</td>
-        <td>30.04</td>
-        <td>Rozlicza</td>
+    <tr *ngFor="let action of helperActions | async">
+        <td>{{ action.name }}</td>
+        <td title="{{ dateHelper.prettyLongDate(action.orderDate) }}">{{ dateHelper.prettyShortDate(action.orderDate) }}</td>
+        <td title="{{ dateHelper.prettyLongDate(action.payDate) }}">{{ dateHelper.prettyShortDate(action.payDate) }}</td>
+        <td title="{{ dateHelper.prettyLongDate(action.collectionDate) }}">{{ dateHelper.prettyShortDate(action.collectionDate) }}</td>
+        <td>TODO</td>
     </tr>
 </table>
 <h2 class="mt-5 mb-4 clearfix">
