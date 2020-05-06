@@ -45,10 +45,7 @@ export class OrdersComponent implements OnInit {
       that.orders = orders as Order[];
 
       for(let order of that.orders) {
-        that.sums[order.id] = 0;
-        for(let product of that.action.products) {
-          that.sums[order.id] += order.products[product.id] ? product.price * order.products[product.id] : 0;
-        }
+        that.sums[order.id] = order.countSum(that.action.products);
       }
     });
   }

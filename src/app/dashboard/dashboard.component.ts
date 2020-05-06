@@ -4,8 +4,8 @@ import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { Observable, combineLatest } from 'rxjs';
 import { OrdersService } from '../orders.service';
-import { map } from 'rxjs/operators';
-import { Order } from '../models/order';
+import { map, filter } from 'rxjs/operators';
+import { Order, UserOrder } from '../models/order';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +15,7 @@ import { Order } from '../models/order';
 export class DashboardComponent implements OnInit {
   payment = '';
   actions : Observable<Action[]>;
-  userOrders : Observable<{ action: Action, order: Order}[]>;
+  userOrders : Observable<UserOrder[]>;
 
   constructor(private actionsService: ActionsService, private ordersService: OrdersService, private modalService: NgbModal) { }
 
@@ -29,11 +29,11 @@ export class DashboardComponent implements OnInit {
       this.ordersService.getUserOrders()
     ]).pipe(
       map((values) => {
-        const actions = values[0];
-        const orders = values[1];
+        const actions : Action[] = values[0];
+        const orders : Order[] = values[1];
         return actions.map((action) => {
-          const str = { action, order: null };
-          const matchingOrder = orders.find((order) => action.id === order['actionId']);
+          const str = new UserOrder(action, null);
+          const matchingOrder = orders.find((order) => action.id === order.actionId);
           if (matchingOrder) {
             str.order = matchingOrder;
           }
@@ -48,5 +48,11 @@ export class DashboardComponent implements OnInit {
     let modal = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
     this.payment = payment;
     return false;
+  }
+
+  printProducts(products) {
+    const str: string = products.map((product) => product.name).join(', ');
+
+    return str;
   }
 }

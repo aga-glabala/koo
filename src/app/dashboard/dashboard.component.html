@@ -1,55 +1,45 @@
 <h1>Cześć, Agnieszka! Najbliższe odbiory: 23.04.2020</h1>
 <h2 class="mt-4 mb-4">
-    Masz do odbioru:
-    <div class="float-right"><a class="btn btn-primary" routerLink="/myorders">Moje zamówienia</a></div>
+    Twoje zamówienia:
+    <div class="float-right"><a class="btn btn-primary" routerLink="/myorders">Moje wszystkie zamówienia</a></div>
 </h2>
 <div class="row">
-    <div class="col-lg-6" *ngFor="let userOrder of userOrders | async">
-        <div class="action-card">
-            <div class="row">
-                <div class="col-sm-3 pr-0">
-                    <img class="img-fluid" src="http://picsum.photos/400/400">
-                </div>
-                <div class="col-sm-9">
-                    <h3>
-                        {{userOrder.action.name}}
-                        <div class="float-right">
-                            <a href="#" class="btn btn-secondary" (click)="open(paymentModal, 'Płacimy miliony Adze')">Zapłać</a>&nbsp;
-                            <a href="#" class="btn btn-secondary">Edytuj</a>
-                        </div>
-                    </h3>
-                    <p>Pomidory, ogórki, kapusta</p>
-                    <p class="text-danger">
-                        <svg class="bi bi-clock" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm8-7A8 8 0 110 8a8 8 0 0116 0z" clip-rule="evenodd"/>
-                            <path fill-rule="evenodd" d="M7.5 3a.5.5 0 01.5.5v5.21l3.248 1.856a.5.5 0 01-.496.868l-3.5-2A.5.5 0 017 9V3.5a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
-                        </svg>
-                        <strong> Do zapłaty: 9zł</strong>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="action-card">
-            <div class="row">
-                <div class="col-sm-3 pr-0">
-                    <img class="img-fluid" src="http://picsum.photos/400/401">
-                </div>
-                <div class="col-sm-9">
-                    <h3>Kosmetyki</h3>
-                    <p>Krem do rąk, szampon</p>
-                    <p class="text-success">
-                        <svg class="bi bi-check-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M15.354 2.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3-3a.5.5 0 11.708-.708L8 9.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
-                            <path fill-rule="evenodd" d="M8 2.5A5.5 5.5 0 1013.5 8a.5.5 0 011 0 6.5 6.5 0 11-3.25-5.63.5.5 0 11-.5.865A5.472 5.472 0 008 2.5z" clip-rule="evenodd"/>
-                        </svg>
-                        Zapłacone: <strong>30zł</strong>
-                    </p>
+    <ng-container *ngFor="let userOrder of userOrders | async">
+        <div class="col-lg-6" *ngIf="userOrder.order">
+            <div class="action-card">
+                <div class="row">
+                    <div class="col-sm-3 pr-0">
+                        <img class="img-fluid" src="http://picsum.photos/400/400">
+                    </div>
+                    <div class="col-sm-9">
+                        <h3>
+                            {{userOrder.action.name}}
+                            <div class="float-right">
+                                <a href="#" class="btn btn-secondary" (click)="open(paymentModal, userOrder.action.payment)">Zapłać</a>&nbsp;
+                                <a routerLink="/action/{{userOrder.action.id}}/order" class="btn btn-secondary">Edytuj</a>
+                            </div>
+                        </h3>
+                        <p>{{printProducts(userOrder.action.products)}}</p>
+                        <p *ngIf="userOrder.countSum(userOrder.action.products) > userOrder.order.paid" class="text-danger">
+                            <svg class="bi bi-clock" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm8-7A8 8 0 110 8a8 8 0 0116 0z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M7.5 3a.5.5 0 01.5.5v5.21l3.248 1.856a.5.5 0 01-.496.868l-3.5-2A.5.5 0 017 9V3.5a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
+                            </svg>
+                            <strong> Do zapłaty: {{ userOrder.countSum(userOrder.action.products) }}zł</strong>
+                        </p>
+                        <p *ngIf="userOrder.countSum(userOrder.action.products) <= userOrder.order.paid" class="text-success">
+                            <svg class="bi bi-check-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M15.354 2.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3-3a.5.5 0 11.708-.708L8 9.293l6.646-6.647a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd" d="M8 2.5A5.5 5.5 0 1013.5 8a.5.5 0 011 0 6.5 6.5 0 11-3.25-5.63.5.5 0 11-.5.865A5.472 5.472 0 008 2.5z" clip-rule="evenodd"/>
+                            </svg>
+                            Zapłacone: <strong>{{ userOrder.countSum(userOrder.action.products) }}zł</strong>
+                        </p>
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </ng-container>
 </div>
 
 
