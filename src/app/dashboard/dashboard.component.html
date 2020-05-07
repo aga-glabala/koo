@@ -52,12 +52,12 @@
         <th>Odbiór</th>
         <th>Co robię?</th>
     </thead>
-    <tr *ngFor="let action of helperActions | async">
-        <td>{{ action.name }}</td>
-        <td title="{{ dateHelper.prettyLongDate(action.orderDate) }}">{{ dateHelper.prettyShortDate(action.orderDate) }}</td>
-        <td title="{{ dateHelper.prettyLongDate(action.payDate) }}">{{ dateHelper.prettyShortDate(action.payDate) }}</td>
-        <td title="{{ dateHelper.prettyLongDate(action.collectionDate) }}">{{ dateHelper.prettyShortDate(action.collectionDate) }}</td>
-        <td>TODO</td>
+    <tr *ngFor="let helperAction of helperActions | async">
+        <td>{{ helperAction.action.name }}</td>
+        <td title="{{ dateHelper.prettyLongDate(helperAction.action.orderDate) }}">{{ dateHelper.prettyShortDate(helperAction.action.orderDate) }}</td>
+        <td title="{{ dateHelper.prettyLongDate(helperAction.action.payDate) }}">{{ dateHelper.prettyShortDate(helperAction.action.payDate) }}</td>
+        <td title="{{ dateHelper.prettyLongDate(helperAction.action.collectionDate) }}">{{ dateHelper.prettyShortDate(helperAction.action.collectionDate) }}</td>
+        <td>{{ helperAction.printDescriptions() }}</td>
     </tr>
 </table>
 <h2 class="mt-5 mb-4 clearfix">

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map, switchMap, filter } from 'rxjs/operators';
 
 
-import { Action, ProductField } from './models/action';
+import { Action, ProductField, HelpingAction } from './models/action';
 import { Person } from './models/person';
 import * as moment from 'moment';
 
@@ -46,14 +46,19 @@ export class ActionsService {
     }
   }
 
-  getHelperActions(): Observable<Action[]> {
-    //return this.http.get('/api/actions/').pipe(
-    //  map((actions: Action[]) => actions.map(this._fromStoreAction))
-    //);
+  // todo zprzenieść na backend
+  getHelperActions(): Observable<HelpingAction[]> {
     return this.authService.user.pipe(
       switchMap((user) => this.http.get<Action[]>('/api/actions/').pipe(
-        map((actions) => actions.filter(action => action.helpers.some(h => h.helperId == user.id)).map(this._fromStoreAction))
-      )) //+ user.id))
+        map((actions) => {
+          return actions.filter(action => action.helpers.some(h => h.helperId == user.id))
+            .map(this._fromStoreAction)
+            .map(action => new HelpingAction(action, action.helpers.filter(h => h.helperId == user.id)))
+        }),
+        // map((actions) => {
+        //   return actions;
+        // })
+      ))
     );
   }
 

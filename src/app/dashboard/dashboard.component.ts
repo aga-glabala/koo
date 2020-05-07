@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Action } from '../models/action';
+import { Action, HelpingAction } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { Observable, combineLatest } from 'rxjs';
 import { OrdersService } from '../orders.service';
@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
   payment = '';
   actions : Observable<Action[]>;
   userOrders : Observable<UserOrder[]>;
-  helperActions : Observable<Action[]>;
+  helperActions : Observable<HelpingAction[]>;
 
   constructor(private actionsService: ActionsService, private ordersService: OrdersService, private modalService: NgbModal, public dateHelper: DateHelper) { }
 

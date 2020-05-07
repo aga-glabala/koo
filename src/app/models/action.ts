@@ -28,3 +28,19 @@ export class ProductField {
     constructor(public id : string, 
                 public name: string) {}
 }
+
+export class HelpingAction {
+    constructor(public action :Action, 
+                public helpers : Helper[]) {}
+
+    printDescriptions() : string {
+        let text : string = '';
+        for(let i = 0; i < this.helpers.length; i++) {
+            text += this.helpers[i].description;
+            if(i < this.helpers.length - 1) {
+                text += ', ';
+            }
+        }
+        return text;
+    }    
+}
