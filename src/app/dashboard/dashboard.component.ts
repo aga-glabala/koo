@@ -4,10 +4,10 @@ import { Action, HelpingAction } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { Observable, combineLatest } from 'rxjs';
 import { OrdersService } from '../orders.service';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Order, UserOrder } from '../models/order';
-import { Helper } from '../models/person';
 import { DateHelper } from '../helpers/date.helper';
+import { Product } from '../models/product';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,7 +27,16 @@ export class DashboardComponent implements OnInit {
   }  
   
   getActions(): void {
-    this.actions = this.actionsService.getActions();
+    this.actions = this.actionsService.getActions().pipe(
+      map(actions => {
+        actions.sort((action1, action2) => {
+          return action1.orderDate.valueOf() - action2.orderDate.valueOf();
+        });
+
+        actions.slice(0, 6);
+        return actions;
+      })
+    );
     this.userOrders = combineLatest([
       this.actions,
       this.ordersService.getUserOrders()
@@ -51,13 +60,13 @@ export class DashboardComponent implements OnInit {
     this.helperActions = this.actionsService.getHelperActions();
   }
   
-  open(content, payment) {
+  open(content, payment : string) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
     this.payment = payment;
     return false;
   }
 
-  printProducts(products) {
+  printProducts(products: Product[]) {
     const str: string = products.map((product) => product.name).join(', ');
 
     return str;

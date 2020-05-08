@@ -75,8 +75,7 @@
                 </div>
                 <div class="col-md-8">
                     <h3><a routerLink="/action/{{action.id}}">{{ action.name }}</a></h3>
-                    <p>Zamawiamy: <strong>3 dni</strong></p>
-                    <p>Bierze udział: 56 osób</p>
+                    <p>Zamawiamy: <strong>{{ dateHelper.prettyShortDate(action.orderDate) }}</strong></p>
                     <a routerLink="/action/{{action.id}}/order" class="btn btn-primary">Zamawianie</a>&nbsp;
                     <a routerLink="/action/{{action.id}}/orders" class="btn btn-primary">Tabelka</a>
                 </div>
