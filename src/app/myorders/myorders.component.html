@@ -7,39 +7,19 @@
 
 <h1>Moje zamówienia</h1>
 <div class="row mb-4">
-    <div class="col-md-6" *ngFor="let action of actions | paginate: { itemsPerPage: 25, currentPage: page }">
+    <div class="col-md-6" *ngFor="let order of orders | paginate: { itemsPerPage: 25, currentPage: page }">
         <div class="action-card">
             <div class="row">
                 <div class="col-md-4">
-                    <img src="{{action.photoUrl}}" alt="Zdjęcie {{action.name}}" class="img-fluid"> 
+                    <img src="{{order.action.photoUrl}}" alt="Zdjęcie {{order.action.name}}" class="img-fluid"> 
                 </div>
                 <div class="col-md-8 pl-0">
-                    <h3><a routerLink="/action/{{action.id}}">{{action.name}}</a></h3>
-                    <div>Data zamawiania: <strong [title]="dateHelper.prettyLongDate(action.orderDate)">{{dateHelper.prettyShortDate(action.orderDate)}}</strong></div>
-                    <div>Data płacenia: <strong [title]="dateHelper.prettyLongDate(action.payDate)">{{dateHelper.prettyShortDate(action.payDate)}}</strong></div>
-                    <div>Data odbioru: <strong [title]="dateHelper.prettyLongDate(action.collectionDate)">{{dateHelper.prettyShortDate(action.collectionDate)}}</strong></div>
+                    <h3><a routerLink="/action/{{order.action.id}}">{{order.action.name}}</a></h3>
+                    <div>Data zamawiania: <strong [title]="dateHelper.prettyLongDate(order.action.orderDate)">{{dateHelper.prettyShortDate(order.action.orderDate)}}</strong></div>
+                    <div>Data płacenia: <strong [title]="dateHelper.prettyLongDate(order.action.payDate)">{{dateHelper.prettyShortDate(order.action.payDate)}}</strong></div>
+                    <div>Data odbioru: <strong [title]="dateHelper.prettyLongDate(order.action.collectionDate)">{{dateHelper.prettyShortDate(order.action.collectionDate)}}</strong></div>
                     <div>
-                        <a href="#" class="btn btn-secondary" (click)="openModal(paymentModal, action.payment)">Zapłać</a>&nbsp;
-                        <a href="#" class="btn btn-secondary">Edytuj</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6" *ngFor="let action of actions | paginate: { itemsPerPage: 25, currentPage: page }">
-        <div class="action-card">
-            <div class="row">
-                <div class="col-md-4">
-                    <img src="{{action.photoUrl}}" alt="Zdjęcie {{action.name}}" class="img-fluid"> 
-                </div>
-                <div class="col-md-8 pl-0">
-                    <h3><a routerLink="/action/{{action.id}}">{{action.name}}</a></h3>
-                    <div>Odbiór dla <strong>Marta Zdrojewska</strong></div>
-                    <div>Data zamawiania: <strong [title]="dateHelper.prettyLongDate(action.orderDate)">{{dateHelper.prettyShortDate(action.orderDate)}}</strong></div>
-                    <div>Data płacenia: <strong [title]="dateHelper.prettyLongDate(action.payDate)">{{dateHelper.prettyShortDate(action.payDate)}}</strong></div>
-                    <div>Data odbioru: <strong [title]="dateHelper.prettyLongDate(action.collectionDate)">{{dateHelper.prettyShortDate(action.collectionDate)}}</strong></div>
-                    <div>
-                        <a href="#" class="btn btn-secondary" (click)="openModal(paymentModal, action.payment)">Zapłać</a>&nbsp;
+                        <a href="#" class="btn btn-secondary" (click)="openModal(paymentModal, order.action.payment)">Zapłać</a>&nbsp;
                         <a href="#" class="btn btn-secondary">Edytuj</a>
                     </div>
                 </div>
@@ -49,7 +29,6 @@
 </div>
 <pagination-controls (pageChange)="pageChangeAction($event)"></pagination-controls>
 
-{{payment}}
 <ng-template #paymentModal let-modal>
     <div class="modal-header">
       <h2 class="modal-title" id="modal-basic-title">Płatność</h2>

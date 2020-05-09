@@ -71,7 +71,7 @@ export class ActionsService {
     return data;
   }
 
-  private _fromStoreAction(data): Action {
+  public _fromStoreAction(data): Action {
     const action = {...data} as Action;
     action.collectionDate = moment(data.collectionDate);
     action.payDate = moment(data.payDate);

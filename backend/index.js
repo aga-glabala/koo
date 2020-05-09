@@ -158,10 +158,19 @@ app.delete('/orders/:id', (req, res) => {
 
 // todo: get actions where user ordered something
 app.get('/userorders', (req, res) => {
-  db.collection('orders').find({ ownerId: req.query.forUser }).toArray((err, result) => {
-   if (err) return console.log(err)
-   result.forEach(convertOrderFromBson);
-   res.send(result)
+  db.collection('orders').find({ ownerId: req.query.forUser }).toArray((err, orders) => {
+    if (err) return console.log(err)
+    
+    let actionIds = orders.map((order) =>  new mongo.ObjectID(order.actionId));
+    db.collection('actions').find({_id: {$in: actionIds }}).toArray((err, actions) => {
+      if (err) return console.log(err)
+      actions.forEach(convertActionFromBson);
+      orders.forEach((order) => {
+        convertOrderFromBson(order);
+        order['action'] = actions.find((action) => action.id == order.actionId);
+      });
+      res.send(orders);
+    })
   })
 })
 

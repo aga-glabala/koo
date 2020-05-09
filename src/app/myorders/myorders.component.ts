@@ -5,6 +5,8 @@ import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateHelper } from '../helpers/date.helper';
+import { OrdersService } from '../orders.service';
+import { Order } from '../models/order';
 
 @Component({
   selector: 'app-myorders',
@@ -13,21 +15,21 @@ import { DateHelper } from '../helpers/date.helper';
 })
 export class MyOrdersComponent implements OnInit {
   page: number = 1;
-  actions : Action[];
+  orders : Order[];
   payment : string = '';
-  constructor(private route: ActivatedRoute, private router: Router, private actionsService: ActionsService, private modalService: NgbModal, public dateHelper: DateHelper) { }
+  constructor(private route: ActivatedRoute, private router: Router, private ordersService: OrdersService, private modalService: NgbModal, public dateHelper: DateHelper) { }
 
   ngOnInit(): void { 
-    this.getActions();
+    this.getUserOrders();
     let page = +this.route.snapshot.paramMap.get('page');
     if(page) {
       this.page = page;
     }
   }
 
-  getActions(): void {
-    this.actionsService.getActions().subscribe((actions) => {
-      this.actions = actions;
+  getUserOrders(): void {
+    this.ordersService.getUserOrders().subscribe((orders) => {
+      this.orders = orders;
     });
   }
 

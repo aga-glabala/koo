@@ -5,13 +5,14 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Order } from './models/order';
 import { switchMap, map } from 'rxjs/operators';
+import { ActionsService } from './actions.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
 
-  constructor(private http: HttpClient, private auth: AuthService) {
+  constructor(private http: HttpClient, private auth: AuthService, private actionsService : ActionsService) {
   }
 
   getOrders(actionId: string): Observable<Order[]> {
@@ -29,7 +30,11 @@ export class OrdersService {
   getUserOrders(): Observable<Order[]> {
     return this.auth.user.pipe(
       switchMap((user) => this.http.get<Order[]>('/api/userorders?forUser=' + user.id)),
-      map((orders: Order[]) => orders.map(this.toOrderObj))
+      map((orders: Order[]) => orders.map((order) => {
+        let orderObj = this.toOrderObj(order);
+        orderObj.action = this.actionsService._fromStoreAction(orderObj.action);
+        return orderObj;
+      }))
     );
   }
 
@@ -60,6 +65,7 @@ export class OrdersService {
 
   toOrderObj(orderStr) : Order {
     return new Order(orderStr.id, orderStr.ownerId, orderStr.ownerName, orderStr.pickerId, 
-      orderStr.pickerName, orderStr.actionId, orderStr.paid ? orderStr.paid : 0, orderStr.picked, orderStr.products);
+      orderStr.pickerName, orderStr.actionId, orderStr.paid ? orderStr.paid : 0, orderStr.picked, 
+      orderStr.products, orderStr.action);
   }
 }
