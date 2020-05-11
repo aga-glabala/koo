@@ -28,7 +28,9 @@ export class MyOrdersComponent implements OnInit {
   }
 
   getUserOrders(): void {
+    console.log('ok2')
     this.ordersService.getUserOrders().subscribe((orders) => {
+      console.log('ok3')
       this.orders = orders;
     });
   }
@@ -41,6 +43,15 @@ export class MyOrdersComponent implements OnInit {
   openModal(content, payment) {
     let modal = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
     this.payment = payment;
+    return false;
+  }
+
+  pickedOrder(order: Order) {
+    let that = this;
+    this.ordersService.markPickedOrder(order).subscribe(() => {
+      console.log('ok')
+      that.getUserOrders();
+    });
     return false;
   }
 }

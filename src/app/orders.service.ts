@@ -38,7 +38,7 @@ export class OrdersService {
     );
   }
 
-  saveOrder(actionId, order) {
+  saveOrder(actionId : string, order) {
     const edit = !!order.id;
 
     const orderDoc = {
@@ -61,6 +61,10 @@ export class OrdersService {
     } else {
       return this.http.post<Order>('/api/orders', orderDoc);
     }
+  }
+
+  markPickedOrder(order: Order) {
+    return this.http.post('/api/order/picked', {id: order.id, picked: !order.picked});
   }
 
   toOrderObj(orderStr) : Order {

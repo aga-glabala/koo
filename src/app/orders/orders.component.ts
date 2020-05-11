@@ -17,15 +17,16 @@ export class OrdersComponent implements OnInit {
   action : Action;
   actionEditor : boolean = false;
   sums: {} = {};
+  actionId: string;
   constructor(private route: ActivatedRoute, private actionService: ActionsService, private ordersService: OrdersService, public auth: AuthService, public dateHelper: DateHelper) { }
 
   ngOnInit(): void {
-    const actionId = this.route.snapshot.paramMap.get('actionid');
-    this.getAction(actionId);
+    this.actionId = this.route.snapshot.paramMap.get('actionid');
+    this.getAction();
   }
 
-  getAction(actionId: string): void {
-    this.actionService.getAction(actionId).subscribe((action) => {
+  getAction(): void {
+    this.actionService.getAction(this.actionId).subscribe((action) => {
       this.action = action;
       this.actionEditor = this.action.createdBy && this.auth.currentUser && (this.action.createdBy.id == this.auth.currentUser.id);
       
@@ -35,19 +36,27 @@ export class OrdersComponent implements OnInit {
         }
       }
 
-      this.getOrders(actionId);
+      this.getOrders();
     });
   }
 
-  getOrders(actionId: string): void {
+  getOrders(): void {
     const that = this;
-    this.ordersService.getOrders(actionId).subscribe(function(orders) {
+    this.ordersService.getOrders(this.actionId).subscribe(function(orders) {
       that.orders = orders as Order[];
 
       for(let order of that.orders) {
         that.sums[order.id] = order.countSum(that.action.products);
       }
     });
+  }
+
+  orderPicked(order: Order) {
+    let that = this;
+    this.ordersService.markPickedOrder(order).subscribe(() => {
+      that.getOrders();
+    });
+    return false;
   }
   
 }

@@ -7,39 +7,56 @@
 
 <h1>Moje zamówienia</h1>
 <div class="row mb-4">
-    <div class="col-md-6" *ngFor="let order of orders | paginate: { itemsPerPage: 25, currentPage: page }">
-        <div class="action-card">
-            <div class="row">
-                <div class="col-md-4">
-                    <img src="{{order.action.photoUrl}}" alt="Zdjęcie {{order.action.name}}" class="img-fluid"> 
-                </div>
-                <div class="col-md-8 pl-0">
-                    <h3><a routerLink="/action/{{order.action.id}}">{{order.action.name}}</a></h3>
-                    <div>Data zamawiania: <strong [title]="dateHelper.prettyLongDate(order.action.orderDate)">{{dateHelper.prettyShortDate(order.action.orderDate)}}</strong></div>
-                    <div>Data płacenia: <strong [title]="dateHelper.prettyLongDate(order.action.payDate)">{{dateHelper.prettyShortDate(order.action.payDate)}}</strong></div>
-                    <div>Data odbioru: <strong [title]="dateHelper.prettyLongDate(order.action.collectionDate)">{{dateHelper.prettyShortDate(order.action.collectionDate)}}</strong></div>
-                    <div>
-                        <a href="#" class="btn btn-secondary" (click)="openModal(paymentModal, order.action.payment)">Zapłać</a>&nbsp;
-                        <a href="#" class="btn btn-secondary">Edytuj</a>
+    <ng-container *ngFor="let order of orders | paginate: { itemsPerPage: 25, currentPage: page }">
+        <div class="col-md-12 {{order.picked ? 'picked-order' : ''}}">
+            <div class="action-card">
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="{{order.action.photoUrl}}" alt="Zdjęcie {{order.action.name}}" class="img-fluid"> 
+                    </div>
+                    <div class="col-md-4 pl-0">
+                        <h3><a routerLink="/action/{{order.action.id}}">{{order.action.name}}</a></h3>
+                        <div>Data zamawiania: <strong [title]="dateHelper.prettyLongDate(order.action.orderDate)">{{dateHelper.prettyShortDate(order.action.orderDate)}}</strong></div>
+                        <div>Data płacenia: <strong [title]="dateHelper.prettyLongDate(order.action.payDate)">{{dateHelper.prettyShortDate(order.action.payDate)}}</strong></div>
+                        <div>Data odbioru: <strong [title]="dateHelper.prettyLongDate(order.action.collectionDate)">{{dateHelper.prettyShortDate(order.action.collectionDate)}}</strong></div>
+                    </div>
+                    <div class="col-md-4 pl-0 mt-3">
+                        <h4>Lista zakupów:</h4>
+                        <ul>
+                            <ng-container *ngFor="let product of order.action.products">
+                                <li *ngIf="order.products[product.id]">{{product.name}}, {{product.variant}} ({{ order.products[product.id] }})</li>
+                            </ng-container>
+                        </ul>
+                    </div>
+                    <div class="col-md-10 offset-md-2 mb-3 pl-0">
+                        <a href="#" class="btn {{ order.picked ? 'btn-secondary' : 'btn-primary' }}" (click)="pickedOrder(order)">
+                            <i class="fas fa-check"></i> Odebrane</a>&nbsp;
+                        <a href="#" class="btn {{ order.paid > order.countSum(order.action.products) ? 'btn-secondary' : 'btn-danger' }}" (click)="openModal(paymentModal, order.action.payment)">
+                            <i class="fas fa-dollar-sign"></i>&nbsp;
+                            <span *ngIf="order.paid < order.countSum(order.action.products)">Do zapłaty: {{ order.countSum(order.action.products) }}</span>
+                            <span *ngIf="order.paid >= order.countSum(order.action.products)">Zapłacono: {{ order.countSum(order.action.products) }}</span>
+                        </a>&nbsp;
+                        <a href="#" class="btn btn-secondary">
+                            <i class="fas fa-pencil-alt"></i> Edytuj</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </ng-container>
 </div>
 <pagination-controls (pageChange)="pageChangeAction($event)"></pagination-controls>
 
 <ng-template #paymentModal let-modal>
     <div class="modal-header">
-      <h2 class="modal-title" id="modal-basic-title">Płatność</h2>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <h2 class="modal-title" id="modal-basic-title">Płatność</h2>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
         <span aria-hidden="true">&times;</span>
-      </button>
+        </button>
     </div>
     <div class="modal-body">
-      {{payment}}
+        {{payment}}
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Zamknij</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Zamknij</button>
     </div>
-  </ng-template>
+</ng-template>

@@ -156,7 +156,6 @@ app.delete('/orders/:id', (req, res) => {
   })
 })
 
-// todo: get actions where user ordered something
 app.get('/userorders', (req, res) => {
   db.collection('orders').find({ ownerId: req.query.forUser }).toArray((err, orders) => {
     if (err) return console.log(err)
@@ -171,6 +170,16 @@ app.get('/userorders', (req, res) => {
       });
       res.send(orders);
     })
+  })
+})
+
+app.post('/order/picked', (req, res) => {
+  console.log(req.body.id);
+  db.collection('orders').findOneAndUpdate({ _id: new mongo.ObjectID(req.body.id) }, {
+    $set: {picked: req.body.picked}
+  }, (err, result) => {
+    if (err) return res.send(err)
+    res.send(result)
   })
 })
 
