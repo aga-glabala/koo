@@ -28,9 +28,7 @@ export class MyOrdersComponent implements OnInit {
   }
 
   getUserOrders(): void {
-    console.log('ok2')
     this.ordersService.getUserOrders().subscribe((orders) => {
-      console.log('ok3')
       this.orders = orders;
     });
   }
@@ -49,7 +47,6 @@ export class MyOrdersComponent implements OnInit {
   pickedOrder(order: Order) {
     let that = this;
     this.ordersService.markPickedOrder(order).subscribe(() => {
-      console.log('ok')
       that.getUserOrders();
     });
     return false;
