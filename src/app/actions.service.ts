@@ -1,7 +1,7 @@
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { map, switchMap, filter } from 'rxjs/operators';
@@ -46,6 +46,17 @@ export class ActionsService {
     }
   }
 
+  uploadPhotos(actionId: string, photos: File[]) {
+    const formData: FormData = new FormData();
+    photos.forEach(file => formData.append('photos[]', file, file.name));
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.append('Accept', 'application/json');
+    const options = { headers };
+    return this.http.post<Action>('/api/actions/' + actionId + '/photos', formData, options)
+      .pipe(map(evt => evt as Action));
+  }
+
   // todo zprzenieść na backend
   getHelperActions(): Observable<HelpingAction[]> {
     return this.authService.user.pipe(
@@ -77,6 +88,9 @@ export class ActionsService {
     action.payDate = moment(data.payDate);
     action.orderDate = moment(data.orderDate);
     action.createdOn = moment(data.createdOn);
+    action.photoUrl = action.photos && action.photos.length > 0 ?
+      '/api/actions/' + action.id + '/photos/' + action.photos[0] :
+      action.photoUrl;
     return action;
   }
 }
