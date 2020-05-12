@@ -36,7 +36,7 @@
                             <span *ngIf="order.paid < order.countSum(order.action.products)">Do zapłaty: {{ order.countSum(order.action.products) }}</span>
                             <span *ngIf="order.paid >= order.countSum(order.action.products)">Zapłacono: {{ order.countSum(order.action.products) }}</span>
                         </a>&nbsp;
-                        <a href="#" class="btn btn-secondary">
+                        <a routerLink="/action/{{order.action.id}}/order" class="btn btn-secondary">
                             <i class="fas fa-pencil-alt"></i> Edytuj</a>
                     </div>
                 </div>

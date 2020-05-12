@@ -26,6 +26,7 @@
     "@ckeditor/ckeditor5-build-classic": "^18.0.0",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@ng-bootstrap/ng-bootstrap": "^6.0.2",
+    "angular-jwt": "^0.1.11",
     "bootstrap": "^4.4.1",
     "firebase": "^7.13.2",
     "moment": "^2.24.0",
