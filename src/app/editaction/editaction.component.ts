@@ -12,6 +12,7 @@ import { Person, Helper } from '../models/person';
 import { Product } from '../models/product';
 import { ProductFieldModalComponent } from '../product-field-modal/product-field-modal.component';
 import { ProductEditorModalComponent } from '../product-editor-modal/product-editor-modal.component';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-editaction',
@@ -26,9 +27,10 @@ export class EditActionComponent implements OnInit {
   public Editor = ClassicEditor;
   toolbarConfig = { toolbar: [ 'heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'link',  ] };
   customFields : ProductField[] = [];
+  private photos: File[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService, 
-    private actionFormService: ActionFormService, private modalService: NgbModal) {
+  constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
+              private actionFormService: ActionFormService, private modalService: NgbModal) {
   }
   get actionForm(): FormGroup {
     return this.actionFormService.form;
@@ -50,7 +52,7 @@ export class EditActionComponent implements OnInit {
     if(id) {
       this.actionService.getAction(id).subscribe((action) => {
         this.action = action;
-        if (this.mode == 'duplicate') {
+        if (this.mode === 'duplicate') {
           this.action.id = null;
         }
         if (action) {
@@ -59,14 +61,22 @@ export class EditActionComponent implements OnInit {
         }
       });
     }
-    
+
+  }
+
+  onFileChange(event)  {
+    for (let i =  0; i <  event.target.files.length; i++)  {
+        this.photos.push(event.target.files[i]);
+    }
   }
 
   onSubmit() {
-    let that = this;
-    let product = this.actionFormService.getData(this.action, this.customFields);
+    const that = this;
+    const product = this.actionFormService.getData(this.action, this.customFields);
 
-    this.actionService.saveAction(product).subscribe((action : Action) => {
+    this.actionService.saveAction(product).pipe(
+      switchMap(action => this.actionService.uploadPhotos(action.id, this.photos))
+    ).subscribe((action: Action) => {
       that.router.navigate(['/action/' + action.id]);
     });
   }
@@ -86,16 +96,16 @@ export class EditActionComponent implements OnInit {
     return false;
   }
   editProduct(index: number) {
-    let product = {...this.actionFormService.products[index]} as Product;
+    const product = {...this.actionFormService.products[index]} as Product;
 
     const modalRef = this.modalService.open(ProductEditorModalComponent);
     modalRef.componentInstance.fields = this.customFields;
     modalRef.componentInstance.product = product;
 
-    let that = this;
+    const that = this;
 
     modalRef.result.then(function(save) {
-      if(save) {
+      if (save) {
         that.actionFormService.products[index] = product;
       }
     });

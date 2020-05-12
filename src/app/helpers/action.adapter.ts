@@ -10,14 +10,14 @@ export class ActionFormAdapter {
    * Converts form object to a Action object
    */
 
-  fromForm(obj, helpers: Helper[], products: Product[], customFields: ProductField[], createdBy: Person, createdOn: moment.Moment): Action {
-    let action = new Action(
+  fromForm(obj, helpers: Helper[], products: Product[], customFields: ProductField[], createdBy: Person, createdOn: moment.Moment, photos: string[]): Action {
+    const action = new Action(
         obj.id, obj.name, obj.photoUrl, createdBy, createdOn, 
         moment({ year: obj.orderDate.year, month: obj.orderDate.month-1, day: obj.orderDate.day, hour: obj.orderTime.hour, minute :obj.orderTime.minute}),
         moment({ year: obj.payDate.year, month: obj.payDate.month-1, day: obj.payDate.day, hour: obj.payTime.hour, minute :obj.payTime.minute}),
         obj.payLock,
         moment({ year: obj.collectionDate.year, month: obj.collectionDate.month-1, day: obj.collectionDate.day, hour: obj.collectionTime.hour, minute :obj.collectionTime.minute}),
-        obj.rules, obj.description, obj.collection, obj.payment, obj.productsEditable, helpers, products, customFields
+        obj.rules, obj.description, obj.collection, obj.payment, obj.productsEditable, helpers, products, photos, customFields
     );
     return action;
   }
@@ -26,7 +26,7 @@ export class ActionFormAdapter {
    * Converts a Action object to a form object
    */
   toForm(action: Action): {} {
-    let formdata : {} = {
+    const formdata : {} = {
         id: action.id,
         name: action.name,
         photoUrl: action.photoUrl,

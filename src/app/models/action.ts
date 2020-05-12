@@ -20,6 +20,7 @@ export class Action {
                 public productsEditable: boolean,
                 public helpers: Helper[], 
                 public products: Product[],
+                public photos: string[],
                 public customFields: ProductField[]
                 ) {}
 }

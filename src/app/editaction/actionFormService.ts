@@ -19,7 +19,6 @@ export class ActionFormService {
         newaction: this.fb.group({
           id: '',
           name: '',
-          photoUrl: '',
           orderDate: '',
           orderTime: {"hour": 0, "minute": 0},
           payDate: '',
@@ -31,7 +30,8 @@ export class ActionFormService {
           rules: '',
           collection: '',
           payment: '',
-          productsEditable: false
+          productsEditable: false,
+          photo: ''
         }),
         newperson: this.fb.group({
           person: '',
@@ -96,7 +96,7 @@ export class ActionFormService {
 
   getData(action : Action, customFields : ProductField[]) {
     let newAction = this.actionAdapter.fromForm(this.form.get('newaction').value, this.helpers, this.products, customFields, 
-      action ? action.createdBy : undefined, action ? action.createdOn : undefined);
+      action ? action.createdBy : undefined, action ? action.createdOn : undefined, action.photos);
 
     return newAction;
   }
