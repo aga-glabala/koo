@@ -11,16 +11,16 @@
         <div class="col-md-12 {{order.picked ? 'picked-order' : ''}}">
             <div class="action-card">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-2 img-container">
                         <img src="{{order.action.photoUrl}}" alt="Zdjęcie {{order.action.name}}" class="img-fluid"> 
                     </div>
-                    <div class="col-md-4 pl-0">
+                    <div class="col-md-5">
                         <h3><a routerLink="/action/{{order.action.id}}">{{order.action.name}}</a></h3>
                         <div>Data zamawiania: <strong [title]="dateHelper.prettyLongDate(order.action.orderDate)">{{dateHelper.prettyShortDate(order.action.orderDate)}}</strong></div>
                         <div>Data płacenia: <strong [title]="dateHelper.prettyLongDate(order.action.payDate)">{{dateHelper.prettyShortDate(order.action.payDate)}}</strong></div>
                         <div>Data odbioru: <strong [title]="dateHelper.prettyLongDate(order.action.collectionDate)">{{dateHelper.prettyShortDate(order.action.collectionDate)}}</strong></div>
                     </div>
-                    <div class="col-md-4 pl-0 mt-3">
+                    <div class="col-md-5 mt-3">
                         <h4>Lista zakupów:</h4>
                         <ul>
                             <ng-container *ngFor="let product of order.action.products">
@@ -28,7 +28,7 @@
                             </ng-container>
                         </ul>
                     </div>
-                    <div class="col-md-10 offset-md-2 mb-3 pl-0">
+                    <div class="col-md-10 mt-3">
                         <a href="#" class="btn {{ order.picked ? 'btn-secondary' : 'btn-primary' }}" (click)="pickedOrder(order)">
                             <i class="fas fa-check"></i> Odebrane</a>&nbsp;
                         <a href="#" class="btn {{ order.paid > order.countSum(order.action.products) ? 'btn-secondary' : 'btn-danger' }}" (click)="openModal(paymentModal, order.action.payment)">

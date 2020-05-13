@@ -8,10 +8,10 @@
         <div class="col-lg-6" *ngIf="userOrder.order">
             <div class="action-card">
                 <div class="row">
-                    <div class="col-md-3 pr-0 pl-0 pl-md-3 text-center">
+                    <div class="col-md-3 img-container">
                         <img class="img-fluid" src="http://picsum.photos/400/400">
                     </div>
-                    <div class="col-md-9 ml-3 ml-md-0">
+                    <div class="col-md-9">
                         <h3>
                             <a routerLink="/action/{{userOrder.action.id}}">{{userOrder.action.name}}</a>
                             <div class="float-right">
@@ -19,17 +19,16 @@
                             </div>
                         </h3>
                         <p>{{printProducts(userOrder.action.products)}}</p>
-                        <p *ngIf="userOrder.countSum(userOrder.action.products) > userOrder.order.paid" class="text-danger">
+                        <div *ngIf="userOrder.countSum(userOrder.action.products) > userOrder.order.paid">
                             <a href="#" class="btn btn-danger" (click)="open(paymentModal, userOrder.action.payment)">
                                 <i class="fas fa-dollar-sign"></i>&nbsp;<strong> Do zapłaty: {{ userOrder.countSum(userOrder.action.products) }}zł</strong>
                             </a>&nbsp;
                             <a routerLink="/action/{{userOrder.action.id}}/order" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edytuj</a>
-                        </p>
-                        <p *ngIf="userOrder.countSum(userOrder.action.products) <= userOrder.order.paid" class="text-success">
+                        </div>
+                        <div *ngIf="userOrder.countSum(userOrder.action.products) <= userOrder.order.paid" class="text-success">
                             <i class="fas fa-dollar-sign"></i>&nbsp;Zapłacone: <strong>{{ userOrder.countSum(userOrder.action.products) }}zł</strong>&nbsp;
                             <a routerLink="/action/{{userOrder.action.id}}/order" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edytuj</a>
-                        </p>
-
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,10 +66,10 @@
     <div class="col-md-6" *ngFor="let action of actions | async"> 
         <div class="action-card">
             <div class="row">
-                <div class="col-md-4 pr-0 pl-0 pl-md-3 text-center">
+                <div class="col-md-4 img-container">
                     <img class="img-fluid" [src]="action.photoUrl">
                 </div>
-                <div class="col-md-8 ml-3 ml-md-0 pb-3">
+                <div class="col-md-8">
                     <h3><a routerLink="/action/{{action.id}}">{{ action.name }}</a></h3>
                     <p>Zamawiamy: <strong>{{ dateHelper.prettyShortDate(action.orderDate) }}</strong></p>
                     <a routerLink="/action/{{action.id}}/order" class="btn btn-primary"><i class="fas fa-gift"></i> Zamawianie</a>&nbsp;

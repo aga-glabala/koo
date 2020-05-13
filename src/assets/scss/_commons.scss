@@ -74,11 +74,23 @@ h1 {
 .action-card {
     box-shadow: 0 0 5px $gray-200;
     background-color: $white;
-    margin-bottom: 30px;
+    margin-bottom: 2 * $spacer;
     overflow: hidden;
+    padding: 0 $spacer $spacer $spacer;
 
     h2, h3 {
-        margin-top: 15px;
+        margin-top: $spacer;
+    }
+
+    .img-container {
+        margin-top: -$spacer;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        @media (min-width: 576px) {
+            margin-top: 0;
+        }
     }
 }
 
