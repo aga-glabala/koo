@@ -171,19 +171,19 @@
             </tbody>  
           </table>
           <div class="form-group row" formGroupName="newperson">
-            <div class="col-sm-5">
+            <div class="col-sm-5 mb-3">
 
               <label for="person-select" class="sr-only">Nazwa użytkownika</label>
               <koo-personpicker idname="person-select" [group]="actionForm.get('newperson')" controlName="person" 
                 placeholder="Imię i nazwisko"></koo-personpicker>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-5 pl-sm-0 mb-3">
               <label for="newacion-newpersondescription" class="sr-only">Opis co osoba będzie robić</label>
               <input type="text" formControlName="description" class="form-control" id="newacion-newpersondescription"
                 placeholder="Co będzie robić?">
                 
             </div>
-            <div class="col-sm-2"><button type="button" class="btn btn-secondary" (click)="addNewHelper()">Dodaj
+            <div class="col-sm-2 pl-sm-0 mb-3"><button type="button" class="btn btn-secondary" (click)="addNewHelper()">Dodaj
                 osobę</button></div>
           </div>
         </ng-template>
@@ -228,24 +228,26 @@
             </tbody>
           </table>
           <div class="form-group row" formGroupName="newproduct">
-            <div class="col-sm-4">
+            <div class="col-sm-4 mb-3">
               <label for="newacion-productname" class="sr-only">Nazwa produktu</label>
               <input type="text" formControlName="name" class="form-control" id="newacion-productname"
                 placeholder="Nazwa produktu">
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4 mb-3">
               <label for="newacion-productvariant" class="sr-only">Wariant</label>
               <input type="text" formControlName="variant" class="form-control" id="newacion-productvariant"
                 placeholder="Wariant">
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4 mb-3">
               <label for="newacion-productprice" class="sr-only">Cena</label>
               <input type="number" min="0" formControlName="price" class="form-control" id="newacion-productprice" placeholder="Cena">
             </div>
-            <div formGroupName="customFields">
-              <div class="col-sm-3" *ngFor="let customField of customFields">
-                <label for="newacion-productprice" class="sr-only">{{ customField.name }}</label>
-                <input type="text" [formControlName]="customField.id" class="form-control" id="newacion-productprice" [placeholder]="customField.name">
+            <div formGroupName="customFields" class="col-12">
+              <div class="row">
+                <div class="col-sm-4 mb-3" *ngFor="let customField of customFields">
+                  <label for="newacion-productprice" class="sr-only">{{ customField.name }}</label>
+                  <input type="text" [formControlName]="customField.id" class="form-control" id="newacion-productprice" [placeholder]="customField.name">
+                </div>
               </div>
             </div>
             <div class="col-sm-2"><button type="button" class="btn btn-secondary" (click)="addNewProduct()">Dodaj
