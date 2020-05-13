@@ -17,4 +17,8 @@ export class AppComponent {
     this.auth.logout();
     this.router.navigate(['/not-accepted']);
   }
+
+  isAdmin() {
+    return this.auth.isAdmin();
+  }
 }

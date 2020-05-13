@@ -8,10 +8,10 @@
         <div class="col-lg-6" *ngIf="userOrder.order">
             <div class="action-card">
                 <div class="row">
-                    <div class="col-sm-3 pr-0">
+                    <div class="col-md-3 pr-0 pl-0 pl-md-3 text-center">
                         <img class="img-fluid" src="http://picsum.photos/400/400">
                     </div>
-                    <div class="col-sm-9 ml-3 ml-sm-0">
+                    <div class="col-md-9 ml-3 ml-md-0">
                         <h3>
                             <a routerLink="/action/{{userOrder.action.id}}">{{userOrder.action.name}}</a>
                             <div class="float-right">
@@ -67,10 +67,10 @@
     <div class="col-md-6" *ngFor="let action of actions | async"> 
         <div class="action-card">
             <div class="row">
-                <div class="col-md-4 pr-0">
+                <div class="col-md-4 pr-0 pl-0 pl-md-3 text-center">
                     <img class="img-fluid" [src]="action.photoUrl">
                 </div>
-                <div class="col-md-8 ml-3 ml-sm-0 pb-3">
+                <div class="col-md-8 ml-3 ml-md-0 pb-3">
                     <h3><a routerLink="/action/{{action.id}}">{{ action.name }}</a></h3>
                     <p>Zamawiamy: <strong>{{ dateHelper.prettyShortDate(action.orderDate) }}</strong></p>
                     <a routerLink="/action/{{action.id}}/order" class="btn btn-primary"><i class="fas fa-gift"></i> Zamawianie</a>&nbsp;
