@@ -309,7 +309,7 @@ function createToken(user) {
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: 60 * 120
+      expiresIn: 7 * 24 * 3600 // 7 days 
     });
 };
 

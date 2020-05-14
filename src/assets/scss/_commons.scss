@@ -131,3 +131,8 @@ h1 {
     margin-bottom: $spacer;
     text-align: right;
 }
+
+.table-container {
+    width: 100%;
+    overflow-x: scroll;
+}
