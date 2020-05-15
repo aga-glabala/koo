@@ -8,18 +8,21 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./not-accepted.component.scss']
 })
 export class NotAcceptedComponent implements OnInit {
-
+  loader : boolean = false;
   constructor(public auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   login() {
+    this.loader = true;
     this.auth.login().then((token) => {
       // TODO refresh nav bar ?
       this.router.navigate(['/']);
+      this.loader = false;
     }, (error) => {
       console.error(error);
+      this.loader = false;
     });
   }
 }

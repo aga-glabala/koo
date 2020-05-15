@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Person } from './models/person';
 
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
+import { tap, switchMap, timeout } from 'rxjs/operators';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
