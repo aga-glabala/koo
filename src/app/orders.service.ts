@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Order } from './models/order';
 import { switchMap, map } from 'rxjs/operators';
 import { ActionsService } from './actions.service';
+import { Product } from './models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -38,14 +39,15 @@ export class OrdersService {
     );
   }
 
-  saveOrder(actionId : string, order) {
+  saveOrder(actionId : string, order, newProducts: Product[]) {
     const edit = !!order.id;
 
     const orderDoc = {
       actionId,
       ownerId: this.auth.currentUser.id,
       ownerName: this.auth.currentUser.name,
-      products: order.products
+      products: order.products,
+      newProducts : newProducts
     };
 
     if (order.id) {

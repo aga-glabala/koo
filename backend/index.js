@@ -213,6 +213,8 @@ app.post('/orders', (req, res) => {
 
 app.put('/orders/:id', (req, res) => {
   const data = req.body;
+  const newProducts = data.newProducts;
+  delete data.newProducts;
   convertOrderToBson(data);
   db.collection('orders')
     .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id) }, {
@@ -221,8 +223,18 @@ app.put('/orders/:id', (req, res) => {
       upsert: true
     }, (err, result) => {
       if (err) return res.send(err)
-      res.send(result)
+      db.collection('actions')
+        .findOneAndUpdate({ _id: new mongo.ObjectID(data.actionId) }, {
+          $push: {products: {$each : newProducts}}
+        }, {
+          upsert: true
+        }, (err, result) => {
+          if (err) return res.send(err)
+          res.send(result)
+        })
     })
+
+  
 })
 
 app.delete('/orders/:id', (req, res) => {

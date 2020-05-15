@@ -22,8 +22,9 @@ export class OrderComponent implements OnInit {
   orderForm;
   sumOrder : number = 0;
   products = {};
+  newProducts : Product[] = [];
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService, private formBuilder: FormBuilder, 
-    private ordersService : OrdersService, private modalService: NgbModal) {
+    private ordersService : OrdersService, private modalService: NgbModal, private fb: FormBuilder) {
   }
 
   ngOnInit(): void { 
@@ -94,6 +95,8 @@ export class OrderComponent implements OnInit {
       if(save) {
         that.action.products.push(product);
         that.products[product.id] = product;
+        (that.orderForm.get('products') as FormGroup).addControl(product.id, that.fb.control(''));
+        that.newProducts.push(product);
       }
     });
     return false;
@@ -102,7 +105,7 @@ export class OrderComponent implements OnInit {
   onSubmit() {
     // Process checkout data here
     let that = this;
-    this.ordersService.saveOrder(this.action.id, this.orderForm.value).subscribe((order) => {
+    this.ordersService.saveOrder(this.action.id, this.orderForm.value, this.newProducts).subscribe((order) => {
       that.router.navigate(['/action/'+that.action.id+'/orders']);
     });
   }
