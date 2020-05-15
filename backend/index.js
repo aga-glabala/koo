@@ -53,7 +53,8 @@ const authenticate = expressJwt({
 // TODO secure images ?
 const ignoredPaths = ['/auth/facebook', /^\/actions\/[a-z0-9]+\/photos\/.*/];
 app.use(authenticate.unless({path: ignoredPaths}));
-app.use(guard.check('accepted').unless({path: ignoredPaths}));
+
+app.use(guard.check('accepted').unless({path: ['/auth/me', ...ignoredPaths]}));
 
 app.use(function (err, req, res, next) {
   if (err.code === 'permission_denied') {
