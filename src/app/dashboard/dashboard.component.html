@@ -18,9 +18,9 @@
                                 
                             </div>
                         </h3>
-                        <p>{{printProducts(userOrder.action.products)}}</p>
+                        <p>{{printProducts(userOrder)}}</p>
                         <div *ngIf="userOrder.countSum(userOrder.action.products) > userOrder.order.paid">
-                            <a href="#" class="btn btn-danger" (click)="open(paymentModal, userOrder.action.payment)">
+                            <a href="#" class="btn btn-danger" (click)="open(paymentModal, userOrder.action)">
                                 <i class="fas fa-dollar-sign"></i>&nbsp;<strong> Do zapłaty: {{ userOrder.countSum(userOrder.action.products) }}zł</strong>
                             </a>&nbsp;
                             <a routerLink="/action/{{userOrder.action.id}}/order" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edytuj</a>
@@ -87,7 +87,12 @@
       </button>
     </div>
     <div class="modal-body">
-      {{payment}}
+        <p *ngIf="actionModal.payLock" class="alert alert-danger">
+            Akcja ma zablokowane płaności na razie. Może to oznaczać, że ceny mogą zostać jeszcze zmienione.
+        </p>
+        <p>
+            {{actionModal.payment}}
+        </p>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Zamknij</button>

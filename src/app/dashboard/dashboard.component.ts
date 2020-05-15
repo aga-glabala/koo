@@ -15,7 +15,7 @@ import { Product } from '../models/product';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  payment = '';
+  actionModal : Action;
   actions : Observable<Action[]>;
   userOrders : Observable<UserOrder[]>;
   helperActions : Observable<HelpingAction[]>;
@@ -60,15 +60,18 @@ export class DashboardComponent implements OnInit {
     this.helperActions = this.actionsService.getHelperActions();
   }
   
-  open(content, payment : string) {
+  open(content, action : Action) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
-    this.payment = payment;
+    this.actionModal = action;
     return false;
   }
 
-  printProducts(products: Product[]) {
-    const str: string = products.map((product) => product.name).join(', ');
-
+  /*
+   * Prints products user ordered
+   */
+  printProducts(userOrder : UserOrder) {
+    let arr : Product[] = userOrder.action.products.filter((product: Product) => userOrder.order.products[product.id] && userOrder.order.products[product.id] > 0)
+    const str: string = arr.map((product) => product.name).join(', ');
     return str;
   }
 }

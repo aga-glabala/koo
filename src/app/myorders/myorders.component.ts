@@ -16,7 +16,7 @@ import { Order } from '../models/order';
 export class MyOrdersComponent implements OnInit {
   page: number = 1;
   orders : Order[];
-  payment : string = '';
+  actionModal : Action;
   constructor(private route: ActivatedRoute, private router: Router, private ordersService: OrdersService, private modalService: NgbModal, public dateHelper: DateHelper) { }
 
   ngOnInit(): void { 
@@ -38,9 +38,9 @@ export class MyOrdersComponent implements OnInit {
     this.page = newPage;
   }
   
-  openModal(content, payment) {
+  openModal(content, action) {
     let modal = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
-    this.payment = payment;
+    this.actionModal = action;
     return false;
   }
 

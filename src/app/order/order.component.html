@@ -9,6 +9,9 @@
     </nav> 
 
     <h1>Nowe zamówienie do akcji {{ action.name }}</h1>
+    <p *ngIf="action.payLock" class="alert alert-danger">
+        Akcja ma zablokowane płaności na razie. Może to oznaczać, że ceny mogą zostać jeszcze zmienione.
+    </p>
     <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
         <input type="hidden" formControlName="id">
         <table class="table" formGroupName="products">

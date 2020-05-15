@@ -100,6 +100,9 @@
             </a> 
         </div>
     </h2>
+    <p *ngIf="action.payLock" class="alert alert-danger">
+        Akcja ma zablokowane płaności na razie. Może to oznaczać, że ceny mogą zostać jeszcze zmienione.
+    </p>
     <table class="table table-striped">
         <thead>
             <tr>

@@ -11,7 +11,7 @@ export class Order {
                 public actionId: string,
                 public paid: number,
                 public picked: boolean,
-                public products: {string: number},
+                public products, // {productid: count}
                 public action: Action) {}
     public countSum(products: Product[]) {
         let sum = 0;
