@@ -14,7 +14,6 @@ dotenv.config();
 
 const multer = require('multer');
 const path = require('path');
-const sharp = require('sharp');
 const fs = require('fs');
 
 const uploadDestination = __dirname + '/uploads/images/';
@@ -124,21 +123,7 @@ app.post('/actions/:id/photos', upload.array('photos[]', 100), (req, res) => {
   }, {
   }, (err, result) => {
     if (err) return res.status(500).send(err);
-    Promise.all(
-      photos.map(photo => 
-        sharp(uploadDestination + photo)
-          .resize(1024)
-          .toFile(uploadDestination + '_' + photo)
-          .then(info => new Promise((resolve, reject) => fs.rename(uploadDestination + '_' + photo, uploadDestination + photo, (error) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve();
-            }
-          }))
-        )
-      )
-    ).finally(() => res.redirect('/actions/' + actionId));
+    res.redirect('/actions/' + actionId);
   });
 })
 
