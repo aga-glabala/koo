@@ -348,7 +348,7 @@ app.post('/auth/facebook', passport.authenticate('facebook-token', {session: fal
   }
 
   const token = createToken(req.user);
-  res.status(200).send({token});
+  res.status(200).send({ token, profile: req.user });
 });
 
 function createToken(user) {

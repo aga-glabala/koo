@@ -37,7 +37,7 @@ export class AuthService {
     );
   }
 
-  login() {
+  login(): Promise<Person>  {
     return new Promise((resolve, reject) => {
       FB.login(result => {
         if (result.authResponse) {
@@ -49,7 +49,7 @@ export class AuthService {
                 localStorage.setItem('id_token', token);
                 this.loggedIn.next(true);
               }
-              resolve(token);
+              resolve(response.profile);
             })
             .catch(() => reject());
         } else {

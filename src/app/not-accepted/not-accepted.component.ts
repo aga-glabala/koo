@@ -12,12 +12,18 @@ export class NotAcceptedComponent implements OnInit {
   constructor(public auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    this.auth.user.subscribe(user => {
+      if (user && user.accepted && !this.auth.isAccepted()) {
+        this.auth.logout();
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   login() {
     this.loader = true;
-    this.auth.login().then((token) => {
-      // TODO refresh nav bar ?
+    this.auth.login().then((profile) => {
+      console.log(profile);
       this.router.navigate(['/']);
       this.loader = false;
     }, (error) => {
