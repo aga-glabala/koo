@@ -4,5 +4,10 @@ RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
 RewriteRule ^ - [L]
 
+# Redirect api
+RewriteCond %{HTTP_HOST} !=localhost
+RewriteCond %{REQUEST_URI} ^/api [NC]
+RewriteRule ^api/(.*)$ https://api.%{HTTP_HOST}/$1 [L,R=307,QSA]
+
 # If the requested resource doesn't exist, use index.html
 RewriteRule ^ /index.html
