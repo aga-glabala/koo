@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Helper } from '../models/person';
 import { Product } from '../models/product';
@@ -18,7 +18,7 @@ export class ActionFormService {
     this.form = this.fb.group({
         newaction: this.fb.group({
           id: '',
-          name: '',
+          name: new FormControl('', [Validators.required]),
           orderDate: '',
           orderTime: {"hour": 0, "minute": 0},
           payDate: '',
@@ -44,7 +44,6 @@ export class ActionFormService {
           customFields: this.fb.group({})
         }),
       });
-
   }
 
   addNewProduct(customFields : ProductField[]) {

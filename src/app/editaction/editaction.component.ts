@@ -29,9 +29,12 @@ export class EditActionComponent implements OnInit {
   toolbarConfig = { toolbar: [ 'heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'link',  ] };
   customFields : ProductField[] = [];
   private photos: File[] = [];
+  public minDate;
 
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
               private actionFormService: ActionFormService, private modalService: NgbModal, public auth : AuthService) {
+    const d = new Date();
+    this.minDate = {day: d.getDate(), month: d.getMonth() + 1, year: d.getFullYear()};
   }
   get actionForm(): FormGroup {
     return this.actionFormService.form;
