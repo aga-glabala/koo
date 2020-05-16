@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Person, Helper } from '../models/person';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { Helper } from '../models/person';
 import { Product } from '../models/product';
+import { ProductField, Action } from '../models/action';
+import { ActionFormAdapter } from '../helpers/action.adapter';
 
 @Injectable()
 export class ActionFormService {
@@ -10,19 +13,25 @@ export class ActionFormService {
   helpers : Helper[] = [];
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder, private actionAdapter: ActionFormAdapter
   ) {
     this.form = this.fb.group({
         newaction: this.fb.group({
-          name: '',
-          photoUrl: '',
+          id: '',
+          name: new FormControl('', [Validators.required]),
           orderDate: '',
+          orderTime: {"hour": 0, "minute": 0},
           payDate: '',
+          payTime: {"hour": 0, "minute": 0},
+          payLock: false,
           collectionDate: '',
+          collectionTime: {"hour": 0, "minute": 0},
           description: '',
           rules: '',
           collection: '',
           payment: '',
+          productsEditable: false,
+          photo: ''
         }),
         newperson: this.fb.group({
           person: '',
@@ -31,16 +40,26 @@ export class ActionFormService {
         newproduct: this.fb.group({
           name: '',
           variant: '',
-          price: ''
-        })
+          price: '',
+          customFields: this.fb.group({})
+        }),
       });
-
   }
 
-  addNewProduct() {
-    this.products.push(new Product(this.form.value.newproduct.name, 
-        this.form.value.newproduct.variant, 
-        this.form.value.newproduct.price));
+  addNewProduct(customFields : ProductField[]) {
+    const product = new Product(undefined,
+      this.form.value.newproduct.name, 
+      this.form.value.newproduct.variant, 
+      this.form.value.newproduct.price,
+      {});
+
+    product.customFields = {};
+    for(let field of customFields) {
+      product.customFields[field.id] = this.form.value.newproduct.customFields[field.id];
+    }
+
+    this.products.push(product);
+    this.form.get('newproduct').reset();
   }
 
   removeProduct(id: number) {
@@ -49,27 +68,35 @@ export class ActionFormService {
 
   addNewHelper() {
     this.helpers.push(new Helper(this.form.value.newperson.person, this.form.value.newperson.description));
+    this.form.get('newperson').reset();
   }
 
   removeHelper(id: number) {
     this.helpers.splice(id, 1);
   }
 
-  loadAction(data): void {
+  addNewCustomField(id: string) {
+    (this.form.get('newproduct').get('customFields') as FormGroup).addControl(id, this.fb.control(''));
+  }
 
-    // todo przydalaby się jakaś walidacja?
-    let formdata = {
-        newaction: {
-            ...data
-        }
-    };
-    formdata.newaction.orderDate = {'day': formdata.newaction.orderDate.getDate(), 'month': formdata.newaction.orderDate.getMonth() + 1, 'year': formdata.newaction.orderDate.getFullYear()}
-    formdata.newaction.payDate = {'day': formdata.newaction.payDate.getDate(), 'month': formdata.newaction.payDate.getMonth() + 1, 'year': formdata.newaction.payDate.getFullYear()}
-    formdata.newaction.collectionDate = {'day': formdata.newaction.collectionDate.getDate(), 'month': formdata.newaction.collectionDate.getMonth() + 1, 'year': formdata.newaction.collectionDate.getFullYear()}
+  loadAction(data): void {
+    let formdata = this.actionAdapter.toForm(data);
+    if(data.customFields) {
+      for(let field of data.customFields) {
+        this.addNewCustomField(field.id);
+      }
+    }
 
     this.form.patchValue(formdata);
 
-    this.products = data.products;
-    this.helpers = data.helpers;
+    this.products = data.products ? data.products : [];
+    this.helpers = data.helpers ? data.helpers : [];
+  }
+
+  getData(action : Action, customFields : ProductField[]) {
+    let newAction = this.actionAdapter.fromForm(this.form.get('newaction').value, this.helpers, this.products, customFields, 
+      action ? action.createdBy : undefined, action ? action.createdOn : undefined, action ? action.photos : []);
+
+    return newAction;
   }
 }

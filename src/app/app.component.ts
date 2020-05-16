@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +11,14 @@ export class AppComponent {
   title = 'koo';
   public isMenuCollapsed = true;
 
-  constructor(public auth: AuthService) {
+  constructor(public auth: AuthService, private router: Router) {
   }
   logout() {
     this.auth.logout();
+    this.router.navigate(['/not-accepted']);
+  }
+
+  isAdmin() {
+    return this.auth.isAdmin();
   }
 }

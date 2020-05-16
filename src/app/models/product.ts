@@ -1,5 +1,8 @@
 export class Product {
-    constructor(public name: string,
+    constructor(
+                public id: string,
+                public name: string,
                 public variant: string,
-                public price: number) {}
+                public price: number,
+                public customFields: {}) {}
 }

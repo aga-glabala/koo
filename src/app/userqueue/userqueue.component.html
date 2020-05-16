@@ -24,7 +24,7 @@
                 <a routerLink="/person/{{person.id}}">{{person.name}}</a>
             </td>
             <td>
-                <button class="btn btn-success">Dodaj użytkownika</button>&nbsp;
+                <button class="btn btn-success" (click)="acceptUser(person.id)">Dodaj użytkownika</button>&nbsp;
                 <button class="btn btn-danger">Usuń użytkownika</button>
             </td>
         </tr>

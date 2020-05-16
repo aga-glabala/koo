@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { Person } from '../models/person';
 import { PeopleService } from '../people.service';
 
@@ -13,7 +12,7 @@ export class UserQueueComponent implements OnInit {
   page: number = 1;
   people : Person[];
 
-  constructor(private route: ActivatedRoute, public auth: AngularFireAuth, private router: Router, private peopleService: PeopleService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private peopleService: PeopleService) { }
 
   ngOnInit(): void {
     this.getPeople();
@@ -21,14 +20,20 @@ export class UserQueueComponent implements OnInit {
     if(page) {
       this.page = page;
     }
-
-    this.auth.idTokenResult.subscribe((data) => {
-      console.log(data);
-      });
   }
 
   getPeople(): void {
-    this.people = this.peopleService.getPeople();
+    this.peopleService.getPeople(false).subscribe((people) => {
+      this.people = people;
+    });
+  }
+
+  acceptUser(id: string) {
+    this.peopleService.acceptUser(id).subscribe(() => {
+      console.log('accepted');
+    }, (error) => {
+      console.error(error);
+    });
   }
 
   pageChangeAction(newPage: number) {

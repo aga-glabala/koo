@@ -1,12 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { Action } from '../models/action';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+import { Action, ProductField } from '../models/action';
 import { ActionsService } from '../actions.service';
-import { PeopleService } from '../people.service';
 import { ActionFormService } from './actionFormService';
 import { Person, Helper } from '../models/person';
 import { Product } from '../models/product';
+import { ProductFieldModalComponent } from '../product-field-modal/product-field-modal.component';
+import { ProductEditorModalComponent } from '../product-editor-modal/product-editor-modal.component';
+import { switchMap } from 'rxjs/operators';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-editaction',
@@ -18,8 +25,17 @@ export class EditActionComponent implements OnInit {
   action: Action;
   people : Person[];
   mode = 'new';
+  public Editor = ClassicEditor;
+  toolbarConfig = { toolbar: [ 'heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'link',  ] };
+  customFields : ProductField[] = [];
+  private photos: File[] = [];
+  public minDate;
+  showError: string = '';
 
-  constructor(private route: ActivatedRoute, private actionService: ActionsService, private actionFormService: ActionFormService, private peopleService: PeopleService) {
+  constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
+              private actionFormService: ActionFormService, private modalService: NgbModal, public auth : AuthService) {
+    const d = new Date();
+    this.minDate = {day: d.getDate(), month: d.getMonth() + 1, year: d.getFullYear()};
   }
   get actionForm(): FormGroup {
     return this.actionFormService.form;
@@ -37,37 +53,82 @@ export class EditActionComponent implements OnInit {
 
   getAction(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.action = this.actionService.getAction(id);
-
-    if(this.action) {
-      this.actionFormService.loadAction(this.action);
-    }
     this.mode = this.route.snapshot.data.mode;
 
-    if(this.mode == 'duplicate') {
-      this.action.id = null;
+    if(id) {
+      this.actionService.getAction(id).subscribe((action) => {
+        if(this.mode == 'edit' && action.createdBy.id !== this.auth.currentUser.id) {
+          this.router.navigate(['/action/' + action.id]);
+        }
+
+        this.action = action;
+        if (this.mode === 'duplicate') {
+          this.action.id = null;
+        }
+        if (action) {
+          this.customFields = this.action.customFields || [];
+          this.actionFormService.loadAction(this.action);
+        }
+      });
+    }
+
+  }
+
+  onFileChange(event)  {
+    for (let i =  0; i <  event.target.files.length; i++)  {
+        this.photos.push(event.target.files[i]);
     }
   }
 
   onSubmit() {
-    // Process checkout data here
-    console.warn('Action data', this.actionFormService.form);
+    const that = this;
+    const product = this.actionFormService.getData(this.action, this.customFields);
+
+    this.actionService.saveAction(product).pipe(
+      switchMap(action => this.actionService.uploadPhotos(action.id, this.photos))
+    ).subscribe((action: Action) => {
+      that.router.navigate(['/action/' + action.id]);
+    },
+    (err) => {
+      that.showError = err.error;
+    });
   }
 
   addNewHelper() {
     this.actionFormService.addNewHelper();
-    this.actionForm.get('newperson').reset();
   }
   removeHelper(id: number) {
     this.actionFormService.removeHelper(id);
     return false;
   }
   addNewProduct() {
-    this.actionFormService.addNewProduct();
-    this.actionForm.get('newproduct').reset();
+    this.actionFormService.addNewProduct(this.customFields);
   }
-  removeProduct(id: number) {
-    this.actionFormService.removeProduct(id);
+  removeProduct(index: number) {
+    this.actionFormService.removeProduct(index);
+    return false;
+  }
+  editProduct(index: number) {
+    const product = {...this.actionFormService.products[index]} as Product;
+
+    const modalRef = this.modalService.open(ProductEditorModalComponent);
+    modalRef.componentInstance.fields = this.customFields;
+    modalRef.componentInstance.product = product;
+
+    const that = this;
+
+    modalRef.result.then(function(save) {
+      if (save) {
+        that.actionFormService.products[index] = product;
+      }
+    });
+    return false;
+  }
+
+  openProductFieldModal() {
+    const modalRef = this.modalService.open(ProductFieldModalComponent);
+    modalRef.componentInstance.fields = this.customFields;
+    modalRef.componentInstance.formService = this.actionFormService;
     return false;
   }
 }

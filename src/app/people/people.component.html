@@ -14,20 +14,20 @@
             <th>Login</th>
             <th>Zorganizowanych akcji</th>
             <th>Pomagał</th>
-            <th></th>
+            <th *ngIf="isAdmin()"></th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let person of people | paginate: { itemsPerPage: 25, currentPage: page }">
-            <td>
+            <td class="photo-column">
                 <img src="{{person.photoUrl}}" class="user-img" alt="Zdjęcie profilowe {{person.name}}"> 
             </td>
             <td>
                 <a routerLink="/person/{{person.id}}">{{person.name}}</a>
             </td>
-            <td>3</td>
-            <td>3</td>
-            <td>
+            <td>3 (todo)</td>
+            <td>3 (todo)</td>
+            <td *ngIf="isAdmin()">
                 <button class="btn btn-success">Zrób administratorem</button>&nbsp;
                 <button class="btn btn-danger">Usuń użytkownika</button>
             </td>

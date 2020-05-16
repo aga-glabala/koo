@@ -1,11 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { JwtModule } from '@auth0/angular-jwt';
+
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +24,14 @@ import { environment } from '../environments/environment';
 import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
 import { UserQueueComponent } from './userqueue/userqueue.component';
 import { MyOrdersComponent } from './myorders/myorders.component';
+import { DateHelper } from './helpers/date.helper';
+import { ProductFieldModalComponent } from './product-field-modal/product-field-modal.component';
+import { ProductEditorModalComponent } from './product-editor-modal/product-editor-modal.component';
+import { ActionFormAdapter } from './helpers/action.adapter';
+
+export function tokenGetter() {
+  return localStorage.getItem('id_token');
+}
 
 @NgModule({
   declarations: [
@@ -37,19 +47,30 @@ import { MyOrdersComponent } from './myorders/myorders.component';
     PersonpickerComponent,
     NotAcceptedComponent,
     UserQueueComponent,
-    MyOrdersComponent
+    MyOrdersComponent,
+    ProductFieldModalComponent,
+    ProductEditorModalComponent
   ],
   imports: [
     BrowserModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
+    CKEditorModule,
     NgbModule,
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        blacklistedRoutes: [/api\/authenticate/],
+      },
+    }),
   ],
-  providers: [],
+  providers: [
+    DateHelper,
+    ActionFormAdapter,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -74,14 +74,65 @@ h1 {
 .action-card {
     box-shadow: 0 0 5px $gray-200;
     background-color: $white;
-    margin-bottom: 30px;
+    margin-bottom: 2 * $spacer;
     overflow: hidden;
+    padding: 0 $spacer $spacer $spacer;
 
     h2, h3 {
-        margin-top: 15px;
+        margin-top: $spacer;
+    }
+
+    .img-container {
+        margin-top: -$spacer;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        @media (min-width: 576px) {
+            margin-top: 0;
+        }
     }
 }
 
 .loader-data:empty {
     background-color: red;
+}
+
+.col-form-label {
+    text-align: left; 
+    @media (min-width: 576px) {
+        text-align: right; 
+    }
+}
+
+.large-tabset {
+    ul {
+        margin-bottom: $spacer * 3;
+
+        .nav-item {
+            margin-right: $spacer;
+
+            .nav-link {
+                padding: $spacer $spacer*2;
+            }
+            .nav-link.active {
+                border-bottom: 1px solid #fbfbfb;
+                border-top: 3px solid $primary;
+                margin-top: -2px;
+            }
+        }
+    }
+}
+
+.submit-container {
+    background-color: $white;
+    border: 1px solid $cyan;
+    padding: $spacer;
+    margin-bottom: $spacer;
+    text-align: right;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: scroll;
 }

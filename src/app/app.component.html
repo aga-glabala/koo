@@ -12,7 +12,7 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/people">Użytkownicy</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAdmin()">
           <a class="nav-link" routerLink="/userqueue">Kolejka użytkowników</a>
         </li>
         <li class="nav-item">
@@ -26,7 +26,7 @@
         </li>
       </ul>
       <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>{{ user.displayName }}</button>
+        <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>{{ user.name }}</button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button ngbDropdownItem>Zaproś znajomego</button>
           <button ngbDropdownItem>Zobacz mój profil</button>

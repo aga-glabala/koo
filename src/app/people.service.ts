@@ -1,23 +1,25 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PEOPLE } from './mocks/people-mock';
 import { Person } from './models/person';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PeopleService {
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  getPeople(): Person[] {
-      return PEOPLE;
+  acceptUser(id: string): Observable<any> {
+    return this.http.post('/api/users/' + id + '/accept', { });
   }
 
-  getPerson(id: string) : Person {
-    for(let i = 0; i < PEOPLE.length; i++) {
-        if(id === PEOPLE[i].id) {
-            return PEOPLE[i];
-        }
-    } 
+  getPeople(accepted: boolean): Observable<Person[]> {
+    return this.http.get<Person[]>('/api/users?accepted=' + accepted);
+  }
+
+  getPerson(id: string): Observable<Person> {
+    return this.http.get<Person>('/api/users/' + id);
   }
 }

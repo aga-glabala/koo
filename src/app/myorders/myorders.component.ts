@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DateHelper } from '../helpers/date.helper';
+import { OrdersService } from '../orders.service';
+import { Order } from '../models/order';
 
 @Component({
   selector: 'app-myorders',
@@ -12,21 +15,22 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class MyOrdersComponent implements OnInit {
   page: number = 1;
-  actions : Action[];
-  dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  payment : string = '';
-  constructor(private route: ActivatedRoute, private router: Router, private actionsService: ActionsService, private modalService: NgbModal) { }
+  orders : Order[];
+  actionModal : Action;
+  constructor(private route: ActivatedRoute, private router: Router, private ordersService: OrdersService, private modalService: NgbModal, public dateHelper: DateHelper) { }
 
   ngOnInit(): void { 
-    this.getActions();
+    this.getUserOrders();
     let page = +this.route.snapshot.paramMap.get('page');
     if(page) {
       this.page = page;
     }
   }
 
-  getActions(): void {
-    this.actions = this.actionsService.getActions();
+  getUserOrders(): void {
+    this.ordersService.getUserOrders().subscribe((orders) => {
+      this.orders = orders;
+    });
   }
 
   pageChangeAction(newPage: number) {
@@ -34,9 +38,17 @@ export class MyOrdersComponent implements OnInit {
     this.page = newPage;
   }
   
-  openModal(content, payment) {
+  openModal(content, action) {
     let modal = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
-    this.payment = payment;
+    this.actionModal = action;
+    return false;
+  }
+
+  pickedOrder(order: Order) {
+    let that = this;
+    this.ordersService.markPickedOrder(order).subscribe(() => {
+      that.getUserOrders();
+    });
     return false;
   }
 }

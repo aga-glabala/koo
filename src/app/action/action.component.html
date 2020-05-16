@@ -1,114 +1,124 @@
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a routerLink="/actions">Akcje</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ action.name }}</li>
-    </ol>
-</nav>
+<div *ngIf="action">
 
-<h1>
-    {{ action.name }}
-    <div class="float-right">
-        <a routerLink="/action/{{action.id}}/duplicate" class="btn btn-success">
-            <svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 00-2 2V14a2 2 0 002 2h10a2 2 0 002-2V3.5a2 2 0 00-2-2h-1v1h1a1 1 0 011 1V14a1 1 0 01-1 1H3a1 1 0 01-1-1V3.5a1 1 0 011-1h1v-1z" clip-rule="evenodd"/>
-                <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h3a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5zm-3-1A1.5 1.5 0 005 1.5v1A1.5 1.5 0 006.5 4h3A1.5 1.5 0 0011 2.5v-1A1.5 1.5 0 009.5 0h-3z" clip-rule="evenodd"/>
-            </svg>&nbsp;
-            Duplikuj akcje
-        </a> &nbsp;
-        <a routerLink="/action/{{action.id}}/edit" class="btn btn-success">
-            <svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" clip-rule="evenodd"/>
-                <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z" clip-rule="evenodd"/>
-            </svg>&nbsp;
-            Edytuj akcje
-        </a> 
-    </div>
-</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/actions">Akcje</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ action.name }}</li>
+        </ol>
+    </nav>
 
-<div class="row">
-    <div class="col-md-4">
-        <img src="{{action.photoUrl }}" class="img-fluid" alt="Zdjęcie {{action.name}}">
+    <h1>
+        {{ action.name }}
+        <div class="float-right">
+            <a routerLink="/action/{{action.id}}/duplicate" class="btn btn-success">
+                <svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 00-2 2V14a2 2 0 002 2h10a2 2 0 002-2V3.5a2 2 0 00-2-2h-1v1h1a1 1 0 011 1V14a1 1 0 01-1 1H3a1 1 0 01-1-1V3.5a1 1 0 011-1h1v-1z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h3a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5zm-3-1A1.5 1.5 0 005 1.5v1A1.5 1.5 0 006.5 4h3A1.5 1.5 0 0011 2.5v-1A1.5 1.5 0 009.5 0h-3z" clip-rule="evenodd"/>
+                </svg>&nbsp;
+                Duplikuj akcje
+            </a> &nbsp;
+            <a routerLink="/action/{{action.id}}/edit" class="btn btn-success" *ngIf="auth.currentUser && auth.currentUser.id === action.createdBy.id">
+                <svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z" clip-rule="evenodd"/>
+                </svg>&nbsp;
+                Edytuj akcje
+            </a> 
+        </div>
+    </h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{action.photoUrl }}" class="img-fluid" alt="Zdjęcie {{action.name}}">
+        </div>
+        <div class="col-md-8">
+            <dl class="inline-definition">
+                <dt *ngIf="action.createdBy">Utworzona przez:</dt>
+                <dd *ngIf="action.createdBy">{{ action.createdBy.name }}<span *ngIf="action.createdOn">, {{ dateHelper.prettyDate(action.createdOn) }}</span></dd>
+                <dt>Zamówienia do:</dt>
+                    <dd>{{ dateHelper.prettyDate(action.orderDate) }}</dd>
+                <dt>Płacimy do:</dt>
+                    <dd>{{ dateHelper.prettyDate(action.payDate) }}</dd>
+                <dt>Odbieramy:</dt>
+                    <dd>{{ dateHelper.prettyDate(action.collectionDate) }}</dd>
+                <dt>Można już płacić?</dt>
+                    <dd>{{ action.payLock ? "Nie" : "Tak"}}</dd>
+            </dl>
+        </div>
     </div>
-    <div class="col-md-8">
-        <dl class="inline-definition">
-            <dt>Utworzona przez:</dt>
-               <dd>{{ action.createdBy }}</dd>
-            <dt>Zamówienia do:</dt>
-                <dd>{{ action.orderDate.toLocaleString(undefined, dateOptions) }}</dd>
-            <dt>Płacimy do:</dt>
-                <dd>{{ action.payDate.toLocaleString(undefined, dateOptions) }}</dd>
-            <dt>Odbieramy:</dt>
-                <dd>{{ action.collectionDate.toLocaleString(undefined, dateOptions) }}</dd>
-        </dl>
-    </div>
+    <ngb-accordion #acc="ngbAccordion" activeIds="">
+        <ngb-panel title="Opis">
+            <ng-template ngbPanelContent >
+            <div [innerHtml]="action.description"></div>
+            </ng-template>
+        </ngb-panel>
+        <ngb-panel title="Zasady">
+            <ng-template ngbPanelContent>
+                <div [innerHtml]="action.rules"></div>
+            </ng-template>
+        </ngb-panel>
+        <ngb-panel title="Możliwy odbiór">
+            <ng-template ngbPanelContent>
+                <div [innerHtml]="action.collection"></div>
+            </ng-template>
+        </ngb-panel>
+        <ngb-panel title="Płatność">
+            <ng-template ngbPanelContent>
+                <div [innerHtml]="action.payment"></div>
+            </ng-template>
+        </ngb-panel>
+        <ngb-panel title="Pomagają">
+            <ng-template ngbPanelContent>
+                <ul>
+                    <li *ngFor="let helper of action.helpers">{{helper.name}} {{helper.description}}</li>
+                </ul>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+
+    <h2 class="mt-5">
+        Produkty
+
+        <div class="float-right" >
+            <a routerLink="/action/{{action.id}}/order" class="btn btn-success">
+                <svg class="bi bi-plus" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z" clip-rule="evenodd"/>
+                </svg>
+                Zamów
+            </a> &nbsp;
+            <a routerLink="/action/{{action.id}}/orders" class="btn btn-primary">
+                <svg class="bi bi-table" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M15 4H1V3h14v1z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M5 15.5v-14h1v14H5zm5 0v-14h1v14h-1z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M15 8H1V7h14v1zm0 4H1v-1h14v1z" clip-rule="evenodd"/>
+                    <path d="M0 2a2 2 0 012-2h12a2 2 0 012 2v2H0V2z"/>
+                </svg>
+                Zobacz wszystkie zamówienia
+            </a> 
+        </div>
+    </h2>
+    <p *ngIf="action.payLock" class="alert alert-danger">
+        Akcja ma zablokowane płaności na razie. Może to oznaczać, że ceny mogą zostać jeszcze zmienione.
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Wariant</th>
+                <th>Cena (zł)</th>
+                <th *ngFor="let field of action.customFields">{{ field.name }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of action.products">
+                <td>{{ product.name }}</td>
+                <td>{{ product.variant }}</td>
+                <td>{{ product.price }}</td>
+                <td *ngFor="let field of action.customFields"><span *ngIf="product.customFields">{{ product.customFields[field.id] }}</span></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-<ngb-accordion #acc="ngbAccordion" activeIds="">
-    <ngb-panel title="Opis">
-        <ng-template ngbPanelContent>
-        {{ action.description }}
-        </ng-template>
-    </ngb-panel>
-    <ngb-panel title="Zasady">
-        <ng-template ngbPanelContent>
-        {{ action.rules }}
-        </ng-template>
-    </ngb-panel>
-    <ngb-panel title="Możliwy odbiór">
-        <ng-template ngbPanelContent>
-        {{ action.collection }}
-        </ng-template>
-    </ngb-panel>
-    <ngb-panel title="Płatność">
-        <ng-template ngbPanelContent>
-        {{ action.payment }}
-        </ng-template>
-    </ngb-panel>
-    <ngb-panel title="Pomagają">
-        <ng-template ngbPanelContent>
-            <ul>
-                <li *ngFor="let helper of action.helpers">{{helper.person.name}} {{helper.description}}</li>
-            </ul>
-        </ng-template>
-    </ngb-panel>
-</ngb-accordion>
-
-<h2 class="mt-5">
-    Produkty
-
-    <div class="float-right" >
-        <a routerLink="/action/{{action.id}}/order" class="btn btn-success">
-            <svg class="bi bi-plus" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
-                <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z" clip-rule="evenodd"/>
-            </svg>
-            Zamów
-        </a> &nbsp;
-        <a routerLink="/action/{{action.id}}/orders" class="btn btn-primary">
-            <svg class="bi bi-table" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z" clip-rule="evenodd"/>
-                <path fill-rule="evenodd" d="M15 4H1V3h14v1z" clip-rule="evenodd"/>
-                <path fill-rule="evenodd" d="M5 15.5v-14h1v14H5zm5 0v-14h1v14h-1z" clip-rule="evenodd"/>
-                <path fill-rule="evenodd" d="M15 8H1V7h14v1zm0 4H1v-1h14v1z" clip-rule="evenodd"/>
-                <path d="M0 2a2 2 0 012-2h12a2 2 0 012 2v2H0V2z"/>
-            </svg>
-            Zobacz wszystkie zamówienia
-        </a> 
-    </div>
-</h2>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Nazwa</th>
-            <th>Wariant</th>
-            <th>Cena (zł)</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let product of action.products">
-            <td>{{ product.name }}</td>
-            <td>{{ product.variant }}</td>
-            <td>{{ product.price }}</td>
-        </tr>
-    </tbody>
-</table>
