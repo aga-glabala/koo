@@ -95,7 +95,7 @@ export class ActionFormService {
 
   getData(action : Action, customFields : ProductField[]) {
     let newAction = this.actionAdapter.fromForm(this.form.get('newaction').value, this.helpers, this.products, customFields, 
-      action ? action.createdBy : undefined, action ? action.createdOn : undefined, action.photos);
+      action ? action.createdBy : undefined, action ? action.createdOn : undefined, action ? action.photos : []);
 
     return newAction;
   }

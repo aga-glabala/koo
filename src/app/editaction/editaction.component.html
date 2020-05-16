@@ -14,6 +14,8 @@
   <h1 *ngIf="mode == 'duplicate'">Duplikowanie akcji "{{action.name}}"</h1>
   <h1 *ngIf="mode == 'edit'">Edycja akcji "{{action.name}}"</h1>
 
+  <p *ngIf="showError" class="alert alert-danger">{{ showError }}</p>
+
   <form [formGroup]="actionForm" (ngSubmit)="onSubmit()">
     <ngb-tabset [destroyOnHide]="false" class="large-tabset">
       <ngb-tab title="Szczegóły">

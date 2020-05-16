@@ -30,6 +30,7 @@ export class EditActionComponent implements OnInit {
   customFields : ProductField[] = [];
   private photos: File[] = [];
   public minDate;
+  showError: string = '';
 
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
               private actionFormService: ActionFormService, private modalService: NgbModal, public auth : AuthService) {
@@ -87,6 +88,9 @@ export class EditActionComponent implements OnInit {
       switchMap(action => this.actionService.uploadPhotos(action.id, this.photos))
     ).subscribe((action: Action) => {
       that.router.navigate(['/action/' + action.id]);
+    },
+    (err) => {
+      that.showError = err.error;
     });
   }
 
