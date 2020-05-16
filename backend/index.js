@@ -2,8 +2,8 @@
 
 const passport = require('passport');
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const app = express();
 const mongo = require('mongodb');
 const FacebookTokenStrategy = require('passport-facebook-token');
 const jwt = require('jsonwebtoken');
@@ -34,9 +34,14 @@ const fileFilter = function(req, file, cb) {
 }
 const upload = multer({ storage, fileFilter });
 
-let db;
+const app = express();
 
 app.use(bodyParser.json())
+
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN
+}
+app.use(cors(corsOptions));
 
 //token handling middleware
 const authenticate = expressJwt({
@@ -70,6 +75,9 @@ passport.use(new FacebookTokenStrategy({
       return done(err, user);
     });
   }));
+
+
+  let db;
 
 // Remember to change YOUR_USERNAME and YOUR_PASSWORD to your username and password! 
 mongo.MongoClient.connect(
