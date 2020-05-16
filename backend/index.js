@@ -15,7 +15,6 @@ dotenv.config();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const Jimp = require('jimp');
 
 const uploadDestination = __dirname + '/uploads/images/';
 const storage = multer.diskStorage({
@@ -132,20 +131,7 @@ app.post('/actions/:id/photos', upload.array('photos[]', 100), (req, res) => {
   }, {
   }, (err, result) => {
     if (err) return res.status(500).send(err);
-    Promise.all(
-      photos.map(photo => 
-        Jimp.read(uploadDestination + photo)
-          .then(image => image.resize(1024, Jimp.AUTO).writeAsync(uploadDestination + '_' + photo))
-          .then(image => new Promise((resolve, reject) => fs.rename(uploadDestination + '_' + photo, uploadDestination + photo, (error) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve();
-            }
-          }))
-        )
-      )
-    ).finally(() => res.redirect('/actions/' + actionId));
+    res.redirect('/actions/' + actionId);
   });
 })
 
