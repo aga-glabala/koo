@@ -225,11 +225,22 @@ app.get('/actions/:actionId/myorders', (req, res) => {
 
 app.post('/orders', (req, res) => {
   const data = req.body;
+  const newProducts = data.newProducts;
+  delete data.newProducts;
   convertOrderToBson(data);
   db.collection('orders').insertOne(data, (err, result) => {
     if (err) return console.log(err)
     console.log('saved to database ');
-    res.redirect('/orders/' + result.insertedId);
+    
+    db.collection('actions')
+        .findOneAndUpdate({ _id: new mongo.ObjectID(data.actionId) }, {
+          $push: {products: {$each : newProducts}}
+        }, {
+          upsert: true
+        }, (err, result) => {
+          if (err) return res.send(err)
+          res.redirect('/orders/' + result.insertedId);
+        })
   })
 })
 
@@ -255,8 +266,6 @@ app.put('/orders/:id', (req, res) => {
           res.send(result)
         })
     })
-
-  
 })
 
 app.delete('/orders/:id', (req, res) => {

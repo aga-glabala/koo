@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { DateHelper } from '../helpers/date.helper';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-action',
@@ -11,7 +12,7 @@ import { DateHelper } from '../helpers/date.helper';
 })
 export class ActionComponent implements OnInit {
   action: Action;
-  constructor(private route: ActivatedRoute, private actionService: ActionsService, public dateHelper: DateHelper) { }
+  constructor(private route: ActivatedRoute, private actionService: ActionsService, public dateHelper: DateHelper, public auth : AuthService) { }
 
   ngOnInit(): void {
     this.getAction();

@@ -13,6 +13,7 @@ import { Product } from '../models/product';
 import { ProductFieldModalComponent } from '../product-field-modal/product-field-modal.component';
 import { ProductEditorModalComponent } from '../product-editor-modal/product-editor-modal.component';
 import { switchMap } from 'rxjs/operators';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-editaction',
@@ -30,7 +31,7 @@ export class EditActionComponent implements OnInit {
   private photos: File[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
-              private actionFormService: ActionFormService, private modalService: NgbModal) {
+              private actionFormService: ActionFormService, private modalService: NgbModal, public auth : AuthService) {
   }
   get actionForm(): FormGroup {
     return this.actionFormService.form;
@@ -49,8 +50,13 @@ export class EditActionComponent implements OnInit {
   getAction(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.mode = this.route.snapshot.data.mode;
+
     if(id) {
       this.actionService.getAction(id).subscribe((action) => {
+        if(this.mode == 'edit' && action.createdBy.id !== this.auth.currentUser.id) {
+          this.router.navigate(['/action/' + action.id]);
+        }
+
         this.action = action;
         if (this.mode === 'duplicate') {
           this.action.id = null;

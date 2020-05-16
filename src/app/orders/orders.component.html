@@ -10,7 +10,7 @@
     </nav>
 
     <h1 class="mb-1">Zamówienia do akcji {{ action.name }}</h1>
-    <p *ngIf="action.createdBy"><strong>Organizator:</strong>{{action.createdBy.name}}</p>
+    <p *ngIf="action.createdBy"><strong>Organizator:</strong> {{action.createdBy.name}}</p>
     <p>
         <span *ngIf="action.payLock">Jeszcze nie płacimy</span>
         <span *ngIf="!action.payLock">{{action.payment}}</span>
@@ -22,7 +22,7 @@
     </p>
     <p *ngIf="action.helpers"><span *ngFor="let helper of action.helpers"><strong>{{helper.name}}</strong> {{helper.description}} </span></p>
 
-    <ngb-tabset [destroyOnHide]="false" class="large-tabset">
+    <ngb-tabset [destroyOnHide]="false" class="large-tabset" *ngIf="orders && orders.length > 0">
         <ngb-tab title="Zamówienia w kolumnie">
             <ng-template ngbTabContent>
                 <div class="table-container">
@@ -199,4 +199,7 @@
             </ng-template>
         </ngb-tab>
     </ngb-tabset>
+
+
+    <p *ngIf="orders" class="alert alert-info">Nie ma jeszcze zamówień</p>
 </div>
