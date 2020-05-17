@@ -4,15 +4,7 @@
 
 export const environment = {
   production: false,
-  firebase: {
-    apiKey: 'AIzaSyA3wloJ91pfrgzj6Hri6LhCDQP1nXllLvY',
-    authDomain: 'auth.koo.mintyapps.pl',
-    databaseURL: 'https://formal-vortex-233909.firebaseio.com',
-    projectId: 'formal-vortex-233909',
-    storageBucket: 'formal-vortex-233909.appspot.com',
-    messagingSenderId: '471260100108',
-    appId: '1:471260100108:web:e893fab432f73ff1cfa029'
-  }
+  apiBaseUrl: '',
 };
 
 /*

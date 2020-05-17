@@ -1,7 +1,8 @@
+import { BaseUrlInterceptor } from './baseurl.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -70,6 +71,12 @@ export function tokenGetter() {
   providers: [
     DateHelper,
     ActionFormAdapter,
+    { provide: "BASE_API_URL", useValue: environment.apiBaseUrl },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BaseUrlInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })
