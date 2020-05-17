@@ -11,7 +11,7 @@ import { ActionFormService } from '../editaction/actionFormService';
 })
 export class ProductFieldModalComponent implements OnInit {
   @Input() fields: ProductField[];
-  @Input() formService : ActionFormService;
+  @Input() formService: ActionFormService;
   newField: string;
   constructor(public activeModal: NgbActiveModal) { }
 
@@ -19,13 +19,13 @@ export class ProductFieldModalComponent implements OnInit {
   }
 
   addNewField() {
-    let productField = new ProductField(uuid.v4(), this.newField);
+    const productField = new ProductField(uuid.v4(), this.newField);
     this.fields.push(productField);
-    this.formService.addNewCustomField(productField.id)
+    this.formService.addNewCustomField(productField.id);
     this.newField = '';
   }
 
-  removeField(index : number) {
+  removeField(index: number) {
     this.fields.splice(index, 1);
   }
 

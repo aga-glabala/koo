@@ -9,15 +9,15 @@ import { PeopleService } from '../people.service';
   styleUrls: ['./userqueue.component.scss']
 })
 export class UserQueueComponent implements OnInit {
-  page: number = 1;
-  people : Person[];
+  page = 1;
+  people: Person[];
 
   constructor(private route: ActivatedRoute, private router: Router, private peopleService: PeopleService) { }
 
   ngOnInit(): void {
     this.getPeople();
-    let page = +this.route.snapshot.paramMap.get('page');
-    if(page) {
+    const page = +this.route.snapshot.paramMap.get('page');
+    if (page) {
       this.page = page;
     }
   }
@@ -37,7 +37,7 @@ export class UserQueueComponent implements OnInit {
   }
 
   pageChangeAction(newPage: number) {
-    this.router.navigate(['/userqueue/'+newPage]);
+    this.router.navigate(['/userqueue/' + newPage]);
     this.page = newPage;
   }
 }

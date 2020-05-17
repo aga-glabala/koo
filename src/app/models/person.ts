@@ -18,6 +18,6 @@ export class Helper {
     constructor(person: Person, description: string) {
         this.name = person.name;
         this.helperId = person.id;
-        this.description = description
+        this.description = description;
    }
 }

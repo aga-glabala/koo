@@ -13,7 +13,7 @@ import { Product } from './models/product';
 })
 export class OrdersService {
 
-  constructor(private http: HttpClient, private auth: AuthService, private actionsService : ActionsService) {
+  constructor(private http: HttpClient, private auth: AuthService, private actionsService: ActionsService) {
   }
 
   getOrders(actionId: string): Observable<Order[]> {
@@ -32,14 +32,14 @@ export class OrdersService {
     return this.auth.user.pipe(
       switchMap((user) => this.http.get<Order[]>('/api/userorders?forUser=' + user.id)),
       map((orders: Order[]) => orders.map((order) => {
-        let orderObj = this.toOrderObj(order);
+        const orderObj = this.toOrderObj(order);
         orderObj.action = this.actionsService._fromStoreAction(orderObj.action);
         return orderObj;
       }))
     );
   }
 
-  saveOrder(actionId : string, order, newProducts: Product[]) {
+  saveOrder(actionId: string, order, newProducts: Product[]) {
     const edit = !!order.id;
 
     const orderDoc = {
@@ -47,15 +47,18 @@ export class OrdersService {
       ownerId: this.auth.currentUser.id,
       ownerName: this.auth.currentUser.name,
       products: order.products,
-      newProducts : newProducts
+      newProducts,
+      id: '',
+      pickerId: '',
+      pickerName: ''
     };
 
     if (order.id) {
-      orderDoc['id'] = order.id;
+      orderDoc.id = order.id;
     }
     if (order.picker) {
-      orderDoc['pickerId'] = order.picker.id;
-      orderDoc['pickerName'] = order.picker.name;
+      orderDoc.pickerId = order.picker.id;
+      orderDoc.pickerName = order.picker.name;
     }
 
     if (edit) {
@@ -69,9 +72,9 @@ export class OrdersService {
     return this.http.post('/api/order/picked', {id: order.id, picked: !order.picked});
   }
 
-  toOrderObj(orderStr) : Order {
-    return new Order(orderStr.id, orderStr.ownerId, orderStr.ownerName, orderStr.pickerId, 
-      orderStr.pickerName, orderStr.actionId, orderStr.paid ? orderStr.paid : 0, orderStr.picked, 
+  toOrderObj(orderStr): Order {
+    return new Order(orderStr.id, orderStr.ownerId, orderStr.ownerName, orderStr.pickerId,
+      orderStr.pickerName, orderStr.actionId, orderStr.paid ? orderStr.paid : 0, orderStr.picked,
       orderStr.products, orderStr.action);
   }
 }

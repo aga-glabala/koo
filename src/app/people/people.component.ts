@@ -10,15 +10,15 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./people.component.scss']
 })
 export class PeopleComponent implements OnInit {
-  page: number = 1;
-  people : Person[];
+  page = 1;
+  people: Person[];
 
   constructor(private route: ActivatedRoute, private router: Router, private peopleService: PeopleService, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.getPeople();
-    let page = +this.route.snapshot.paramMap.get('page');
-    if(page) {
+    const page = +this.route.snapshot.paramMap.get('page');
+    if (page) {
       this.page = page;
     }
   }
@@ -30,7 +30,7 @@ export class PeopleComponent implements OnInit {
   }
 
   pageChangeAction(newPage: number) {
-    this.router.navigate(['/people/'+newPage]);
+    this.router.navigate(['/people/' + newPage]);
     this.page = newPage;
   }
 

@@ -16,31 +16,32 @@ import * as uuid from 'uuid';
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
- 
-  action : Action;
+
+  action: Action;
   order: Order;
   orderForm;
-  sumOrder : number = 0;
+  sumOrder = 0;
   products = {};
-  newProducts : Product[] = [];
-  constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService, private formBuilder: FormBuilder, 
-    private ordersService : OrdersService, private modalService: NgbModal, private fb: FormBuilder) {
+  newProducts: Product[] = [];
+  constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
+              private formBuilder: FormBuilder, private ordersService: OrdersService,
+              private modalService: NgbModal, private fb: FormBuilder) {
   }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     const actionId = this.route.snapshot.paramMap.get('actionid');
     this.getAction(actionId);
   }
 
   getAction(actionId): void {
-    let that = this;
+    const that = this;
     this.actionService.getAction(actionId).subscribe((action) => {
       this.action = action;
-      if(this.action) {
-        let products = {};
+      if (this.action) {
+        const products = {};
 
-        this.action.products.forEach(product=>{
-          products[product.id]=new FormControl('');  
+        this.action.products.forEach(product => {
+          products[product.id] = new FormControl('');
           this.products[product.id] = product;
         });
 
@@ -52,22 +53,22 @@ export class OrderComponent implements OnInit {
 
         this.orderForm.get('products').valueChanges.subscribe(values => {
           this.sumOrder = 0;
-          for(let product in values) {
+          for (const product in values) {
             this.sumOrder += values[product] * this.products[product].price;
           }
         });
 
-        that.getOrder(actionId).subscribe(function(order) {
-          if(order) {
+        that.getOrder(actionId).subscribe((order) => {
+          if (order) {
             that.order = order;
 
-            let formdata = {
+            const formdata = {
               id: that.order.id,
               products: {
                   ...that.order.products
               },
               picker: {
-                id: that.order.pickerId, 
+                id: that.order.pickerId,
                 name: that.order.pickerName
               }
             };
@@ -85,14 +86,14 @@ export class OrderComponent implements OnInit {
   }
 
   addProduct() {
-    let product = new Product(uuid.v4(), '', '', 0, {});
+    const product = new Product(uuid.v4(), '', '', 0, {});
     const modalRef = this.modalService.open(ProductEditorModalComponent);
     modalRef.componentInstance.fields = this.action.customFields;
     modalRef.componentInstance.product = product;
-    let that = this;
+    const that = this;
 
-    modalRef.result.then(function(save) {
-      if(save) {
+    modalRef.result.then((save) => {
+      if (save) {
         that.action.products.push(product);
         that.products[product.id] = product;
         (that.orderForm.get('products') as FormGroup).addControl(product.id, that.fb.control(''));
@@ -104,9 +105,9 @@ export class OrderComponent implements OnInit {
 
   onSubmit() {
     // Process checkout data here
-    let that = this;
+    const that = this;
     this.ordersService.saveOrder(this.action.id, this.orderForm.value, this.newProducts).subscribe((order) => {
-      that.router.navigate(['/action/'+that.action.id+'/orders']);
+      that.router.navigate(['/action/' + that.action.id + '/orders']);
     });
   }
 }

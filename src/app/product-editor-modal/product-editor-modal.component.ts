@@ -10,12 +10,12 @@ import { Product } from '../models/product';
 })
 export class ProductEditorModalComponent implements OnInit {
   @Input() fields: ProductField[];
-  @Input() product : Product;
+  @Input() product: Product;
 
   constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
-    if(!this.product.customFields) {
+    if (!this.product.customFields) {
       this.product.customFields = {};
     }
   }

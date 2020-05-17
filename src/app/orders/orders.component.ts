@@ -13,12 +13,13 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
-  orders : Order[];
-  action : Action;
-  actionEditor : boolean = false;
+  orders: Order[];
+  action: Action;
+  actionEditor = false;
   sums: {} = {};
   actionId: string;
-  constructor(private route: ActivatedRoute, private actionService: ActionsService, private ordersService: OrdersService, public auth: AuthService, public dateHelper: DateHelper) { }
+  constructor(private route: ActivatedRoute, private actionService: ActionsService,
+              private ordersService: OrdersService, public auth: AuthService, public dateHelper: DateHelper) { }
 
   ngOnInit(): void {
     this.actionId = this.route.snapshot.paramMap.get('actionid');
@@ -28,10 +29,10 @@ export class OrdersComponent implements OnInit {
   getAction(): void {
     this.actionService.getAction(this.actionId).subscribe((action) => {
       this.action = action;
-      this.actionEditor = this.action.createdBy && this.auth.currentUser && (this.action.createdBy.id == this.auth.currentUser.id);
-      
-      for(let helper of this.action.helpers) {
-        if(this.auth.currentUser.id == helper.helperId) {
+      this.actionEditor = this.action.createdBy && this.auth.currentUser && (this.action.createdBy.id === this.auth.currentUser.id);
+
+      for (const helper of this.action.helpers) {
+        if (this.auth.currentUser.id === helper.helperId) {
           this.actionEditor = true;
         }
       }
@@ -42,22 +43,21 @@ export class OrdersComponent implements OnInit {
 
   getOrders(): void {
     const that = this;
-    this.ordersService.getOrders(this.actionId).subscribe(function(orders) {
+    this.ordersService.getOrders(this.actionId).subscribe((orders) => {
       that.orders = orders as Order[];
 
-      for(let order of that.orders) {
+      for (const order of that.orders) {
         that.sums[order.id] = order.countSum(that.action.products);
       }
     });
   }
 
   orderPicked(order: Order) {
-    let that = this;
+    const that = this;
     this.ordersService.markPickedOrder(order).subscribe(() => {
       that.getOrders();
     });
     return false;
   }
-  
+
 }
- 

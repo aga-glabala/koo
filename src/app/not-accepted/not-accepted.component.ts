@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./not-accepted.component.scss']
 })
 export class NotAcceptedComponent implements OnInit {
-  loader : boolean = false;
+  loader = false;
   constructor(public auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
@@ -32,4 +32,3 @@ export class NotAcceptedComponent implements OnInit {
     });
   }
 }
- 

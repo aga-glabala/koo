@@ -14,15 +14,16 @@ import { Order } from '../models/order';
   styleUrls: ['./myorders.component.scss']
 })
 export class MyOrdersComponent implements OnInit {
-  page: number = 1;
-  orders : Order[];
-  actionModal : Action;
-  constructor(private route: ActivatedRoute, private router: Router, private ordersService: OrdersService, private modalService: NgbModal, public dateHelper: DateHelper) { }
+  page = 1;
+  orders: Order[];
+  actionModal: Action;
+  constructor(private route: ActivatedRoute, private router: Router, private ordersService: OrdersService,
+              private modalService: NgbModal, public dateHelper: DateHelper) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.getUserOrders();
-    let page = +this.route.snapshot.paramMap.get('page');
-    if(page) {
+    const page = +this.route.snapshot.paramMap.get('page');
+    if (page) {
       this.page = page;
     }
   }
@@ -34,18 +35,17 @@ export class MyOrdersComponent implements OnInit {
   }
 
   pageChangeAction(newPage: number) {
-    this.router.navigate(['/myorders/'+newPage]);
+    this.router.navigate(['/myorders/' + newPage]);
     this.page = newPage;
   }
-  
   openModal(content, action) {
-    let modal = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
     this.actionModal = action;
     return false;
   }
 
   pickedOrder(order: Order) {
-    let that = this;
+    const that = this;
     this.ordersService.markPickedOrder(order).subscribe(() => {
       that.getUserOrders();
     });

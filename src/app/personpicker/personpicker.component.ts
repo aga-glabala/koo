@@ -15,7 +15,7 @@ export class PersonpickerComponent implements OnInit {
   @Input() controlName;
   @Input() placeholder: string;
   @Input() idname: string;
-  people : Person[];
+  people: Person[];
   constructor(private peopleService: PeopleService) { }
 
   ngOnInit(): void {

@@ -62,9 +62,9 @@ export class ActionsService {
     return this.authService.user.pipe(
       switchMap((user) => this.http.get<Action[]>('/api/actions/').pipe(
         map((actions) => {
-          return actions.filter(action => action.helpers.some(h => h.helperId == user.id))
+          return actions.filter(action => action.helpers.some(h => h.helperId === user.id))
             .map(this._fromStoreAction)
-            .map(action => new HelpingAction(action, action.helpers.filter(h => h.helperId == user.id)))
+            .map(action => new HelpingAction(action, action.helpers.filter(h => h.helperId === user.id)));
         }),
         // map((actions) => {
         //   return actions;
