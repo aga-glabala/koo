@@ -13,7 +13,7 @@
     <p *ngIf="action.createdBy"><strong>Organizator:</strong> {{action.createdBy.name}}</p>
     <p>
         <span *ngIf="action.payLock">Jeszcze nie płacimy</span>
-        <span *ngIf="!action.payLock">{{action.payment}}</span>
+        <span *ngIf="!action.payLock" [innerHtml]="action.payment"></span>
     </p>
     <p>
         <span title="{{ dateHelper.prettyLongDate(action.orderDate) }}"><strong>Zamówienia do:</strong> {{ dateHelper.prettyShortDate(action.orderDate) }}</span>,&nbsp;
@@ -201,5 +201,5 @@
     </ngb-tabset>
 
 
-    <p *ngIf="orders" class="alert alert-info">Nie ma jeszcze zamówień</p>
+    <p *ngIf="orders && orders.length === 0" class="alert alert-info">Nie ma jeszcze zamówień</p>
 </div>

@@ -224,8 +224,8 @@ app.post('/orders', (req, res) => {
         }, {
           upsert: true
         }, (err, result) => {
-          if (err) return res.send(err)
-          res.redirect('/orders/' + result.insertedId);
+          if (err) return res.send(err);
+          res.send(result)
         })
   })
 })
