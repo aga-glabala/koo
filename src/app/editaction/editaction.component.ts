@@ -76,7 +76,7 @@ export class EditActionComponent implements OnInit {
   }
 
   onFileChange(event)  {
-    for (const photo of event.target.files.length)  {
+    for (const photo of event.target.files)  {
         this.photos.push(photo);
     }
   }
