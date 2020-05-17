@@ -1,6 +1,6 @@
 <h1>Cześć, Agnieszka! Najbliższe odbiory: 23.04.2020</h1>
 <h2 class="mt-4 mb-4 clearfix">
-    Twoje zamówienia:
+    Twoje zamówienia: <i *ngIf="loaderOrders" class="fas fa-circle-notch fa-spin"></i>
     <div class="float-right"><a class="btn btn-primary" routerLink="/myorders"><i class="fas fa-list"></i> Moje wszystkie zamówienia</a></div>
 </h2>
 <div class="row" *ngIf="(userOrders | async)?.length > 0">
@@ -9,7 +9,7 @@
             <div class="action-card">
                 <div class="row">
                     <div class="col-md-3 img-container">
-                        <img class="img-fluid" src="http://picsum.photos/400/400">
+                        <img class="img-fluid" src="{{userOrder.action.photoUrl}}">
                     </div>
                     <div class="col-md-9">
                         <h3>
@@ -36,7 +36,7 @@
     </ng-container>
 </div>
 
-<h2 class="mt-5 mb-4 clearfix">Pomagasz w akcjach:</h2>
+<h2 class="mt-5 mb-4 clearfix">Pomagasz w akcjach: <i *ngIf="loaderHelpers" class="fas fa-circle-notch fa-spin"></i></h2>
 <table class="table" *ngIf="(helperActions | async)?.length > 0">
     <thead>
         <th>Akcja</th>
@@ -57,7 +57,7 @@
     Nie pomagasz w żadnej akcji :(
 </p>
 <h2 class="mt-5 mb-4 clearfix">
-    Zbliżające się akcje:
+    Zbliżające się akcje: <i *ngIf="loaderActions" class="fas fa-circle-notch fa-spin"></i>
     <div class="float-right">
         <a routerLink="/actions" class="btn btn-primary"><i class="fas fa-list"></i> Zobacz wszystkie akcje</a> 
     </div>

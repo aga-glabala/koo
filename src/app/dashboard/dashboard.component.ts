@@ -19,6 +19,9 @@ export class DashboardComponent implements OnInit {
   actions: Observable<Action[]>;
   userOrders: Observable<UserOrder[]>;
   helperActions: Observable<HelpingAction[]>;
+  loaderOrders = false;
+  loaderHelpers = false;
+  loaderActions = false;
 
   constructor(private actionsService: ActionsService, private ordersService: OrdersService,
               private modalService: NgbModal, public dateHelper: DateHelper) { }
@@ -28,6 +31,9 @@ export class DashboardComponent implements OnInit {
   }
 
   getActions(): void {
+    this.loaderOrders = true;
+    this.loaderHelpers = true;
+    this.loaderActions = true;
     this.actions = this.actionsService.getActions().pipe(
       map(actions => {
         actions.sort((action1, action2) => {
@@ -35,6 +41,7 @@ export class DashboardComponent implements OnInit {
         });
 
         actions.slice(0, 6);
+        this.loaderActions = false;
         return actions;
       })
     );
@@ -45,6 +52,8 @@ export class DashboardComponent implements OnInit {
       map((values) => {
         const actions: Action[] = values[0];
         const orders: Order[] = values[1];
+
+        this.loaderOrders = false;
         return actions.map((action) => {
           const str = new UserOrder(action, null);
           const matchingOrder = orders.find((order) => action.id === order.actionId);
@@ -58,7 +67,12 @@ export class DashboardComponent implements OnInit {
     );
 
     // todo drugi raz uderza po akcje bez sensu
-    this.helperActions = this.actionsService.getHelperActions();
+    this.helperActions = this.actionsService.getHelperActions().pipe(
+      map((helpers) => {
+        this.loaderHelpers = false;
+        return helpers;
+      })
+    );
   }
 
   open(content, action: Action) {
