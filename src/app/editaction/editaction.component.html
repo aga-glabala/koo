@@ -43,15 +43,7 @@
                     formControlName="orderDate" ngbDatepicker #newacionDateorder="ngbDatepicker" [minDate]="minDate">
                   <div class="input-group-append">
                     <button class="btn calendar" (click)="newacionDateorder.toggle()" type="button">
-                      <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                          d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"
-                          clip-rule="evenodd" />
-                        <path fill-rule="evenodd"
-                          d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z"
-                          clip-rule="evenodd" />
-                      </svg>
+                      <i class="far fa-calendar-alt"></i>
                     </button>
                   </div>&nbsp;
                   <ngb-timepicker formControlName="orderTime" [spinners]="false"></ngb-timepicker>
@@ -66,15 +58,7 @@
                     formControlName="payDate" ngbDatepicker #newacionDatepay="ngbDatepicker" [minDate]="minDate">
                   <div class="input-group-append">
                     <button class="btn calendar" (click)="newacionDatepay.toggle()" type="button">
-                      <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                          d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"
-                          clip-rule="evenodd" />
-                        <path fill-rule="evenodd"
-                          d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z"
-                          clip-rule="evenodd" />
-                      </svg>
+                      <i class="far fa-calendar-alt"></i>
                     </button>
                   </div>&nbsp;
                   <ngb-timepicker formControlName="payTime" [spinners]="false"></ngb-timepicker>
@@ -98,15 +82,7 @@
                     #newacionDatecollection="ngbDatepicker" [minDate]="minDate">
                   <div class="input-group-append">
                     <button class="btn calendar" (click)="newacionDatecollection.toggle()" type="button">
-                      <svg class="bi bi-calendar" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                          d="M14 0H2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"
-                          clip-rule="evenodd" />
-                        <path fill-rule="evenodd"
-                          d="M6.5 7a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm-9 3a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2zm3 0a1 1 0 100-2 1 1 0 000 2z"
-                          clip-rule="evenodd" />
-                      </svg>
+                      <i class="far fa-calendar-alt"></i>
                     </button>
                   </div>&nbsp;
                   <ngb-timepicker formControlName="collectionTime" [spinners]="false"></ngb-timepicker>
@@ -163,10 +139,7 @@
                 <td>{{ helper.description }}</td>
                 <td>
                   <button class="btn btn-danger" (click)="removeHelper(i)">
-                    <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
-                      <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clip-rule="evenodd"/>
-                    </svg>
+                    <i class="fas fa-trash-alt"></i>
                   </button>
                 </td>
               </tr>
@@ -195,7 +168,7 @@
           <h2 class="mt-5 mb-3">
             Produkty
             <div class="float-right">
-              <button class="btn btn-primary" (click)="openProductFieldModal()">Edytuj pola</button>
+              <button class="btn btn-primary" (click)="openProductFieldModal()"><i class="fas fa-pencil-alt"></i> Edytuj pola</button>
             </div>
           </h2>
           <table class="table table-striped">
@@ -214,16 +187,10 @@
                 <td *ngFor="let field of action.customFields"><span *ngIf="product.customFields">{{ product.customFields[field.id] }}</span></td>
                 <td>
                   <button class="btn btn-primary" (click)="editProduct(i)">
-                    <svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" clip-rule="evenodd"/>
-                      <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z" clip-rule="evenodd"/>
-                    </svg>
+                    <i class="fas fa-pencil-alt"></i>
                   </button>&nbsp;
                   <button class="btn btn-danger" (click)="removeProduct(i)">
-                    <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
-                      <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clip-rule="evenodd"/>
-                    </svg>
+                    <i class="fas fa-trash-alt"></i>
                   </button>
                 </td>
               </tr>
@@ -261,7 +228,7 @@
     <div class="submit-container">
       <button type="submit" [disabled]="!actionForm.valid" class="btn btn-primary">
         <i *ngIf="submitLoader" class="fas fa-circle-notch fa-spin"></i>
-        Zapisz akcję
+        <i *ngIf="!submitLoader" class="fas fa-save"></i> Zapisz akcję
       </button>
     </div>
   </form>
