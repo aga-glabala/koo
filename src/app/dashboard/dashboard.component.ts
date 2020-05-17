@@ -15,17 +15,18 @@ import { Product } from '../models/product';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  actionModal : Action;
-  actions : Observable<Action[]>;
-  userOrders : Observable<UserOrder[]>;
-  helperActions : Observable<HelpingAction[]>;
+  actionModal: Action;
+  actions: Observable<Action[]>;
+  userOrders: Observable<UserOrder[]>;
+  helperActions: Observable<HelpingAction[]>;
 
-  constructor(private actionsService: ActionsService, private ordersService: OrdersService, private modalService: NgbModal, public dateHelper: DateHelper) { }
+  constructor(private actionsService: ActionsService, private ordersService: OrdersService,
+              private modalService: NgbModal, public dateHelper: DateHelper) { }
 
   ngOnInit(): void {
     this.getActions();
-  }  
-  
+  }
+
   getActions(): void {
     this.actions = this.actionsService.getActions().pipe(
       map(actions => {
@@ -42,8 +43,8 @@ export class DashboardComponent implements OnInit {
       this.ordersService.getUserOrders()
     ]).pipe(
       map((values) => {
-        const actions : Action[] = values[0];
-        const orders : Order[] = values[1];
+        const actions: Action[] = values[0];
+        const orders: Order[] = values[1];
         return actions.map((action) => {
           const str = new UserOrder(action, null);
           const matchingOrder = orders.find((order) => action.id === order.actionId);
@@ -59,8 +60,8 @@ export class DashboardComponent implements OnInit {
     // todo drugi raz uderza po akcje bez sensu
     this.helperActions = this.actionsService.getHelperActions();
   }
-  
-  open(content, action : Action) {
+
+  open(content, action: Action) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
     this.actionModal = action;
     return false;
@@ -69,8 +70,9 @@ export class DashboardComponent implements OnInit {
   /*
    * Prints products user ordered
    */
-  printProducts(userOrder : UserOrder) {
-    let arr : Product[] = userOrder.action.products.filter((product: Product) => userOrder.order.products[product.id] && userOrder.order.products[product.id] > 0)
+  printProducts(userOrder: UserOrder) {
+    const arr: Product[] = userOrder.action.products.filter(
+      (product: Product) => userOrder.order.products[product.id] && userOrder.order.products[product.id] > 0);
     const str: string = arr.map((product) => product.name).join(', ');
     return str;
   }

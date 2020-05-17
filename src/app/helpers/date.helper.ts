@@ -9,7 +9,7 @@ export class DateHelper {
    }
 
   prettyDate(date: moment.Moment) {
-    return date.fromNow()+ " (" + date.format('dddd, DD MMMM h:mm')  + ")";
+    return date.fromNow() + ' (' + date.format('dddd, DD MMMM h:mm')  + ')';
   }
 
   prettyShortDate(date: moment.Moment) {
