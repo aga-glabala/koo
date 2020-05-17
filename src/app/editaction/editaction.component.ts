@@ -31,6 +31,7 @@ export class EditActionComponent implements OnInit {
   private photos: File[] = [];
   public minDate;
   showError = '';
+  submitLoader = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
               private actionFormService: ActionFormService, private modalService: NgbModal, public auth: AuthService) {
@@ -83,13 +84,15 @@ export class EditActionComponent implements OnInit {
   onSubmit() {
     const that = this;
     const product = this.actionFormService.getData(this.action, this.customFields);
-
+    this.submitLoader = true;
     this.actionService.saveAction(product).pipe(
       switchMap(action => this.actionService.uploadPhotos(action.id, this.photos))
     ).subscribe((action: Action) => {
+      that.submitLoader = false;
       that.router.navigate(['/action/' + action.id]);
     },
     (err) => {
+      that.submitLoader = false;
       that.showError = err.error;
     });
   }

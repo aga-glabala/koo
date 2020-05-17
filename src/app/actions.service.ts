@@ -30,7 +30,7 @@ export class ActionsService {
     );
   }
 
-  saveAction(action : Action): Observable<Action> {
+  saveAction(action: Action): Observable<Action> {
     let edit = true;
     if (!action.id) {
       edit = false;
