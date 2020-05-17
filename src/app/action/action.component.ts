@@ -12,7 +12,8 @@ import { AuthService } from '../auth.service';
 })
 export class ActionComponent implements OnInit {
   action: Action;
-  constructor(private route: ActivatedRoute, private actionService: ActionsService, public dateHelper: DateHelper, public auth : AuthService) { }
+  constructor(private route: ActivatedRoute, private actionService: ActionsService,
+              public dateHelper: DateHelper, public auth: AuthService) { }
 
   ngOnInit(): void {
     this.getAction();

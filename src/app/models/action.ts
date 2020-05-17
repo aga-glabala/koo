@@ -18,7 +18,7 @@ export class Action {
                 public collection: string,
                 public payment: string,
                 public productsEditable: boolean,
-                public helpers: Helper[], 
+                public helpers: Helper[],
                 public products: Product[],
                 public photos: string[],
                 public customFields: ProductField[]
@@ -26,22 +26,22 @@ export class Action {
 }
 
 export class ProductField {
-    constructor(public id : string, 
+    constructor(public id: string,
                 public name: string) {}
 }
 
 export class HelpingAction {
-    constructor(public action :Action, 
-                public helpers : Helper[]) {}
+    constructor(public action: Action,
+                public helpers: Helper[]) {}
 
-    printDescriptions() : string {
-        let text : string = '';
-        for(let i = 0; i < this.helpers.length; i++) {
+    printDescriptions(): string {
+        let text = '';
+        for (let i = 0; i < this.helpers.length; i++) {
             text += this.helpers[i].description;
-            if(i < this.helpers.length - 1) {
+            if (i < this.helpers.length - 1) {
                 text += ', ';
             }
         }
         return text;
-    }    
+    }
 }

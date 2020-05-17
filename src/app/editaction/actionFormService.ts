@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import * as uuid from 'uuid';
 
 import { Helper } from '../models/person';
 import { Product } from '../models/product';
@@ -10,7 +11,7 @@ import { ActionFormAdapter } from '../helpers/action.adapter';
 export class ActionFormService {
   public form: FormGroup;
   products: Product[] = [];
-  helpers : Helper[] = [];
+  helpers: Helper[] = [];
 
   constructor(
     private fb: FormBuilder, private actionAdapter: ActionFormAdapter
@@ -20,12 +21,12 @@ export class ActionFormService {
           id: '',
           name: new FormControl('', [Validators.required]),
           orderDate: '',
-          orderTime: {"hour": 0, "minute": 0},
+          orderTime: {hour: 0, minute: 0},
           payDate: '',
-          payTime: {"hour": 0, "minute": 0},
+          payTime: {hour: 0, minute: 0},
           payLock: false,
           collectionDate: '',
-          collectionTime: {"hour": 0, "minute": 0},
+          collectionTime: {hour: 0, minute: 0},
           description: '',
           rules: '',
           collection: '',
@@ -46,15 +47,15 @@ export class ActionFormService {
       });
   }
 
-  addNewProduct(customFields : ProductField[]) {
-    const product = new Product(undefined,
-      this.form.value.newproduct.name, 
-      this.form.value.newproduct.variant, 
+  addNewProduct(customFields: ProductField[]) {
+    const product = new Product(uuid.v4(),
+      this.form.value.newproduct.name,
+      this.form.value.newproduct.variant,
       this.form.value.newproduct.price,
       {});
 
     product.customFields = {};
-    for(let field of customFields) {
+    for (const field of customFields) {
       product.customFields[field.id] = this.form.value.newproduct.customFields[field.id];
     }
 
@@ -80,9 +81,9 @@ export class ActionFormService {
   }
 
   loadAction(data): void {
-    let formdata = this.actionAdapter.toForm(data);
-    if(data.customFields) {
-      for(let field of data.customFields) {
+    const formdata = this.actionAdapter.toForm(data);
+    if (data.customFields) {
+      for (const field of data.customFields) {
         this.addNewCustomField(field.id);
       }
     }
@@ -93,8 +94,8 @@ export class ActionFormService {
     this.helpers = data.helpers ? data.helpers : [];
   }
 
-  getData(action : Action, customFields : ProductField[]) {
-    let newAction = this.actionAdapter.fromForm(this.form.get('newaction').value, this.helpers, this.products, customFields, 
+  getData(action: Action, customFields: ProductField[]) {
+    const newAction = this.actionAdapter.fromForm(this.form.get('newaction').value, this.helpers, this.products, customFields,
       action ? action.createdBy : undefined, action ? action.createdOn : undefined, action ? action.photos : []);
 
     return newAction;

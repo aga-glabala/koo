@@ -23,17 +23,18 @@ import { AuthService } from '../auth.service';
 })
 export class EditActionComponent implements OnInit {
   action: Action;
-  people : Person[];
+  people: Person[];
   mode = 'new';
   public Editor = ClassicEditor;
   toolbarConfig = { toolbar: [ 'heading', '|', 'bold', 'italic', 'bulletedList', 'numberedList', 'link',  ] };
-  customFields : ProductField[] = [];
+  customFields: ProductField[] = [];
   private photos: File[] = [];
   public minDate;
-  showError: string = '';
+  showError = '';
+  submitLoader = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
-              private actionFormService: ActionFormService, private modalService: NgbModal, public auth : AuthService) {
+              private actionFormService: ActionFormService, private modalService: NgbModal, public auth: AuthService) {
     const d = new Date();
     this.minDate = {day: d.getDate(), month: d.getMonth() + 1, year: d.getFullYear()};
   }
@@ -55,9 +56,9 @@ export class EditActionComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.mode = this.route.snapshot.data.mode;
 
-    if(id) {
+    if (id) {
       this.actionService.getAction(id).subscribe((action) => {
-        if(this.mode == 'edit' && action.createdBy.id !== this.auth.currentUser.id) {
+        if (this.mode === 'edit' && action.createdBy.id !== this.auth.currentUser.id) {
           this.router.navigate(['/action/' + action.id]);
         }
 
@@ -75,21 +76,23 @@ export class EditActionComponent implements OnInit {
   }
 
   onFileChange(event)  {
-    for (let i =  0; i <  event.target.files.length; i++)  {
-        this.photos.push(event.target.files[i]);
+    for (const photo of event.target.files.length)  {
+        this.photos.push(photo);
     }
   }
 
   onSubmit() {
     const that = this;
     const product = this.actionFormService.getData(this.action, this.customFields);
-
+    this.submitLoader = true;
     this.actionService.saveAction(product).pipe(
       switchMap(action => this.actionService.uploadPhotos(action.id, this.photos))
     ).subscribe((action: Action) => {
+      that.submitLoader = false;
       that.router.navigate(['/action/' + action.id]);
     },
     (err) => {
+      that.submitLoader = false;
       that.showError = err.error;
     });
   }
@@ -117,7 +120,7 @@ export class EditActionComponent implements OnInit {
 
     const that = this;
 
-    modalRef.result.then(function(save) {
+    modalRef.result.then((save) => {
       if (save) {
         that.actionFormService.products[index] = product;
       }

@@ -13,15 +13,16 @@ import { DateHelper } from '../helpers/date.helper';
   styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit {
-  page: number = 1;
+  page = 1;
   actions: Observable<Action[]>;
 
-  constructor(private route: ActivatedRoute, private router: Router, private actionsService: ActionsService, public dateHelper: DateHelper) { }
+  constructor(private route: ActivatedRoute, private router: Router,
+              private actionsService: ActionsService, public dateHelper: DateHelper) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.getActions();
-    let page = +this.route.snapshot.paramMap.get('page');
-    if(page) {
+    const page = +this.route.snapshot.paramMap.get('page');
+    if (page) {
       this.page = page;
     }
   }
@@ -31,7 +32,7 @@ export class ActionsComponent implements OnInit {
   }
 
   pageChangeAction(newPage: number) {
-    this.router.navigate(['/actions/'+newPage]);
+    this.router.navigate(['/actions/' + newPage]);
     this.page = newPage;
   }
 }

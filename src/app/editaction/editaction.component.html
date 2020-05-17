@@ -259,7 +259,10 @@
       </ngb-tab>
     </ngb-tabset>
     <div class="submit-container">
-      <button type="submit" [disabled]="!actionForm.valid" class="btn btn-primary">Zapisz akcję</button>
+      <button type="submit" [disabled]="!actionForm.valid" class="btn btn-primary">
+        <i *ngIf="submitLoader" class="fas fa-circle-notch fa-spin"></i>
+        Zapisz akcję
+      </button>
     </div>
   </form>
 </div>
