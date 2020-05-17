@@ -14,6 +14,7 @@ import { ProductFieldModalComponent } from '../product-field-modal/product-field
 import { ProductEditorModalComponent } from '../product-editor-modal/product-editor-modal.component';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-editaction',
@@ -86,7 +87,12 @@ export class EditActionComponent implements OnInit {
     const product = this.actionFormService.getData(this.action, this.customFields);
     this.submitLoader = true;
     this.actionService.saveAction(product).pipe(
-      switchMap(action => this.actionService.uploadPhotos(action.id, this.photos))
+      switchMap(action => {
+        if (this.photos.length === 0) {
+          return of(action);
+        }
+        return this.actionService.uploadPhotos(action.id, this.photos);
+      })
     ).subscribe((action: Action) => {
       that.submitLoader = false;
       that.router.navigate(['/action/' + action.id]);
