@@ -14,19 +14,16 @@
                     <div class="col-md-9">
                         <h3>
                             <a routerLink="/action/{{userOrder.action.id}}">{{userOrder.action.name}}</a>
-                            <div class="float-right">
-                                
-                            </div>
                         </h3>
                         <p>{{printProducts(userOrder)}}</p>
                         <div *ngIf="userOrder.countSum(userOrder.action.products) > userOrder.order.paid">
                             <a href="#" class="btn btn-danger" (click)="open(paymentModal, userOrder.action)">
-                                <i class="fas fa-dollar-sign"></i>&nbsp;<strong> Do zapłaty: {{ userOrder.countSum(userOrder.action.products) }}zł</strong>
+                                <i class="fas fa-dollar-sign"></i>&nbsp;<strong> Do zapłaty: {{ userOrder.countSum(userOrder.action.products) | price }}zł</strong>
                             </a>&nbsp;
                             <a routerLink="/action/{{userOrder.action.id}}/order" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edytuj</a>
                         </div>
                         <div *ngIf="userOrder.countSum(userOrder.action.products) <= userOrder.order.paid" class="text-success">
-                            <i class="fas fa-dollar-sign"></i>&nbsp;Zapłacone: <strong>{{ userOrder.countSum(userOrder.action.products) }}zł</strong>&nbsp;
+                            <i class="fas fa-dollar-sign"></i>&nbsp;Zapłacone: <strong>{{ userOrder.countSum(userOrder.action.products) | price  }}zł</strong>&nbsp;
                             <a routerLink="/action/{{userOrder.action.id}}/order" class="btn btn-primary"><i class="fas fa-pencil-alt"></i> Edytuj</a>
                         </div>
                     </div>

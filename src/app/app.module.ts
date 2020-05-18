@@ -26,6 +26,7 @@ import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
 import { UserQueueComponent } from './userqueue/userqueue.component';
 import { MyOrdersComponent } from './myorders/myorders.component';
 import { DateHelper } from './helpers/date.helper';
+import { PriceHelper, PricePipe } from './helpers/price.helper';
 import { ProductFieldModalComponent } from './product-field-modal/product-field-modal.component';
 import { ProductEditorModalComponent } from './product-editor-modal/product-editor-modal.component';
 import { ActionFormAdapter } from './helpers/action.adapter';
@@ -50,7 +51,8 @@ export function tokenGetter() {
     UserQueueComponent,
     MyOrdersComponent,
     ProductFieldModalComponent,
-    ProductEditorModalComponent
+    ProductEditorModalComponent,
+    PricePipe
   ],
   imports: [
     BrowserModule,
@@ -70,6 +72,7 @@ export function tokenGetter() {
   ],
   providers: [
     DateHelper,
+    PriceHelper,
     ActionFormAdapter,
     { provide: "BASE_API_URL", useValue: environment.apiBaseUrl },
     {

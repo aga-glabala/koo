@@ -33,8 +33,8 @@
                             <i class="fas fa-check"></i> Odebrane</a>&nbsp;
                         <a href="#" class="btn {{ order.paid > order.countSum(order.action.products) ? 'btn-secondary' : 'btn-danger' }}" (click)="openModal(paymentModal, order.action)">
                             <i class="fas fa-dollar-sign"></i>&nbsp;
-                            <span *ngIf="order.paid < order.countSum(order.action.products)">Do zapłaty: {{ order.countSum(order.action.products) }}</span>
-                            <span *ngIf="order.paid >= order.countSum(order.action.products)">Zapłacono: {{ order.countSum(order.action.products) }}</span>
+                            <span *ngIf="order.paid < order.countSum(order.action.products)">Do zapłaty: {{ order.countSum(order.action.products) | price }}</span>
+                            <span *ngIf="order.paid >= order.countSum(order.action.products)">Zapłacono: {{ order.countSum(order.action.products) | price }}</span>
                         </a>&nbsp;
                         <a routerLink="/action/{{order.action.id}}/order" class="btn btn-secondary">
                             <i class="fas fa-pencil-alt"></i> Edytuj</a>

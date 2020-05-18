@@ -97,7 +97,7 @@
             <tr *ngFor="let product of action.products">
                 <td>{{ product.name }}</td>
                 <td>{{ product.variant }}</td>
-                <td>{{ product.price }}</td>
+                <td>{{ product.price | price }}</td>
                 <td *ngFor="let field of action.customFields"><span *ngIf="product.customFields">{{ product.customFields[field.id] }}</span></td>
             </tr>
         </tbody>

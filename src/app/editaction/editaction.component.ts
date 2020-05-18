@@ -84,18 +84,18 @@ export class EditActionComponent implements OnInit {
 
   onSubmit() {
     const that = this;
-    const product = this.actionFormService.getData(this.action, this.customFields);
+    const action = this.actionFormService.getData(this.action, this.customFields);
     this.submitLoader = true;
-    this.actionService.saveAction(product).pipe(
-      switchMap(action => {
+    this.actionService.saveAction(action).pipe(
+      switchMap(savedaction => {
         if (this.photos.length === 0) {
-          return of(action);
+          return of(savedaction);
         }
-        return this.actionService.uploadPhotos(action.id, this.photos);
+        return this.actionService.uploadPhotos(savedaction.id, this.photos);
       })
-    ).subscribe((action: Action) => {
+    ).subscribe((savedaction: Action) => {
       that.submitLoader = false;
-      that.router.navigate(['/action/' + action.id]);
+      that.router.navigate(['/action/' + savedaction.id]);
     },
     (err) => {
       that.submitLoader = false;

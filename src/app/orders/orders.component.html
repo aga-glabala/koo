@@ -40,7 +40,7 @@
                             <tr *ngFor="let product of action.products">
                                 <td>{{product.name}}</td>
                                 <td>{{product.variant}}</td>
-                                <td>{{product.price}}</td>
+                                <td>{{product.price | price}}</td>
                                 <td *ngFor="let customField of action.customFields">
                                     <span *ngIf="product.customFields">{{ product.customFields[customField.id] }}</span>
                                 </td>
@@ -52,7 +52,7 @@
                             </tr>
                             <tr>
                                 <td [attr.colspan]="3 + action.customFields.length">Suma</td>                   
-                                <td *ngFor="let order of orders"><strong>{{ sums[order.id] }}zł</strong></td>
+                                <td *ngFor="let order of orders"><strong>{{ sums[order.id] | price }}zł</strong></td>
                             </tr>
                             <tr>
                                 <td [attr.colspan]="3 + action.customFields.length"></td> 
@@ -120,7 +120,7 @@
                             </tr>
                             <tr>
                                 <th>Cena</th>
-                                <th *ngFor="let product of action.products">{{product.price}}</th>
+                                <th *ngFor="let product of action.products">{{product.price | price}}</th>
                             </tr>
                             <tr *ngFor="let customField of action.customFields">
                                 <th>{{ customField.name }}</th>
@@ -132,7 +132,7 @@
                                 <td>{{order.ownerName}}</td>
                                 <td *ngFor="let product of action.products">{{ order.products[product.id] }}</td>
                                 <td>{{ order.pickerName }}</td>
-                                <td><strong>{{ sums[order.id] }}zł</strong></td>
+                                <td><strong>{{ sums[order.id] | price }}zł</strong></td>
 
                                 <!-- komórki z informacją dla wszystkich -->
                                 <td class="bg-success" *ngIf="!actionEditor && order.paid == sums[order.id]">

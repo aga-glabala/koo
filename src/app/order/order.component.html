@@ -27,13 +27,13 @@
             <tr *ngFor="let product of action.products">
                 <td>{{product.name}}</td>
                 <td>{{product.variant}}</td>
-                <td>{{product.price}}</td>
+                <td>{{product.price | price}}</td>
                 <td *ngFor="let field of action.customFields"><span *ngIf="product.customFields">{{ product.customFields[field.id] }}</span></td>
                 <td><input type="number" min="0" formControlName="{{product.id}}" class="form-control" ></td>
             </tr>
             <tr>
                 <td [attr.colspan]="3 + action.customFields.length" class="text-right">W sumie:</td>
-                <td>{{ sumOrder }}zł</td>
+                <td>{{ sumOrder | price }}zł</td>
             </tr>
 
             <tr *ngIf="action.productsEditable">
