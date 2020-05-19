@@ -15,6 +15,7 @@ import { ProductEditorModalComponent } from '../product-editor-modal/product-edi
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
 import { of } from 'rxjs';
+import { ImportProductsModalComponent } from '../import-products-modal/import-products-modal.component';
 
 @Component({
   selector: 'app-editaction',
@@ -138,6 +139,14 @@ export class EditActionComponent implements OnInit {
     const modalRef = this.modalService.open(ProductFieldModalComponent);
     modalRef.componentInstance.fields = this.customFields;
     modalRef.componentInstance.formService = this.actionFormService;
+    return false;
+  }
+
+  importFromFile() {
+    const modalRef = this.modalService.open(ImportProductsModalComponent);
+    modalRef.result.then((products: Product[]) => {
+      console.log(products);
+    });
     return false;
   }
 }

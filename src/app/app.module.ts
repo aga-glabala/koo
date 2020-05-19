@@ -30,6 +30,7 @@ import { PriceHelper, PricePipe } from './helpers/price.helper';
 import { ProductFieldModalComponent } from './product-field-modal/product-field-modal.component';
 import { ProductEditorModalComponent } from './product-editor-modal/product-editor-modal.component';
 import { ActionFormAdapter } from './helpers/action.adapter';
+import { ImportProductsModalComponent } from './import-products-modal/import-products-modal.component';
 
 export function tokenGetter() {
   return localStorage.getItem('id_token');
@@ -52,7 +53,8 @@ export function tokenGetter() {
     MyOrdersComponent,
     ProductFieldModalComponent,
     ProductEditorModalComponent,
-    PricePipe
+    PricePipe,
+    ImportProductsModalComponent
   ],
   imports: [
     BrowserModule,

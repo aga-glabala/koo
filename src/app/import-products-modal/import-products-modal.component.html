@@ -1,0 +1,48 @@
+<div class="modal-header">
+    <h4 class="modal-title">Importwanie produktów</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.close(false)">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="alert alert-info">
+        Import z pliku CSV. 
+        <ul>
+            <li>Z Google Docs wejdź w Plik -> Pobierz -> Wartości rozdzielane przecinkami (.CSV).</li>
+            <li>W Excel i innych wybierz Plik -> Zapisz jako -> CSV.</li>
+        </ul>
+        W pierwszym wierszu powinny być nazwy kolumn. Pierwsze trzy powinny być: name, variant, price, a następnie inne potrzebne w danej akcji. 
+        W kolejnych wieszach powinny znajdować się produkty. Przykładowy plik dostepny tutaj: 
+        <a class="text-light" href="https://docs.google.com/spreadsheets/d/1f91XUqolQhPKYY83H0azz4ZxPLWrFThxTr9V9wfS3YE/edit?usp=sharing">Link do przykładowego arkusza</a>
+    </div>
+    
+    <label for="fileImportInput">Wybierz plik do zaimportowania:</label>
+    <input *ngIf="!loader" type="file" [(ngModel)]="file" class="form-control" id="fileImportInput"
+        accept=".csv" (change)="onFileChange($event)" />
+    <div *ngIf="loader">
+        <i class="fas fa-circle-notch fa-spin"></i>
+    </div>
+    <div *ngIf="innerProducts">
+        <table class="table table-striped">
+            <thead>
+                <th>Produkt</th>
+                <th>Wariant (czerwony, 1kg, 1l)</th>
+                <th>Cena</th>
+                <!--<ng-container *ngIf="action"><th *ngFor="let field of action.customFields">{{ field.name }}</th></ng-container>-->
+                <th></th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of innerProducts; let i = index">
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.variant }}</td>
+                    <td>{{ product.price | price }}</td>
+                    <!--<td *ngFor="let field of action.customFields"><span *ngIf="product.customFields">{{ product.customFields[field.id] }}</span></td>-->
+                
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" (click)="save()" class="btn btn-success"><i class="fas fa-save"></i> Zapisz</button>
+</div>
