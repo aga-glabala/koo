@@ -16,6 +16,7 @@ import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
 import { of } from 'rxjs';
 import { ImportProductsModalComponent } from '../import-products-modal/import-products-modal.component';
+import { AttachSession } from 'protractor/built/driverProviders';
 
 @Component({
   selector: 'app-editaction',
@@ -148,6 +149,9 @@ export class EditActionComponent implements OnInit {
     modalRef.result.then((data) => {
       that.customFields = data.customFields;
       that.actionFormService.products = data.products;
+      for (const field of data.customFields) {
+        that.actionFormService.addNewCustomField(field.id);
+      }
     });
     return false;
   }
