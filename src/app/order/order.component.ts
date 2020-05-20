@@ -8,7 +8,6 @@ import { Order } from '../models/order';
 import { ProductEditorModalComponent } from '../product-editor-modal/product-editor-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Product } from '../models/product';
-import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-order',
@@ -53,6 +52,7 @@ export class OrderComponent implements OnInit {
 
         this.orderForm.get('products').valueChanges.subscribe(values => {
           this.sumOrder = 0;
+          // tslint:disable-next-line: forin
           for (const product in values) {
             this.sumOrder += values[product] * this.products[product].price;
           }
@@ -87,7 +87,7 @@ export class OrderComponent implements OnInit {
   }
 
   addProduct() {
-    const product = new Product(uuid.v4(), '', '', 0, {});
+    const product = new Product(undefined, '', '', 0, {});
     const modalRef = this.modalService.open(ProductEditorModalComponent);
     modalRef.componentInstance.fields = this.action.customFields;
     modalRef.componentInstance.product = product;

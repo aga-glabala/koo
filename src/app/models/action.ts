@@ -1,6 +1,7 @@
 import { Person, Helper } from './person';
 import { Product } from './product';
 import { Moment } from 'moment';
+import * as uuid from 'uuid';
 
 export class Action {
 
@@ -27,7 +28,11 @@ export class Action {
 
 export class ProductField {
     constructor(public id: string,
-                public name: string) {}
+                public name: string) {
+                    if (!id) {
+                        this.id = uuid.v4();
+                    }
+                }
 }
 
 export class HelpingAction {

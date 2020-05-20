@@ -144,8 +144,10 @@ export class EditActionComponent implements OnInit {
 
   importFromFile() {
     const modalRef = this.modalService.open(ImportProductsModalComponent);
-    modalRef.result.then((products: Product[]) => {
-      console.log(products);
+    const that = this;
+    modalRef.result.then((data) => {
+      that.customFields = data.customFields;
+      that.actionFormService.products = data.products;
     });
     return false;
   }

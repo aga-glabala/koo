@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductField } from '../models/action';
-import * as uuid from 'uuid';
 import { ActionFormService } from '../editaction/actionFormService';
 
 @Component({
@@ -19,7 +18,7 @@ export class ProductFieldModalComponent implements OnInit {
   }
 
   addNewField() {
-    const productField = new ProductField(uuid.v4(), this.newField);
+    const productField = new ProductField(undefined, this.newField);
     this.fields.push(productField);
     this.formService.addNewCustomField(productField.id);
     this.newField = '';
