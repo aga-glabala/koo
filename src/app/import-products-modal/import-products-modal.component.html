@@ -23,6 +23,10 @@
     <div *ngIf="loader">
         <i class="fas fa-circle-notch fa-spin"></i>
     </div>
+
+    <div class="alert alert-danger" *ngIf="errors && errors.length > 0">
+        <p *ngFor="let error of errors"> {{ error }}</p>
+    </div>
     <div *ngIf="innerProducts">
         <table class="table table-striped">
             <thead>

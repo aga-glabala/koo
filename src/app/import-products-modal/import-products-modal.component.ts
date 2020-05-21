@@ -11,10 +11,10 @@ import * as Papa from 'papaparse';
   styleUrls: ['./import-products-modal.component.scss']
 })
 export class ImportProductsModalComponent implements OnInit {
-  file;
-  loader;
+  loader = false;
   innerProducts: Product[] = [];
   customFields: ProductField[];
+  errors: string[] = [];
   constructor(public activeModal: NgbActiveModal, public priceHelper: PriceHelper) {}
 
   ngOnInit(): void {}
@@ -26,19 +26,21 @@ export class ImportProductsModalComponent implements OnInit {
   onFileChange($event) {
     this.loader = true;
     const that = this;
+    this.errors = [];
     Papa.parse($event.target.files[0], {
       complete: (json) => {
         that.loader = false;
         if (json.meta.fields.indexOf('name') < 0) {
-          console.error('W tabeli jedna z kolumn powinna się nazywać "name"');
-          return;
+          that.errors.push('W tabeli jedna z kolumn powinna się nazywać "name"');
         }
         if (json.meta.fields.indexOf('variant') < 0) {
-          console.error('W tabeli jedna z kolumn powinna się nazywać "variant"');
-          return;
+          that.errors.push('W tabeli jedna z kolumn powinna się nazywać "variant"');
         }
         if (json.meta.fields.indexOf('price') < 0 ) {
-          console.error('W tabeli jedna z kolumn powinna się nazywać "price"');
+          that.errors.push('W tabeli jedna z kolumn powinna się nazywać "price"');
+        }
+
+        if (that.errors.length > 0) {
           return;
         }
 
@@ -63,7 +65,7 @@ export class ImportProductsModalComponent implements OnInit {
         }
 
         if (json.errors && json.errors.length > 0) {
-          console.error(json.errors);
+          that.errors.push(...json.errors);
         }
       },
       header: true
