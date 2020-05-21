@@ -5,6 +5,7 @@ import { Helper } from '../models/person';
 import { Product } from '../models/product';
 import { ProductField, Action } from '../models/action';
 import { ActionFormAdapter } from '../helpers/action.adapter';
+import { pastDateValidator } from '../helpers/past-date.validator';
 
 @Injectable()
 export class ActionFormService {
@@ -19,7 +20,7 @@ export class ActionFormService {
         newaction: this.fb.group({
           id: '',
           name: new FormControl('', [Validators.required]),
-          orderDate: '',
+          orderDate: new FormControl(''),
           orderTime: {hour: 0, minute: 0},
           payDate: '',
           payTime: {hour: 0, minute: 0},

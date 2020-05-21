@@ -15,17 +15,20 @@
   <h1 *ngIf="mode == 'edit'">Edycja akcji "{{action.name}}"</h1>
 
   <p *ngIf="showError" class="alert alert-danger">{{ showError }}</p>
-
   <form [formGroup]="actionForm" (ngSubmit)="onSubmit()">
     <ngb-tabset [destroyOnHide]="false" class="large-tabset">
       <ngb-tab title="Szczegóły">
         <ng-template ngbTabContent>
           <div formGroupName="newaction">
             <input type="hidden" formControlName="id">
-            <div class="form-group row">
+            <div class="form-group row" [ngClass]="validationClass('name')">
               <label for="newacion-name" class="col-sm-2 col-form-label">Nazwa (wymagane)</label>
               <div class="col-sm-10 col-md-6">
-                <input type="text" formControlName="name" class="form-control" id="newacion-name" placeholder="">
+                <input type="text" formControlName="name" class="form-control" id="newacion-name" placeholder=""
+                  [ngClass]="validationClass('name')">
+                <div class="invalid-feedback" *ngIf="actionForm.get('newaction').get('name').errors">
+                  Nazwa jest wymagana
+                </div>
               </div>
             </div>
             <div class="form-group row">
@@ -35,11 +38,12 @@
                   accept="image/*" (change)="onFileChange($event)" />
               </div>
             </div>
-            <div class="form-group row">
-              <label for="newacion-dateorder" class="col-sm-2 col-form-label">Data zamawiania (wymagane)</label>
+            <div class="form-group row" [ngClass]="validationClass('orderDate')">
+              <label for="dateorder" class="col-sm-2 col-form-label">Data zamawiania (wymagane)</label>
               <div class="col-sm-7 col-md-6">
                 <div class="input-group">
-                  <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-dateorder" name="newacion-dateorder"
+                  <input class="form-control" placeholder="yyyy-mm-dd" id="dateorder" name="dateorder"
+                    [ngClass]="validationClass('orderDate')"
                     formControlName="orderDate" ngbDatepicker #newacionDateorder="ngbDatepicker" [minDate]="minDate">
                   <div class="input-group-append">
                     <button class="btn calendar" (click)="newacionDateorder.toggle()" type="button">
@@ -48,13 +52,17 @@
                   </div>&nbsp;
                   <ngb-timepicker formControlName="orderTime" [spinners]="false"></ngb-timepicker>
                 </div>
+                <div class="invalid-feedback">
+                  Data jest wymagana i musi być z przyszłości
+                </div>
               </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row" [ngClass]="validationClass('payDate')">
               <label for="newacion-datepay" class="col-sm-2 col-form-label">Data opłacenia (wymagane)</label>
               <div class="col-sm-7 col-md-6">
                 <div class="input-group">
                   <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-datepay" name="newacion-datepay"
+                    [ngClass]="validationClass('payDate')"
                     formControlName="payDate" ngbDatepicker #newacionDatepay="ngbDatepicker" [minDate]="minDate">
                   <div class="input-group-append">
                     <button class="btn calendar" (click)="newacionDatepay.toggle()" type="button">
@@ -62,6 +70,9 @@
                     </button>
                   </div>&nbsp;
                   <ngb-timepicker formControlName="payTime" [spinners]="false"></ngb-timepicker>
+                </div>
+                <div class="invalid-feedback">
+                  Data jest wymagana i musi być z przyszłości
                 </div>
               </div>
               <div class="col-sm-3 col-md-2">
@@ -73,11 +84,12 @@
                 </div>
               </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row" [ngClass]="validationClass('collectionDate')">
               <label for="newacion-datecollection" class="col-sm-2 col-form-label">Data odbioru (wymagane)</label>
               <div class="col-sm-7 col-md-6">
                 <div class="input-group">
-                  <input class="form-control" placeholder="yyyy-mm-dd" name="newacion-datecollection"
+                  <input class="form-control" [ngClass]="validationClass('collectionDate')"
+                    placeholder="yyyy-mm-dd" name="newacion-datecollection"
                     id="newacion-datecollection" formControlName="collectionDate" ngbDatepicker
                     #newacionDatecollection="ngbDatepicker" [minDate]="minDate">
                   <div class="input-group-append">
@@ -86,6 +98,9 @@
                     </button>
                   </div>&nbsp;
                   <ngb-timepicker formControlName="collectionTime" [spinners]="false"></ngb-timepicker>
+                </div>
+                <div class="invalid-feedback">
+                  Data jest wymagana i musi być z przyszłości
                 </div>
               </div>
             </div>

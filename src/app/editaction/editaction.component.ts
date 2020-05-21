@@ -155,4 +155,12 @@ export class EditActionComponent implements OnInit {
     });
     return false;
   }
+
+  validationClass(name: string) {
+    if (this.actionForm.get('newaction').get(name).value || this.actionForm.get('newaction').get(name).touched) {
+      return this.actionForm.get('newaction').get(name).errors ? 'is-invalid' : 'is-valid';
+    } else {
+      return '';
+    }
+  }
 }
