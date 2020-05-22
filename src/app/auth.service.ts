@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Person } from './models/person';
 
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { tap, switchMap, timeout } from 'rxjs/operators';
+import { tap, switchMap, shareReplay } from 'rxjs/operators';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -30,8 +30,9 @@ export class AuthService {
 
     this.loggedIn = new BehaviorSubject(this.jwtHelperService.tokenGetter() != null && !this.jwtHelperService.isTokenExpired());
 
+    const me = this.http.get<Person>('/api/auth/me').pipe(shareReplay(1, 100));
     this.user = this.loggedIn.asObservable().pipe(
-      switchMap(loggedIn => loggedIn ? this.http.get<Person>('/api/auth/me') : of(null)),
+      switchMap(loggedIn => loggedIn ? (!this.currentUser ? me : of(this.currentUser)) : of(null)),
       tap((user) => {
         this.currentUser = user;
       })

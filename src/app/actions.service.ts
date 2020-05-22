@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { map, switchMap, filter } from 'rxjs/operators';
+import { map, switchMap, filter, shareReplay, take } from 'rxjs/operators';
 
 
 import { Action, ProductField, HelpingAction } from './models/action';
@@ -15,13 +15,16 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class ActionsService {
+  private actions: Observable<Action[]>;
+
   constructor(private http: HttpClient, private authService: AuthService) {
+    this.actions = this.http.get('/api/actions/').pipe(
+      map((actions: Action[]) => actions.map(this._fromStoreAction))
+    ).pipe(shareReplay(1, 300));
   }
 
   getActions(): Observable<Action[]> {
-    return this.http.get('/api/actions/').pipe(
-      map((actions: Action[]) => actions.map(this._fromStoreAction))
-    );
+    return this.actions;
   }
 
   getAction(id: string): Observable<Action> {
@@ -60,7 +63,9 @@ export class ActionsService {
   // todo zprzenieść na backend
   getHelperActions(): Observable<HelpingAction[]> {
     return this.authService.user.pipe(
-      switchMap((user) => this.http.get<Action[]>('/api/actions/').pipe(
+      filter(user => !!user),
+      take(1),
+      switchMap((user) => this.getActions().pipe(
         map((actions) => {
           return actions.filter(action => action.helpers.some(h => h.helperId === user.id))
             .map(this._fromStoreAction)
