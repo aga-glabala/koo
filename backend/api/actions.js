@@ -23,7 +23,26 @@ const upload = multer({ storage, fileFilter });
 
 module.exports = function (app, dbGetter) {
   app.get('/actions', (req, res) => {
-    dbGetter().collection('actions').find().toArray((err, result) => {
+    console.log(req.query.sort);
+    let orderby = {'created_on': 1};
+    switch (req.query.sort) {
+      case 'newest': 
+        orderby = {'created_on': 1}
+        break;
+      case 'oldest': 
+        orderby = {'created_on': -1}
+        break;
+      case 'order': 
+        orderby = {'orderDate': 1}
+        break;
+      case 'pay': 
+        orderby = {'payDate': 1}
+        break;
+      case 'collection': 
+        orderby = {'collectionDate': 1}
+        break;
+    }
+    dbGetter().collection('actions').find().sort(orderby).toArray((err, result) => {
       if (err) return res.status(500).send(err);
       result.forEach(convertActionFromBson);
       res.send(result)

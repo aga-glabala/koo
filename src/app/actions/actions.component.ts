@@ -15,6 +15,15 @@ import { DateHelper } from '../helpers/date.helper';
 export class ActionsComponent implements OnInit {
   page = 1;
   actions: Observable<Action[]>;
+  sorting = '';
+  sortingOptions = [
+    {id: 'newest', label: 'Najnowsze'},
+    {id: 'oldest', label: 'Najstarsze'},
+    {id: 'order', label: 'Data zamawiania'},
+    {id: 'pay', label: 'Data płacenia'},
+    {id: 'collection', label: 'Data odbioru'}
+  ];
+  selectedSorting = this.sortingOptions[0];
 
   constructor(private route: ActivatedRoute, private router: Router,
               private actionsService: ActionsService, public dateHelper: DateHelper) { }
@@ -28,11 +37,16 @@ export class ActionsComponent implements OnInit {
   }
 
   getActions(): void {
-    this.actions = this.actionsService.getActions();
+    this.actions = this.actionsService.getActions(this.selectedSorting.id);
   }
 
   pageChangeAction(newPage: number) {
     this.router.navigate(['/actions/' + newPage]);
     this.page = newPage;
+  }
+
+  sort(option: {id: string, label: string}) {
+    this.selectedSorting = option;
+    this.getActions();
   }
 }

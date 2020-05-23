@@ -15,16 +15,14 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class ActionsService {
-  private actions: Observable<Action[]>;
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    this.actions = this.http.get('/api/actions/').pipe(
-      map((actions: Action[]) => actions.map(this._fromStoreAction))
-    ).pipe(shareReplay(1, 300));
   }
 
-  getActions(): Observable<Action[]> {
-    return this.actions;
+  getActions(sorting: string): Observable<Action[]> {
+    return this.http.get('/api/actions/?sort=' + sorting).pipe(
+      map((actions: Action[]) => actions.map(this._fromStoreAction))
+    ).pipe(shareReplay(1, 300));
   }
 
   getAction(id: string): Observable<Action> {
@@ -65,15 +63,12 @@ export class ActionsService {
     return this.authService.user.pipe(
       filter(user => !!user),
       take(1),
-      switchMap((user) => this.getActions().pipe(
+      switchMap((user) => this.getActions('newest').pipe(
         map((actions) => {
           return actions.filter(action => action.helpers.some(h => h.helperId === user.id))
             .map(this._fromStoreAction)
             .map(action => new HelpingAction(action, action.helpers.filter(h => h.helperId === user.id)));
-        }),
-        // map((actions) => {
-        //   return actions;
-        // })
+        })
       ))
     );
   }

@@ -5,7 +5,20 @@
     </ol>
 </nav>
 
-<h1>Akcje</h1>
+<h1 class="mb-3">Akcje</h1>
+<nav class="navbar navbar-expand navbar-light bg-light mb-4">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+            <span>Sortowanie:</span>&nbsp;
+            <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-outline-primary" id="dropdownBasic2" ngbDropdownToggle>{{ selectedSorting.label }}</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                    <button ngbDropdownItem *ngFor="let option of sortingOptions" (click)="sort(option)">{{ option.label }}</button>
+                </div>
+            </div>
+        </li>
+    </ul>
+</nav>
 <div class="action-card"  *ngFor="let action of actions | async | paginate: { itemsPerPage: 25, currentPage: page }">
     <div class="row">
         <div class="col-md-3 img-container">
