@@ -21,7 +21,7 @@ module.exports = function (app, dbGetter) {
     }
 
     const token = createToken(req.user);
-    res.status(200).send({ token, profile: req.user });
+    res.status(200).send({ token, profile: convertUserFromBson(req.user) });
   });
 
   function createToken(user) {
@@ -56,7 +56,8 @@ module.exports = function (app, dbGetter) {
           photoUrl: profile.photos.length > 0 ? profile.photos[0].value : null,
           phone: null,
           admin: false,
-          accepted: false
+          accepted: false,
+          lastLogin: new Date().getTime()
         };
 
         dbGetter().collection('users').insertOne(newUser, function (error, savedUser) {
@@ -72,13 +73,16 @@ module.exports = function (app, dbGetter) {
   };
 
   app.post('/auth/refreshToken', (req, res) => {
-    dbGetter().collection('users').findOne({ _id: new mongo.ObjectID(req.user.id) }, function (err, user) {
-      if (err) {
-        res.send(500);
-      }
-      const token = createToken(user);
-      res.status(200).send({ token, profile: user });
-    });
+    dbGetter().collection('users')
+      .findOneAndUpdate({ _id: new mongo.ObjectID(req.user.id) }, 
+      { $set: { lastLogin: new Date().getTime() } },
+      function (err, result) {
+        if (err) {
+          res.send(500);
+        }
+        const token = createToken(result.value);
+        res.status(200).send({ token, profile: convertUserFromBson(result.value) });
+      });
   });
 
   app.get('/auth/me', (req, res, next) => {
@@ -97,5 +101,6 @@ module.exports = function (app, dbGetter) {
   function convertUserFromBson(user) {
     user.id = user._id;
     delete user._id;
+    return user;
   }
 }
