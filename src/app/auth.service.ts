@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Person } from './models/person';
 
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { tap, switchMap, shareReplay } from 'rxjs/operators';
+import { tap, switchMap, shareReplay, map } from 'rxjs/operators';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -28,7 +28,8 @@ export class AuthService {
       version: 'v2.8' // use graph api version 2.5
     });
 
-    this.loggedIn = new BehaviorSubject(this.jwtHelperService.tokenGetter() != null && !this.jwtHelperService.isTokenExpired());
+    const currentToken = this.jwtHelperService.tokenGetter();
+    this.loggedIn = new BehaviorSubject(currentToken && !this.jwtHelperService.isTokenExpired());
 
     const me = this.http.get<Person>('/api/auth/me').pipe(shareReplay(1, 100));
     this.user = this.loggedIn.asObservable().pipe(
@@ -37,6 +38,13 @@ export class AuthService {
         this.currentUser = user;
       })
     );
+
+    // refresh token if it is not expired and it is older than 1 day
+    if (currentToken &&
+      !this.jwtHelperService.isTokenExpired() &&
+      this.jwtHelperService.decodeToken().iat * 1000 < new Date().getTime() - 24 * 3600 * 1000) {
+      this.refreshToken().subscribe(() => {});
+    }
   }
 
   login(): Promise<Person>  {
@@ -72,6 +80,16 @@ export class AuthService {
 
   isAdmin(): boolean {
     return this.loggedIn.value && this.hasPermission('admin');
+  }
+
+  refreshToken(): Observable<void> {
+    return this.http.post<any>('/api/auth/refreshToken', {}).pipe(
+      tap(response => {
+        if (response.token) {
+          localStorage.setItem('id_token', response.token);
+        }
+      })
+    );
   }
 
   private hasPermission(name: string): boolean {

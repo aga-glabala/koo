@@ -71,6 +71,16 @@ module.exports = function (app, dbGetter) {
     });
   };
 
+  app.post('/auth/refreshToken', (req, res) => {
+    dbGetter().collection('users').findOne({ _id: new mongo.ObjectID(req.user.id) }, function (err, user) {
+      if (err) {
+        res.send(500);
+      }
+      const token = createToken(user);
+      res.status(200).send({ token, profile: user });
+    });
+  });
+
   app.get('/auth/me', (req, res, next) => {
     dbGetter().collection('users').findOne({ _id: new mongo.ObjectID(req.user.id) }, function (err, user) {
       if (err) {
