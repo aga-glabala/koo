@@ -24,6 +24,7 @@ export class ActionsComponent implements OnInit {
     {id: 'collection', label: 'Data odbioru'}
   ];
   selectedSorting = this.sortingOptions[0];
+  showArchived = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private actionsService: ActionsService, public dateHelper: DateHelper) { }
@@ -37,7 +38,7 @@ export class ActionsComponent implements OnInit {
   }
 
   getActions(): void {
-    this.actions = this.actionsService.getActions(this.selectedSorting.id);
+    this.actions = this.actionsService.getActions(this.selectedSorting.id, this.showArchived);
   }
 
   pageChangeAction(newPage: number) {
@@ -47,6 +48,11 @@ export class ActionsComponent implements OnInit {
 
   sort(option: {id: string, label: string}) {
     this.selectedSorting = option;
+    this.getActions();
+  }
+
+  switchArchived(show: boolean) {
+    this.showArchived = show;
     this.getActions();
   }
 }

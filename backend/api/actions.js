@@ -23,7 +23,7 @@ const upload = multer({ storage, fileFilter });
 
 module.exports = function (app, dbGetter) {
   app.get('/actions', (req, res) => {
-    console.log(req.query.sort);
+    console.log(req.query);
     let orderby = {'created_on': 1};
     switch (req.query.sort) {
       case 'newest': 
@@ -42,9 +42,16 @@ module.exports = function (app, dbGetter) {
         orderby = {'collectionDate': 1}
         break;
     }
-    dbGetter().collection('actions').find().sort(orderby).toArray((err, result) => {
+
+    let query;
+    if(req.query.archived === 'false') {
+      query = {orderDate: {$gte: new Date().getTime()}};
+    }
+
+    dbGetter().collection('actions').find(query).sort(orderby).toArray((err, result) => {
       if (err) return res.status(500).send(err);
       result.forEach(convertActionFromBson);
+
       res.send(result)
     });
   });
@@ -124,5 +131,9 @@ module.exports = function (app, dbGetter) {
       action._id = new mongo.ObjectID(action.id);
       delete action.id;
     }
+    action.createdOn = new Date(action.createdOn).getTime();
+    action.orderDate = new Date(action.orderDate).getTime();
+    action.collectionDate = new Date(action.collectionDate).getTime();
+    action.payDate = new Date(action.payDate).getTime();
   }
 }
