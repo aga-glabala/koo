@@ -18,14 +18,14 @@
             </div>
         </li>
         <li class="nav-item ml-3">
-            <span>Pokaż skończone:</span>&nbsp;
+            <span>Pokaż:</span>&nbsp;
             <button *ngIf="!showArchived" (click)="switchArchived(true)" class="btn btn-outline-primary">
-                <i class="fas fa-square"></i>
-                Niewidoczne
+                <i class="fas fa-check-square"></i>
+                tylko aktywne akcje
             </button>
             <button *ngIf="showArchived" (click)="switchArchived(false)" class="btn btn-outline-primary">
-                <i class="fas fa-check-square"></i>
-                Widoczne
+                <i class="fas fa-square"></i>
+                wszystkie akcje
             </button>
         </li>
     </ul>
@@ -33,7 +33,7 @@
 <div class="action-card"  *ngFor="let action of actions | async | paginate: { itemsPerPage: 25, currentPage: page }">
     <div class="row">
         <div class="col-md-3 img-container">
-            <img src="{{action.photoUrl}}" alt="Zdjęcie {{action.name}}" class="img-fluid"> 
+            <img *ngIf="action.photoUrl" src="{{action.photoUrl}}" alt="Zdjęcie {{action.name}}" class="img-fluid"> 
         </div>
         <div class="col-md-9">
             <h2><a routerLink="/action/{{action.id}}">{{action.name}}</a></h2>
