@@ -22,7 +22,7 @@
 
     <div class="row">
         <div class="col-md-4">
-            <img src="{{action.photoUrl }}" class="img-fluid" alt="Zdjęcie {{action.name}}">
+            <img *ngIf="action.photoUrl" src="{{action.photoUrl }}" class="img-fluid" alt="Zdjęcie {{action.name}}">
         </div>
         <div class="col-md-8">
             <dl class="inline-definition">
@@ -40,27 +40,27 @@
         </div>
     </div>
     <ngb-accordion #acc="ngbAccordion" activeIds="">
-        <ngb-panel title="Opis">
+        <ngb-panel title="Opis" *ngIf="action.description">
             <ng-template ngbPanelContent >
             <div [innerHtml]="action.description"></div>
             </ng-template>
         </ngb-panel>
-        <ngb-panel title="Zasady">
+        <ngb-panel title="Zasady" *ngIf="action.rules">
             <ng-template ngbPanelContent>
                 <div [innerHtml]="action.rules"></div>
             </ng-template>
         </ngb-panel>
-        <ngb-panel title="Możliwy odbiór">
+        <ngb-panel title="Możliwy odbiór" *ngIf="action.collection">
             <ng-template ngbPanelContent>
                 <div [innerHtml]="action.collection"></div>
             </ng-template>
         </ngb-panel>
-        <ngb-panel title="Płatność">
+        <ngb-panel title="Płatność" *ngIf="action.descpaymentription">
             <ng-template ngbPanelContent>
                 <div [innerHtml]="action.payment"></div>
             </ng-template>
         </ngb-panel>
-        <ngb-panel title="Pomagają">
+        <ngb-panel title="Pomagają" *ngIf="action.helpers?.length">
             <ng-template ngbPanelContent>
                 <ul>
                     <li *ngFor="let helper of action.helpers">{{helper.name}} {{helper.description}}</li>
@@ -83,6 +83,9 @@
     </h2>
     <p *ngIf="action.payLock" class="alert alert-danger">
         Akcja ma zablokowane płaności na razie. Może to oznaczać, że ceny mogą zostać jeszcze zmienione.
+    </p>
+    <p *ngIf="action.productsEditable" class="alert alert-info">
+        Możesz dodać swoje produkty do zamówienia
     </p>
     <table class="table table-striped">
         <thead>
