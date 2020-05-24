@@ -5,11 +5,10 @@ import { Action, HelpingAction } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { Observable, combineLatest } from 'rxjs';
 import { OrdersService } from '../orders.service';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Order, UserOrder } from '../models/order';
 import { DateHelper } from '../helpers/date.helper';
 import { Product } from '../models/product';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +23,6 @@ export class DashboardComponent implements OnInit {
   loaderOrders = false;
   loaderHelpers = false;
   loaderActions = false;
-  upcomingPickupDate: moment.Moment;
 
   constructor(private actionsService: ActionsService, private ordersService: OrdersService,
               private modalService: NgbModal, public dateHelper: DateHelper, public auth: AuthService) { }
@@ -66,9 +64,6 @@ export class DashboardComponent implements OnInit {
           // todo zwracać str tylko jak ma order!
           return str;
         });
-      }),
-      tap((values) => {
-        this.upcomingPickupDate = values.find((obj) => obj.order)?.action.collectionDate;
       })
     );
 

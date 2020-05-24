@@ -1,4 +1,4 @@
-<h1>Cześć, {{ auth.currentUser?.name }}! Najbliższe odbiory: {{ upcomingPickupDate ? dateHelper.prettyShortDate(upcomingPickupDate) : 'brak' }}</h1>
+<h1>Cześć, {{ auth.currentUser?.name }}!</h1>
 <h2 class="mt-4 mb-4 clearfix">
     Twoje zamówienia: <i *ngIf="loaderOrders" class="fas fa-circle-notch fa-spin"></i>
     <div class="float-right"><a class="btn btn-primary" routerLink="/myorders"><i class="fas fa-list"></i> Moje wszystkie zamówienia</a></div>
