@@ -8,6 +8,7 @@ import { Order } from '../models/order';
 import { ProductEditorModalComponent } from '../product-editor-modal/product-editor-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Product } from '../models/product';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-order',
@@ -22,6 +23,7 @@ export class OrderComponent implements OnInit {
   sumOrder = 0;
   products = {};
   newProducts: Product[] = [];
+  disabled = false;
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
               private formBuilder: FormBuilder, private ordersService: OrdersService,
               private modalService: NgbModal, private fb: FormBuilder) {
@@ -38,6 +40,7 @@ export class OrderComponent implements OnInit {
       this.action = action;
       if (this.action) {
         const products = {};
+        this.disabled = action.orderDate.isBefore(moment());
 
         this.action.products.forEach(product => {
           products[product.id] = new FormControl('');

@@ -12,6 +12,9 @@
     <p *ngIf="action.payLock" class="alert alert-danger">
         Akcja ma zablokowane płaności na razie. Może to oznaczać, że ceny mogą zostać jeszcze zmienione.
     </p>
+    <p *ngIf="action.orderDate.isBefore(today)" class="alert alert-danger">
+        Nie można już zamawiać :(
+    </p>
     <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
         <input type="hidden" formControlName="id">
         <table class="table" formGroupName="products">
@@ -29,7 +32,7 @@
                 <td>{{product.variant}}</td>
                 <td>{{product.price | price}}</td>
                 <td *ngFor="let field of action.customFields"><span *ngIf="product.customFields">{{ product.customFields[field.id] }}</span></td>
-                <td><input type="number" min="0" formControlName="{{product.id}}" class="form-control" ></td>
+                <td><input type="number" min="0" formControlName="{{product.id}}" class="form-control" [attr.disabled]="disabled"></td>
             </tr>
             <tr>
                 <td [attr.colspan]="3 + action.customFields.length" class="text-right">W sumie:</td>

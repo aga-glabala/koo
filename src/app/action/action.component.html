@@ -73,7 +73,7 @@
         Produkty
 
         <div class="float-right" >
-            <a routerLink="/action/{{action.id}}/order" class="btn btn-success">
+            <a *ngIf="!action.orderDate.isBefore(today)" routerLink="/action/{{action.id}}/order" class="btn btn-success">
                 <i class="fas fa-gift"></i> Zamów
             </a> &nbsp;
             <a routerLink="/action/{{action.id}}/orders" class="btn btn-primary">
@@ -81,6 +81,9 @@
             </a> 
         </div>
     </h2>
+    <p *ngIf="action.orderDate.isBefore(today)" class="alert alert-danger">
+        Nie można już zamawiać :(
+    </p>
     <p *ngIf="action.payLock" class="alert alert-danger">
         Akcja ma zablokowane płaności na razie. Może to oznaczać, że ceny mogą zostać jeszcze zmienione.
     </p>

@@ -4,6 +4,7 @@ import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { DateHelper } from '../helpers/date.helper';
 import { AuthService } from '../auth.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-action',
@@ -12,6 +13,7 @@ import { AuthService } from '../auth.service';
 })
 export class ActionComponent implements OnInit {
   action: Action;
+  today = moment();
   constructor(private route: ActivatedRoute, private actionService: ActionsService,
               public dateHelper: DateHelper, public auth: AuthService) { }
 
