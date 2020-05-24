@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Order } from './models/order';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, filter, take } from 'rxjs/operators';
 import { ActionsService } from './actions.service';
 import { Product } from './models/product';
 
@@ -24,12 +24,16 @@ export class OrdersService {
 
   getOrder(actionId: string): Observable<Order> {
     return this.auth.user.pipe(
+      filter(user => !!user),
+      take(1),
       switchMap((user) => this.http.get<Order>('/api/actions/' + actionId + '/myorders?forUser=' + user.id))
     );
   }
 
   getUserOrders(): Observable<Order[]> {
     return this.auth.user.pipe(
+      filter(user => !!user),
+      take(1),
       switchMap((user) => this.http.get<Order[]>('/api/userorders?forUser=' + user.id)),
       map((orders: Order[]) => orders.map((order) => {
         const orderObj = this.toOrderObj(order);
