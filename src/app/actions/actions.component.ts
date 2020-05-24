@@ -25,6 +25,7 @@ export class ActionsComponent implements OnInit {
   ];
   selectedSorting = this.sortingOptions[0];
   showArchived = false;
+  filterText = '';
 
   constructor(private route: ActivatedRoute, private router: Router,
               private actionsService: ActionsService, public dateHelper: DateHelper) { }
@@ -54,5 +55,9 @@ export class ActionsComponent implements OnInit {
   switchArchived(show: boolean) {
     this.showArchived = show;
     this.getActions();
+  }
+
+  filterTextChange() {
+    console.log(this.filterText);
   }
 }

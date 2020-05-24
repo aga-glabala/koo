@@ -28,6 +28,12 @@
                 wszystkie akcje
             </button>
         </li>
+        <li class="nav-item ml-3">
+            <div class="input-group">
+                <label for="filterText" class="col-form-label">Filtruj (TODO): &nbsp;</label>
+                <input type="text" (change)="filterTextChange()" [(ngModel)]="filterText" class="form-control" id="filterText">
+            </div>
+        </li>
     </ul>
 </nav>
 <div class="action-card"  *ngFor="let action of actions | async | paginate: { itemsPerPage: 25, currentPage: page }">
@@ -37,6 +43,7 @@
         </div>
         <div class="col-md-9">
             <h2><a routerLink="/action/{{action.id}}">{{action.name}}</a></h2>
+            <div>Utworzono: <strong>{{dateHelper.prettyDate(action.createdOn)}}</strong></div>
             <div>Data zamawiania: <strong>{{dateHelper.prettyDate(action.orderDate)}}</strong></div>
             <div>Data płacenia: <strong>{{dateHelper.prettyDate(action.payDate)}}</strong></div>
             <div>Data odbioru: <strong>{{dateHelper.prettyDate(action.collectionDate)}}</strong></div>

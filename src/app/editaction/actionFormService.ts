@@ -5,7 +5,6 @@ import { Helper } from '../models/person';
 import { Product } from '../models/product';
 import { ProductField, Action } from '../models/action';
 import { ActionFormAdapter } from '../helpers/action.adapter';
-import { pastDateValidator } from '../helpers/past-date.validator';
 
 @Injectable()
 export class ActionFormService {
