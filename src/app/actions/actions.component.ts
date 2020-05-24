@@ -57,7 +57,7 @@ export class ActionsComponent implements OnInit {
     this.getActions();
   }
 
-  filterTextChange() {
-    console.log(this.filterText);
+  filterTextChange(value) {
+    console.log(value);
   }
 }
