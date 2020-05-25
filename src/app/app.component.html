@@ -28,8 +28,7 @@
       <div ngbDropdown class="d-inline-block">
         <button class="btn btn-primary" id="dropdownBasic1" ngbDropdownToggle>{{ user.name }}</button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem>Zaproś znajomego</button>
-          <button ngbDropdownItem>Zobacz mój profil</button>
+          <button ngbDropdownItem routerLink="/person/{{user.id}}">Zobacz mój profil</button>
           <button ngbDropdownItem (click)="logout()">Wyloguj</button>
         </div>
       </div>

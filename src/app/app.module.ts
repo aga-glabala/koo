@@ -31,6 +31,7 @@ import { ProductFieldModalComponent } from './product-field-modal/product-field-
 import { ProductEditorModalComponent } from './product-editor-modal/product-editor-modal.component';
 import { ActionFormAdapter } from './helpers/action.adapter';
 import { ImportProductsModalComponent } from './import-products-modal/import-products-modal.component';
+import { SingleActionViewComponent } from './single-action-view/single-action-view.component';
 
 export function tokenGetter() {
   return localStorage.getItem('id_token');
@@ -54,7 +55,8 @@ export function tokenGetter() {
     ProductFieldModalComponent,
     ProductEditorModalComponent,
     PricePipe,
-    ImportProductsModalComponent
+    ImportProductsModalComponent,
+    SingleActionViewComponent
   ],
   imports: [
     BrowserModule,

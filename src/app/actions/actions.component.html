@@ -36,18 +36,6 @@
         </li>
     </ul>
 </nav>
-<div class="action-card"  *ngFor="let action of actions | async | paginate: { itemsPerPage: 25, currentPage: page }">
-    <div class="row">
-        <div class="col-md-3 img-container">
-            <img *ngIf="action.photoUrl" src="{{action.photoUrl}}" alt="Zdjęcie {{action.name}}" class="img-fluid"> 
-        </div>
-        <div class="col-md-9">
-            <h2><a routerLink="/action/{{action.id}}">{{action.name}}</a></h2>
-            <div>Utworzono: <strong>{{dateHelper.prettyDate(action.createdOn)}}</strong></div>
-            <div>Data zamawiania: <strong>{{dateHelper.prettyDate(action.orderDate)}}</strong></div>
-            <div>Data płacenia: <strong>{{dateHelper.prettyDate(action.payDate)}}</strong></div>
-            <div>Data odbioru: <strong>{{dateHelper.prettyDate(action.collectionDate)}}</strong></div>
-        </div>
-    </div>
-</div>
+
+<koo-single-action-view *ngFor="let action of actions | async | paginate: { itemsPerPage: 25, currentPage: page }" [action]="action"></koo-single-action-view>
 <pagination-controls (pageChange)="pageChangeAction($event)"></pagination-controls>

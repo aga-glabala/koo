@@ -29,4 +29,9 @@
             </dl>
         </div>-->
     </div>
+    <h2 class="mt-5 mb-3">Akcje użytkownika</h2>
+    <koo-single-action-view *ngFor="let action of actions | async" [action]="action"></koo-single-action-view>
+    <div *ngIf="(actions | async)?.length === 0" class="alert alert-info">
+        Użytkownik nie zorganizował jeszcze żadnej akcji.
+    </div>
 </div>

@@ -21,7 +21,9 @@ export class ActionsService {
 
   getActions(sorting: string, showArchived: boolean, filterText: string): Observable<Action[]> {
     return this.http.get('/api/actions/', {params: {sort: sorting, archived: '' + showArchived, search: filterText}}).pipe(
-    map((actions: Action[]) => actions.map(action => this._fromStoreAction(action)))
+      map((actions: Action[]) => actions.map((action) => {
+        return this._fromStoreAction(action);
+      }))
     ).pipe(shareReplay(1, 300));
   }
 
@@ -70,6 +72,14 @@ export class ActionsService {
             .map(action => new HelpingAction(action, action.helpers.filter(h => h.helperId === user.id)));
         })
       ))
+    );
+  }
+
+  getUserActions(userId: string): Observable<Action[]> {
+    return this.http.get('/api/actions/user/' + userId).pipe(
+      map((actions: Action[]) => actions.map((action) => {
+        return this._fromStoreAction(action);
+      }))
     );
   }
 

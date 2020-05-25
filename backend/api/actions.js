@@ -61,6 +61,15 @@ module.exports = function (app, dbGetter) {
     });
   });
 
+  app.get('/actions/user/:userid', (req, res) => {
+    dbGetter().collection('actions').find({'createdBy.id': req.params.userid}).sort({'created_on': 1}).toArray((err, result) => {
+      if (err) return res.status(500).send(err);
+      result.forEach(convertActionFromBson);
+
+      res.send(result)
+    });
+  });
+
   app.get('/actions/:id', (req, res) => {
     dbGetter().collection('actions').findOne({ _id: new mongo.ObjectID(req.params.id) }, (err, result) => {
       if (err) return res.sendStatus(404);

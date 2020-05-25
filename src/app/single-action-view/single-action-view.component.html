@@ -1,0 +1,14 @@
+<div class="action-card">
+    <div class="row">
+        <div class="col-md-3 img-container">
+            <img *ngIf="action.photoUrl" src="{{action.photoUrl}}" alt="Zdjęcie {{action.name}}" class="img-fluid"> 
+        </div>
+        <div class="col-md-9">
+            <h2><a routerLink="/action/{{action.id}}">{{action.name}}</a></h2>
+            <div>Utworzono: <strong>{{dateHelper.prettyDate(action.createdOn)}}</strong></div>
+            <div>Data zamawiania: <strong>{{dateHelper.prettyDate(action.orderDate)}}</strong></div>
+            <div>Data płacenia: <strong>{{dateHelper.prettyDate(action.payDate)}}</strong></div>
+            <div>Data odbioru: <strong>{{dateHelper.prettyDate(action.collectionDate)}}</strong></div>
+        </div>
+    </div>
+</div>
