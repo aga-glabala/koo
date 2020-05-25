@@ -64,7 +64,7 @@ module.exports = function (app, dbGetter) {
           if (error) {
             console.log(error);
           }
-          return cb(error, savedUser);
+          return cb(error, savedUser.ops[0]);
         });
       } else {
         return cb(err, user);

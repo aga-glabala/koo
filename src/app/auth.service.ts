@@ -33,7 +33,12 @@ export class AuthService {
 
     const me = this.http.get<Person>('/api/auth/me').pipe(shareReplay(1, 100));
     this.user = this.loggedIn.asObservable().pipe(
-      switchMap(loggedIn => loggedIn ? (!this.currentUser ? me : of(this.currentUser)) : of(null)),
+      switchMap(loggedIn => {
+        if (loggedIn) {
+          return !this.currentUser ? me : of(this.currentUser)
+        }
+        return of(null);
+      }),
       tap((user) => {
         this.currentUser = user;
       })
