@@ -1,11 +1,10 @@
 import { AuthService } from './auth.service';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { map, switchMap, filter, shareReplay, take } from 'rxjs/operators';
-
 
 import { Action, ProductField, HelpingAction } from './models/action';
 import { Person } from './models/person';
@@ -16,18 +15,19 @@ import * as moment from 'moment';
 })
 export class ActionsService {
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private authService: AuthService,
+              @Inject('BASE_API_URL') private baseUrl: string) {
   }
 
   getActions(sorting: string, showArchived: boolean, filterText: string): Observable<Action[]> {
     return this.http.get('/api/actions/', {params: {sort: sorting, archived: '' + showArchived, search: filterText}}).pipe(
-      map((actions: Action[]) => actions.map(this._fromStoreAction))
+    map((actions: Action[]) => actions.map(action => this._fromStoreAction(action)))
     ).pipe(shareReplay(1, 300));
   }
 
   getAction(id: string): Observable<Action> {
     return this.http.get('/api/actions/' + id).pipe(
-      map(this._fromStoreAction)
+      map(action => this._fromStoreAction(action))
     );
   }
 
@@ -66,7 +66,7 @@ export class ActionsService {
       switchMap((user) => this.getActions('newest', false, '').pipe(
         map((actions) => {
           return actions.filter(action => action.helpers.some(h => h.helperId === user.id))
-            .map(this._fromStoreAction)
+            .map(action => this._fromStoreAction(action))
             .map(action => new HelpingAction(action, action.helpers.filter(h => h.helperId === user.id)));
         })
       ))
@@ -88,9 +88,14 @@ export class ActionsService {
     action.payDate = moment(data.payDate);
     action.orderDate = moment(data.orderDate);
     action.createdOn = moment(data.createdOn);
-    action.photoUrl = action.photos && action.photos.length > 0 ?
-      '/api/actions/' + action.id + '/photos/' + action.photos[0] :
-      action.photoUrl;
+    if (action.photos && action.photos.length > 0) {
+      const path = '/actions/' + action.id + '/photos/' + action.photos[0];
+      if (this.baseUrl) {
+        action.photoUrl = this.baseUrl + path;
+      } else {
+        action.photoUrl = '/api/' + path;
+      }
+    }
     return action;
   }
 }
