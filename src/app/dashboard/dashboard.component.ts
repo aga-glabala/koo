@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
     this.loaderOrders = true;
     this.loaderHelpers = true;
     this.loaderActions = true;
-    this.actions = this.actionsService.getActions('newest', false).pipe(
+    this.actions = this.actionsService.getActions('newest', false, '').pipe(
       map(actions => {
         actions.sort((action1, action2) => {
           return action1.orderDate.valueOf() - action2.orderDate.valueOf();
