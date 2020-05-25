@@ -48,10 +48,10 @@ module.exports = function (app, dbGetter) {
       query.orderDate = {$gte: new Date().getTime()};
     }
 
-    // if(req.query.search) {
-    //   query.name = {$text: {$search: req.query.search}};
-    // }
-    console.log(query);
+    if(req.query.search) {
+      query.name = new RegExp('.*' + req.query.search + '.*', 'i');
+    }
+    console.log(query, orderby);
 
     dbGetter().collection('actions').find(query).sort(orderby).toArray((err, result) => {
       if (err) return res.status(500).send(err);
