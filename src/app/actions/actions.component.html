@@ -30,8 +30,8 @@
         </li>
         <li class="nav-item ml-3">
             <div class="input-group">
-                <label for="filterText" class="col-form-label">Filtruj (TODO): &nbsp;</label>
-                <input type="text" (ngModelChange)="filterTextChange($event)" [(ngModel)]="filterText" class="form-control" id="filterText">
+                <label for="filterText" class="col-form-label">Filtruj: &nbsp;</label>
+                <input type="text" [formControl]="filterTextInput" [value]="filterText" class="form-control" id="filterText">
             </div>
         </li>
     </ul>

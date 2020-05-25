@@ -43,10 +43,15 @@ module.exports = function (app, dbGetter) {
         break;
     }
 
-    let query;
+    let query = {};
     if(req.query.archived === 'false') {
-      query = {orderDate: {$gte: new Date().getTime()}};
+      query.orderDate = {$gte: new Date().getTime()};
     }
+
+    // if(req.query.search) {
+    //   query.name = {$text: {$search: req.query.search}};
+    // }
+    console.log(query);
 
     dbGetter().collection('actions').find(query).sort(orderby).toArray((err, result) => {
       if (err) return res.status(500).send(err);

@@ -24,6 +24,7 @@ export class OrderComponent implements OnInit {
   products = {};
   newProducts: Product[] = [];
   disabled = false;
+  today = moment();
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
               private formBuilder: FormBuilder, private ordersService: OrdersService,
               private modalService: NgbModal, private fb: FormBuilder) {

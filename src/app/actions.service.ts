@@ -19,8 +19,8 @@ export class ActionsService {
   constructor(private http: HttpClient, private authService: AuthService) {
   }
 
-  getActions(sorting: string, showArchived: boolean): Observable<Action[]> {
-    return this.http.get('/api/actions/', {params: {sort: sorting, archived: '' + showArchived}}).pipe(
+  getActions(sorting: string, showArchived: boolean, filterText: string): Observable<Action[]> {
+    return this.http.get('/api/actions/', {params: {sort: sorting, archived: '' + showArchived, search: filterText}}).pipe(
       map((actions: Action[]) => actions.map(this._fromStoreAction))
     ).pipe(shareReplay(1, 300));
   }
@@ -63,7 +63,7 @@ export class ActionsService {
     return this.authService.user.pipe(
       filter(user => !!user),
       take(1),
-      switchMap((user) => this.getActions('newest', false).pipe(
+      switchMap((user) => this.getActions('newest', false, '').pipe(
         map((actions) => {
           return actions.filter(action => action.helpers.some(h => h.helperId === user.id))
             .map(this._fromStoreAction)

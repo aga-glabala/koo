@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Action } from '../models/action';
 import { ActionsService } from '../actions.service';
 import { DateHelper } from '../helpers/date.helper';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-actions',
@@ -26,6 +28,8 @@ export class ActionsComponent implements OnInit {
   selectedSorting = this.sortingOptions[0];
   showArchived = false;
   filterText = '';
+  filterTextInput = new FormControl();
+  formCtrlSub: Subscription;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private actionsService: ActionsService, public dateHelper: DateHelper) { }
@@ -36,10 +40,18 @@ export class ActionsComponent implements OnInit {
     if (page) {
       this.page = page;
     }
+    this.formCtrlSub = this.filterTextInput.valueChanges.pipe(
+      debounceTime(400),
+      distinctUntilChanged()
+    ).subscribe(newValue => {
+      this.filterText = newValue;
+      console.log(newValue);
+      this.getActions();
+    });
   }
 
   getActions(): void {
-    this.actions = this.actionsService.getActions(this.selectedSorting.id, this.showArchived);
+    this.actions = this.actionsService.getActions(this.selectedSorting.id, this.showArchived, this.filterText);
   }
 
   pageChangeAction(newPage: number) {
