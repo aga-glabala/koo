@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Person } from './models/person';
 
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { tap, switchMap, shareReplay, map } from 'rxjs/operators';
+import { Observable, of, BehaviorSubject, throwError } from 'rxjs';
+import { tap, switchMap, shareReplay, map, catchError } from 'rxjs/operators';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -31,11 +31,19 @@ export class AuthService {
     const currentToken = this.jwtHelperService.tokenGetter();
     this.loggedIn = new BehaviorSubject(currentToken && !this.jwtHelperService.isTokenExpired());
 
-    const me = this.http.get<Person>('/api/auth/me').pipe(shareReplay(1, 100));
+    const me = this.http.get<Person>('/api/auth/me').pipe(
+      shareReplay(1, 100),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          this.logout();
+        }
+        return throwError(error);
+      })
+    );
     this.user = this.loggedIn.asObservable().pipe(
       switchMap(loggedIn => {
         if (loggedIn) {
-          return !this.currentUser ? me : of(this.currentUser)
+          return !this.currentUser ? me : of(this.currentUser);
         }
         return of(null);
       }),
