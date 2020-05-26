@@ -44,11 +44,14 @@ export class AuthService {
       })
     );
 
-    // refresh token if it is not expired and it is older than 1 day
-    if (currentToken &&
-      !this.jwtHelperService.isTokenExpired() &&
+    if (currentToken) {
+      // refresh token if it is not expired and it is older than 1 day
+      if (!this.jwtHelperService.isTokenExpired() &&
       this.jwtHelperService.decodeToken().iat * 1000 < new Date().getTime() - 24 * 3600 * 1000) {
-      this.refreshToken().subscribe(() => {});
+        this.refreshToken().subscribe(() => {});
+      } else if (this.jwtHelperService.isTokenExpired()) {
+        localStorage.removeItem('id_token');
+      }
     }
   }
 
@@ -92,6 +95,7 @@ export class AuthService {
       tap(response => {
         if (response.token) {
           localStorage.setItem('id_token', response.token);
+          this.loggedIn.next(true);
         }
       })
     );

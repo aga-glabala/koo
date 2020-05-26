@@ -14,8 +14,9 @@ export class NotAcceptedComponent implements OnInit {
   ngOnInit(): void {
     this.auth.user.subscribe(user => {
       if (user && user.accepted && !this.auth.isAccepted()) {
-        this.auth.logout();
-        this.router.navigate(['/']);
+        this.auth.refreshToken().subscribe(() => {
+          this.router.navigate(['/']);
+        });
       }
     });
   }
