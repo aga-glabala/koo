@@ -79,9 +79,12 @@ module.exports = function (app, dbGetter) {
       function (err, result) {
         if (err) {
           res.send(500);
+        } else if (!result.value) {
+          res.sendStatus(404);
+        } else {
+          const token = createToken(result.value);
+          res.status(200).send({ token, profile: convertUserFromBson(result.value) });
         }
-        const token = createToken(result.value);
-        res.status(200).send({ token, profile: convertUserFromBson(result.value) });
       });
   });
 
