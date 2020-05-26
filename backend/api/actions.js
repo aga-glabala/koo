@@ -24,13 +24,13 @@ const upload = multer({ storage, fileFilter });
 module.exports = function (app, dbGetter) {
   app.get('/actions', (req, res) => {
     console.log(req.query);
-    let orderby = {'created_on': 1};
+    let orderby = {'createdOn': 1};
     switch (req.query.sort) {
       case 'newest': 
-        orderby = {'created_on': 1}
+        orderby = {'createdOn': -1}
         break;
       case 'oldest': 
-        orderby = {'created_on': -1}
+        orderby = {'createdOn': 1}
         break;
       case 'order': 
         orderby = {'orderDate': 1}
