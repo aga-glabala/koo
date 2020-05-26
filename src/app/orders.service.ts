@@ -23,18 +23,11 @@ export class OrdersService {
   }
 
   getOrder(actionId: string): Observable<Order> {
-    return this.auth.user.pipe(
-      filter(user => !!user),
-      take(1),
-      switchMap((user) => this.http.get<Order>('/api/actions/' + actionId + '/myorders?forUser=' + user.id))
-    );
+    return this.http.get<Order>('/api/actions/' + actionId + '/myorders?forUser=' + this.auth.userId);
   }
 
   getUserOrders(): Observable<Order[]> {
-    return this.auth.user.pipe(
-      filter(user => !!user),
-      take(1),
-      switchMap((user) => this.http.get<Order[]>('/api/userorders?forUser=' + user.id)),
+    return this.http.get<Order[]>('/api/userorders?forUser=' + this.auth.userId).pipe(
       map((orders: Order[]) => orders.map((order) => {
         const orderObj = this.toOrderObj(order);
         orderObj.action = this.actionsService._fromStoreAction(orderObj.action);

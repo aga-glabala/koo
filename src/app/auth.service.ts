@@ -10,10 +10,19 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  user: Observable<Person>;
-  currentUser: Person;
+  get currentUser(): Person {
+    return this.userSubject.getValue();
+  }
+  get userId(): string {
+    const decodedToken = this.jwtHelperService.decodeToken(localStorage.getItem('id_token'));
+    return decodedToken.id;
+  }
+  get user(): Observable<Person> {
+    return this.userSubject.asObservable();
+  }
 
-  private loggedIn: BehaviorSubject<boolean>;
+  private loggedInSubject: BehaviorSubject<boolean>;
+  private userSubject: BehaviorSubject<Person>;
 
   constructor(
     private http: HttpClient,
@@ -29,10 +38,10 @@ export class AuthService {
     });
 
     const currentToken = this.jwtHelperService.tokenGetter();
-    this.loggedIn = new BehaviorSubject(currentToken && !this.jwtHelperService.isTokenExpired());
+    this.loggedInSubject = new BehaviorSubject(currentToken && !this.jwtHelperService.isTokenExpired());
+    this.userSubject = new BehaviorSubject(null);
 
     const me = this.http.get<Person>('/api/auth/me').pipe(
-      shareReplay(1, 100),
       catchError((error: HttpErrorResponse) => {
         if (error.status === 404) {
           this.logout();
@@ -40,17 +49,16 @@ export class AuthService {
         return throwError(error);
       })
     );
-    this.user = this.loggedIn.asObservable().pipe(
+    this.loggedInSubject.pipe(
       switchMap(loggedIn => {
         if (loggedIn) {
-          return !this.currentUser ? me : of(this.currentUser);
+          return !this.currentUser ? this.http.get<Person>('/api/auth/me') : of(this.currentUser);
         }
         return of(null);
-      }),
-      tap((user) => {
-        this.currentUser = user;
       })
-    );
+    ).subscribe((user) => {
+      this.userSubject.next(user);
+    });
 
     if (currentToken) {
       // refresh token if it is not expired and it is older than 1 day
@@ -73,7 +81,7 @@ export class AuthService {
               const token = response.token;
               if (token) {
                 localStorage.setItem('id_token', token);
-                this.loggedIn.next(true);
+                this.loggedInSubject.next(true);
               }
               resolve(response.profile);
             })
@@ -87,15 +95,15 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('id_token');
-    this.loggedIn.next(false);
+    this.loggedInSubject.next(false);
   }
 
   isAccepted(): boolean {
-    return this.loggedIn.value && this.hasPermission('accepted');
+    return this.loggedInSubject.value && this.hasPermission('accepted');
   }
 
   isAdmin(): boolean {
-    return this.loggedIn.value && this.hasPermission('admin');
+    return this.loggedInSubject.value && this.hasPermission('admin');
   }
 
   refreshToken(): Observable<void> {
@@ -103,7 +111,7 @@ export class AuthService {
       tap(response => {
         if (response.token) {
           localStorage.setItem('id_token', response.token);
-          this.loggedIn.next(true);
+          this.loggedInSubject.next(true);
         }
       })
     );

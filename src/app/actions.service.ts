@@ -62,16 +62,12 @@ export class ActionsService {
 
   // todo zprzenieść na backend
   getHelperActions(): Observable<HelpingAction[]> {
-    return this.authService.user.pipe(
-      filter(user => !!user),
-      take(1),
-      switchMap((user) => this.getActions('newest', false, '').pipe(
-        map((actions) => {
-          return actions.filter(action => action.helpers.some(h => h.helperId === user.id))
-            .map(action => this._fromStoreAction(action))
-            .map(action => new HelpingAction(action, action.helpers.filter(h => h.helperId === user.id)));
-        })
-      ))
+    return this.getActions('newest', false, '').pipe(
+      map((actions) => {
+        return actions.filter(action => action.helpers.some(h => h.helperId === this.authService.userId))
+          .map(action => this._fromStoreAction(action))
+          .map(action => new HelpingAction(action, action.helpers.filter(h => h.helperId === this.authService.userId)));
+      })
     );
   }
 
