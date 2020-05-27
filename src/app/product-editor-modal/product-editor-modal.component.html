@@ -6,25 +6,43 @@
     </button>
 </div>
 <div class="modal-body">
-    <form #productForm="ngForm">
-        <div class="form-group"> 
-            <label for="name">Nazwa</label>
-            <input class="form-control" id="name" name="name" type="text" [(ngModel)]="product.name"> 
+    <form [formGroup]="form" (submit)="save()">
+        <div class="form-group row"> 
+            <label for="productname" class="col-sm-4 col-form-label">Nazwa produktu</label>
+            <div class="col-sm-8">
+              <input type="text" formControlName="name" class="form-control" id="productname"  [ngClass]="validationClassProduct('name')"
+                placeholder="Nazwa produktu">
+                <div class="invalid-feedback">
+                  Nazwa jest wymagana
+                </div>
+            </div>
         </div>
-        <div class="form-group"> 
-            <label for="variant">Wariant</label>
-            <input class="form-control" id="variant" name="variant" type="text" [(ngModel)]="product.variant"> 
+        <div class="form-group row"> 
+            <label for="productvariant" class="col-sm-4 col-form-label">Wariant</label>
+            <div class="col-sm-8">
+                <input type="text" formControlName="variant" class="form-control" id="productvariant"
+                    placeholder="Wariant">
+            </div>
         </div>
-        <div class="form-group"> 
-            <label for="price">Cena</label>
-            <input class="form-control" min="0" id="price" name="price" type="number" [(ngModel)]="price"> 
+        <div class="form-group row"> 
+            <label for="productprice" class="col-sm-4 col-form-label">Cena</label>
+            <div class="col-sm-8">
+                <input type="number" min="0" formControlName="price" class="form-control" id="productprice" placeholder="Cena" [ngClass]="validationClassProduct('price')">
+                <div class="invalid-feedback">
+                    Cena jest wymagana, musi być większa niż 0 i mieć maksymalnie 2 liczby po przecinku.
+                </div>
+            </div>
         </div>
-        <div class="form-group" *ngFor="let field of fields; let i = index"> 
-            <label for="field-{{field.id}}">{{field.name}}</label>
-            <input class="form-control" id="field-{{field.id}}" name="{{field.name}}" type="text" [(ngModel)]="product.customFields[field.id]"> 
+        <div formGroupName="customFields">
+            <div *ngFor="let customField of fields" class="form-group row">
+                <label for="product{{ customField.name }}" class="col-sm-4 col-form-label">{{ customField.name }}</label>
+                <div class="col-sm-8">
+                    <input type="text" [formControlName]="customField.id" class="form-control" id="product{{ customField.name }}" [placeholder]="customField.name">
+                </div>
+            </div>
         </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" (click)="save()" class="btn btn-success"><i class="fas fa-save"></i> Zapisz</button>
+    <button type="button" class="btn btn-success" (click)="save()"><i class="fas fa-save"></i> Zapisz</button>
 </div>

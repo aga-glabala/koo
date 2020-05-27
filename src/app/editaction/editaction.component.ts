@@ -163,4 +163,12 @@ export class EditActionComponent implements OnInit {
       return '';
     }
   }
+
+  validationClassProduct(name: string) {
+    if (this.actionForm.get('newproduct').get(name).value || this.actionForm.get('newproduct').get(name).touched) {
+      return this.actionForm.get('newproduct').get(name).errors ? 'is-invalid' : 'is-valid';
+    } else {
+      return '';
+    }
+  }
 }

@@ -5,6 +5,7 @@ import { Helper } from '../models/person';
 import { Product } from '../models/product';
 import { ProductField, Action } from '../models/action';
 import { ActionFormAdapter } from '../helpers/action.adapter';
+import { priceValidator } from '../helpers/price.helper';
 
 @Injectable()
 export class ActionFormService {
@@ -38,9 +39,9 @@ export class ActionFormService {
           description: ''
         }),
         newproduct: this.fb.group({
-          name: '',
+          name: new FormControl('', [Validators.required]),
           variant: '',
-          price: '',
+          price: new FormControl('', [Validators.required, priceValidator]),
           customFields: this.fb.group({})
         }),
       });

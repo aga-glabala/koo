@@ -1,7 +1,7 @@
 import { BaseUrlInterceptor } from './baseurl.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, NG_VALIDATORS } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -26,7 +26,7 @@ import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
 import { UserQueueComponent } from './userqueue/userqueue.component';
 import { MyOrdersComponent } from './myorders/myorders.component';
 import { DateHelper } from './helpers/date.helper';
-import { PriceHelper, PricePipe } from './helpers/price.helper';
+import { PriceHelper, PricePipe, PriceValidatorDirective } from './helpers/price.helper';
 import { ProductFieldModalComponent } from './product-field-modal/product-field-modal.component';
 import { ProductEditorModalComponent } from './product-editor-modal/product-editor-modal.component';
 import { ActionFormAdapter } from './helpers/action.adapter';
@@ -56,7 +56,8 @@ export function tokenGetter() {
     ProductEditorModalComponent,
     PricePipe,
     ImportProductsModalComponent,
-    SingleActionViewComponent
+    SingleActionViewComponent,
+    PriceValidatorDirective
   ],
   imports: [
     BrowserModule,
@@ -83,7 +84,7 @@ export function tokenGetter() {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseUrlInterceptor,
       multi: true
-    },
+    }
   ],
   bootstrap: [AppComponent]
 })
