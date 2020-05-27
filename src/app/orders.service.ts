@@ -41,7 +41,7 @@ export class OrdersService {
 
     const orderDoc = {
       actionId,
-      ownerId: this.auth.currentUser.id,
+      ownerId: this.auth.userId,
       ownerName: this.auth.currentUser.name,
       products: order.products,
       newProducts,

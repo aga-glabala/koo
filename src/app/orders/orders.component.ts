@@ -29,10 +29,10 @@ export class OrdersComponent implements OnInit {
   getAction(): void {
     this.actionService.getAction(this.actionId).subscribe((action) => {
       this.action = action;
-      this.actionEditor = this.action.createdBy && this.auth.currentUser && (this.action.createdBy.id === this.auth.currentUser.id);
+      this.actionEditor = this.action.createdBy && this.auth.currentUser && (this.action.createdBy.id === this.auth.userId);
 
       for (const helper of this.action.helpers) {
-        if (this.auth.currentUser.id === helper.helperId) {
+        if (this.auth.userId === helper.helperId) {
           this.actionEditor = true;
         }
       }

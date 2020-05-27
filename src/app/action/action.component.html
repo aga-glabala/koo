@@ -14,7 +14,7 @@
             <a routerLink="/action/{{action.id}}/duplicate" class="btn btn-success">
                 <i class="fas fa-copy"></i> Duplikuj akcje
             </a> &nbsp;
-            <a routerLink="/action/{{action.id}}/edit" class="btn btn-success" *ngIf="auth.currentUser && auth.currentUser.id === action.createdBy.id">
+            <a routerLink="/action/{{action.id}}/edit" class="btn btn-success" *ngIf="auth.currentUser && auth.userId === action.createdBy.id">
                 <i class="fas fa-pencil-alt"></i> Edytuj akcje
             </a> 
         </div>

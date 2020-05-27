@@ -61,7 +61,7 @@ export class EditActionComponent implements OnInit {
 
     if (id) {
       this.actionService.getAction(id).subscribe((action) => {
-        if (this.mode === 'edit' && action.createdBy.id !== this.auth.currentUser.id) {
+        if (this.mode === 'edit' && action.createdBy.id !== this.auth.userId) {
           this.router.navigate(['/action/' + action.id]);
         }
 

@@ -37,7 +37,7 @@ export class ActionsService {
     let edit = true;
     if (!action.id) {
       edit = false;
-      action.createdBy = {...new Person(this.authService.currentUser.id, this.authService.currentUser.name)};
+      action.createdBy = {...new Person(this.authService.userId, this.authService.currentUser.name)};
       action.createdOn = moment();
     }
     const data = this._toStoreAction(action);
