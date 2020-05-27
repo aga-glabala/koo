@@ -3,6 +3,8 @@ const FacebookTokenStrategy = require('passport-facebook-token');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
+const converters = require('./../converters');
+
 module.exports = function (app, dbGetter) {
   passport.use(new FacebookTokenStrategy({
     clientID: process.env.FB_APP_ID,
@@ -93,17 +95,11 @@ module.exports = function (app, dbGetter) {
       if (err) {
         res.send(500);
       } else if (user) {
-        convertUserFromBson(user);
+        converters.userFromBson(user);
         res.json(user);
       } else {
         res.sendStatus(404);
       }
     });
   });
-
-  function convertUserFromBson(user) {
-    user.id = user._id;
-    delete user._id;
-    return user;
-  }
 }

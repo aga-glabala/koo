@@ -1,10 +1,12 @@
 const mongo = require('mongodb');
 
+const converters = require('./../converters');
+
 module.exports = function (app, dbGetter, guard) {
   app.get('/users', (req, res) => {
     dbGetter().collection('users').find({ accepted: req.query.accepted === 'true' }).toArray((err, result) => {
       if (err) return console.log(err)
-      result.forEach(convertUserFromBson);
+      result.forEach(converters.userFromBson);
       res.send(result)
     })
   });
@@ -16,7 +18,7 @@ module.exports = function (app, dbGetter, guard) {
         res.sendStatus(404);
         return;
       }
-      convertUserFromBson(result);
+      converters.userFromBson(result);
       res.send(result)
     })
   });
@@ -40,16 +42,4 @@ module.exports = function (app, dbGetter, guard) {
       res.send(result);
     });
   });
-
-  function convertUserFromBson(user) {
-    user.id = user._id;
-    delete user._id;
-  }
-
-  function convertUserToBson(user) {
-    if (user.id) {
-      user._id = new mongo.ObjectID(user.id);
-      delete user.id;
-    }
-  }
 }  
