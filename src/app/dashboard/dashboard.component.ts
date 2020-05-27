@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,15 +18,16 @@ import { Product } from '../models/product';
 })
 export class DashboardComponent implements OnInit {
   actionModal: Action;
-  actions: Observable<Action[]>;
-  userOrders: Observable<UserOrder[]>;
-  helperActions: Observable<HelpingAction[]>;
+  actions: Action[];
+  userOrders: UserOrder[];
+  helperActions: HelpingAction[];
   loaderOrders = false;
   loaderHelpers = false;
   loaderActions = false;
 
   constructor(private actionsService: ActionsService, private ordersService: OrdersService,
-              private modalService: NgbModal, public dateHelper: DateHelper, public auth: AuthService) { }
+              private modalService: NgbModal, public dateHelper: DateHelper, public auth: AuthService,
+              private http: HttpClient) { }
 
   ngOnInit(): void {
     this.getActions();
@@ -35,45 +37,21 @@ export class DashboardComponent implements OnInit {
     this.loaderOrders = true;
     this.loaderHelpers = true;
     this.loaderActions = true;
-    this.actions = this.actionsService.getActions('newest', false, '').pipe(
-      map(actions => {
-        actions.sort((action1, action2) => {
-          return action1.orderDate.valueOf() - action2.orderDate.valueOf();
-        });
-
-        actions.slice(0, 6);
-        this.loaderActions = false;
-        return actions;
-      })
-    );
-    this.userOrders = combineLatest([
-      this.actions,
-      this.ordersService.getUserOrders()
-    ]).pipe(
-      map((values) => {
-        const actions: Action[] = values[0];
-        const orders: Order[] = values[1];
-
-        this.loaderOrders = false;
-        return actions.map((action) => {
-          const str = new UserOrder(action, null);
-          const matchingOrder = orders.find((order) => action.id === order.actionId);
-          if (matchingOrder) {
-            str.order = matchingOrder;
-          }
-          // todo zwracać str tylko jak ma order!
-          return str;
-        });
-      })
-    );
-
-    // todo drugi raz uderza po akcje bez sensu
-    this.helperActions = this.actionsService.getHelperActions().pipe(
-      map((helpers) => {
-        this.loaderHelpers = false;
-        return helpers;
-      })
-    );
+    this.http.get<Dashboard>('/api/dashboard').subscribe(dashboard => {
+      this.actions = dashboard.actions.map(a => this.actionsService._fromStoreAction(a));
+      this.userOrders = dashboard.userOrders.map(uo => {
+        uo.action = this.actionsService._fromStoreAction(uo.action);
+        uo.order = this.ordersService.toOrderObj(uo.order);
+        return new UserOrder(uo.action, uo.order);
+      });
+      this.helperActions = dashboard.helperActions.map(ha => { 
+        ha.action = this.actionsService._fromStoreAction(ha.action);
+        return new HelpingAction(ha.action, ha.helpers);
+      });
+      this.loaderOrders = false;
+      this.loaderHelpers = false;
+      this.loaderActions = false;
+    });
   }
 
   open(content, action: Action) {
@@ -91,4 +69,10 @@ export class DashboardComponent implements OnInit {
     const str: string = arr.map((product) => product.name).join(', ');
     return str;
   }
+}
+
+class Dashboard {
+  actions: Action[];
+  userOrders: UserOrder[];
+  helperActions: HelpingAction[];
 }
