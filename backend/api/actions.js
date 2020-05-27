@@ -21,6 +21,8 @@ const fileFilter = function (req, file, cb) {
 }
 const upload = multer({ storage, fileFilter });
 
+const converters = require('./../converters');
+
 module.exports = function (app, dbGetter) {
   app.get('/actions', (req, res) => {
     console.log(req.query);
@@ -55,7 +57,7 @@ module.exports = function (app, dbGetter) {
 
     dbGetter().collection('actions').find(query).sort(orderby).toArray((err, result) => {
       if (err) return res.status(500).send(err);
-      result.forEach(convertActionFromBson);
+      result.forEach(converters.actionFromBson);
 
       res.send(result)
     });
@@ -64,7 +66,7 @@ module.exports = function (app, dbGetter) {
   app.get('/actions/user/:userid', (req, res) => {
     dbGetter().collection('actions').find({'createdBy.id': req.params.userid}).sort({'created_on': 1}).toArray((err, result) => {
       if (err) return res.status(500).send(err);
-      result.forEach(convertActionFromBson);
+      result.forEach(converters.actionFromBson);
 
       res.send(result)
     });
@@ -77,14 +79,13 @@ module.exports = function (app, dbGetter) {
         res.sendStatus(404);
         return;
       }
-      convertActionFromBson(result);
+      converters.actionFromBson(result);
       res.send(result)
     });
   });
 
   app.post('/actions', (req, res) => {
-    const data = req.body;
-    convertActionToBson(data);
+    const data = converters.actionToBson(req.body);
     dbGetter().collection('actions').insertOne(data, (err, result) => {
       if (err) return res.status(500).send(err);
       res.redirect('/actions/' + result.insertedId);
@@ -110,8 +111,7 @@ module.exports = function (app, dbGetter) {
   });
 
   app.put('/actions/:id', (req, res) => {
-    const data = req.body;
-    convertActionToBson(data);
+    const data = converters.actionToBson(req.body);
     dbGetter().collection('actions')
       .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id), 'createdBy.id': req.user.id }, {
         $set: data
@@ -121,7 +121,7 @@ module.exports = function (app, dbGetter) {
         if (err) return res.status(500).send(err);
         if (!result) return res.sendStatus(404);
         const data = req.body;
-        convertActionFromBson(data);
+        converters.actionFromBson(data);
         res.send(data)
       });
   });
@@ -134,20 +134,4 @@ module.exports = function (app, dbGetter) {
         res.send('A darth vadar quote got deleted')
       });
   });
-
-  function convertActionFromBson(action) {
-    action.id = action._id;
-    delete action._id;
-  }
-
-  function convertActionToBson(action) {
-    if (action.id) {
-      action._id = new mongo.ObjectID(action.id);
-      delete action.id;
-    }
-    action.createdOn = new Date(action.createdOn).getTime();
-    action.orderDate = new Date(action.orderDate).getTime();
-    action.collectionDate = new Date(action.collectionDate).getTime();
-    action.payDate = new Date(action.payDate).getTime();
-  }
 }

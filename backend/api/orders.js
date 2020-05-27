@@ -1,10 +1,12 @@
 const mongo = require('mongodb');
 
+const converters = require('./../converters');
+
 module.exports = function (app, dbGetter) {
   app.get('/actions/:actionId/orders', (req, res) => {
     dbGetter().collection('orders').find({ actionId: req.params.actionId }).toArray((err, result) => {
       if (err) return console.log(err)
-      result.forEach(convertOrderFromBson);
+      result.forEach(converters.orderFromBson);
       res.send(result)
     });
   });
@@ -16,7 +18,7 @@ module.exports = function (app, dbGetter) {
         res.sendStatus(404);
         return;
       }
-      convertOrderFromBson(result);
+      converters.orderFromBson(result);
       res.send(result)
     });
   });
@@ -29,7 +31,7 @@ module.exports = function (app, dbGetter) {
         res.sendStatus(404);
         return;
       }
-      convertOrderFromBson(result);
+      converters.orderFromBson(result);
       res.send(result)
     });
   });
@@ -38,7 +40,7 @@ module.exports = function (app, dbGetter) {
     const data = req.body;
     const newProducts = data.newProducts;
     delete data.newProducts;
-    convertOrderToBson(data);
+    converters.orderToBson(data);
     dbGetter().collection('orders').insertOne(data, (err, result) => {
       if (err) return res.send(err);
       updateAction(data.actionId, newProducts, res);
@@ -49,7 +51,7 @@ module.exports = function (app, dbGetter) {
     const data = req.body;
     const newProducts = data.newProducts;
     delete data.newProducts;
-    convertOrderToBson(data);
+    converters.orderToBson(data);
     dbGetter().collection('orders')
       .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id), ownerId: req.user.id }, {
         $set: data
@@ -79,9 +81,9 @@ module.exports = function (app, dbGetter) {
       let actionIds = orders.map((order) => new mongo.ObjectID(order.actionId));
       dbGetter().collection('actions').find({ _id: { $in: actionIds } }).toArray((err, actions) => {
         if (err) return console.log(err)
-        actions.forEach(convertActionFromBson);
+        actions.forEach(converters.actionFromBson);
         orders.forEach((order) => {
-          convertOrderFromBson(order);
+          converters.orderFromBson(order);
           order['action'] = actions.find((action) => action.id == order.actionId);
         });
         res.send(orders);
@@ -100,23 +102,6 @@ module.exports = function (app, dbGetter) {
         res.send(result)
       });
   });
-
-  function convertOrderFromBson(action) {
-    action.id = action._id;
-    delete action._id;
-  }
-
-  function convertOrderToBson(action) {
-    if (action.id) {
-      action._id = new mongo.ObjectID(action.id);
-      delete action.id;
-    }
-  }
-
-  function convertActionFromBson(action) {
-    action.id = action._id;
-    delete action._id;
-  }
 
   function updateAction(id, newProducts, res) {
     dbGetter().collection('actions')
