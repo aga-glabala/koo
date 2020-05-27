@@ -3,8 +3,8 @@
     Twoje zamówienia: <i *ngIf="loaderOrders" class="fas fa-circle-notch fa-spin"></i>
     <div class="float-right"><a class="btn btn-primary" routerLink="/myorders"><i class="fas fa-list"></i> Moje wszystkie zamówienia</a></div>
 </h2>
-<div class="row" *ngIf="(userOrders | async)?.length > 0">
-    <ng-container *ngFor="let userOrder of userOrders | async">
+<div class="row" *ngIf="userOrders?.length > 0">
+    <ng-container *ngFor="let userOrder of userOrders">
         <div class="col-lg-6" *ngIf="userOrder.order">
             <div class="action-card">
                 <div class="row">
@@ -34,7 +34,7 @@
 </div>
 
 <h2 class="mt-5 mb-4 clearfix">Pomagasz w akcjach: <i *ngIf="loaderHelpers" class="fas fa-circle-notch fa-spin"></i></h2>
-<table class="table" *ngIf="(helperActions | async)?.length > 0">
+<table class="table" *ngIf="helperActions?.length > 0">
     <thead>
         <th>Akcja</th>
         <th>Zamawiamy</th>
@@ -42,7 +42,7 @@
         <th>Odbiór</th>
         <th>Co robię?</th>
     </thead>
-    <tr *ngFor="let helperAction of helperActions | async">
+    <tr *ngFor="let helperAction of helperActions">
         <td><a routerLink="/action/{{helperAction.action.id}}">{{ helperAction.action.name }}</a></td>
         <td title="{{ dateHelper.prettyLongDate(helperAction.action.orderDate) }}">{{ dateHelper.prettyShortDate(helperAction.action.orderDate) }}</td>
         <td title="{{ dateHelper.prettyLongDate(helperAction.action.payDate) }}">{{ dateHelper.prettyShortDate(helperAction.action.payDate) }}</td>
@@ -50,7 +50,7 @@
         <td>{{ helperAction.printDescriptions() }}</td>
     </tr>
 </table>
-<p *ngIf="(helperActions | async)?.length == 0">
+<p *ngIf="helperActions?.length == 0">
     Nie pomagasz w żadnej akcji :(
 </p>
 <h2 class="mt-5 mb-4 clearfix">
@@ -60,7 +60,7 @@
     </div>
 </h2>
 <div class="row">
-    <div class="col-md-6" *ngFor="let action of actions | async"> 
+    <div class="col-md-6" *ngFor="let action of actions"> 
         <div class="action-card">
             <div class="row">
                 <div class="col-md-4 img-container">

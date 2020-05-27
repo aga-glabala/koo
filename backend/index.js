@@ -58,5 +58,6 @@ const dbGetter = function () {
 
 require('./api/auth')(app, dbGetter);
 require('./api/actions')(app, dbGetter);
+require('./api/dashboard')(app, dbGetter);
 require('./api/orders')(app, dbGetter);
 require('./api/users')(app, dbGetter, guard);
