@@ -9,6 +9,7 @@ import { ProductEditorModalComponent } from '../product-editor-modal/product-edi
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Product } from '../models/product';
 import * as moment from 'moment';
+import { TitleService } from '../title.service';
 
 @Component({
   selector: 'app-order',
@@ -27,7 +28,7 @@ export class OrderComponent implements OnInit {
   today = moment();
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
               private formBuilder: FormBuilder, private ordersService: OrdersService,
-              private modalService: NgbModal, private fb: FormBuilder) {
+              private modalService: NgbModal, private fb: FormBuilder, private title: TitleService) {
   }
 
   ngOnInit(): void {
@@ -39,6 +40,7 @@ export class OrderComponent implements OnInit {
     const that = this;
     this.actionService.getAction(actionId).subscribe((action) => {
       this.action = action;
+      this.title.setTitle(['Zamówienie', 'Akcja ' + action.name]);
       if (this.action) {
         const products = {};
         this.disabled = action.orderDate.isBefore(moment());

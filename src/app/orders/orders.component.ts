@@ -6,6 +6,7 @@ import { OrdersService } from '../orders.service';
 import { Order } from '../models/order';
 import { DateHelper } from '../helpers/date.helper';
 import { AuthService } from '../auth.service';
+import { TitleService } from '../title.service';
 
 @Component({
   selector: 'app-orders',
@@ -18,7 +19,7 @@ export class OrdersComponent implements OnInit {
   actionEditor = false;
   sums: {} = {};
   actionId: string;
-  constructor(private route: ActivatedRoute, private actionService: ActionsService,
+  constructor(private route: ActivatedRoute, private actionService: ActionsService, private title: TitleService,
               private ordersService: OrdersService, public auth: AuthService, public dateHelper: DateHelper) { }
 
   ngOnInit(): void {
@@ -29,6 +30,7 @@ export class OrdersComponent implements OnInit {
   getAction(): void {
     this.actionService.getAction(this.actionId).subscribe((action) => {
       this.action = action;
+      this.title.setTitle(['Zamówienia', 'Akcja ' + action.name]);
       this.actionEditor = this.action.createdBy && this.auth.currentUser && (this.action.createdBy.id === this.auth.userId);
 
       for (const helper of this.action.helpers) {

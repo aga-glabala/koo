@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateHelper } from '../helpers/date.helper';
 import { OrdersService } from '../orders.service';
 import { Order } from '../models/order';
+import { TitleService } from '../title.service';
 
 @Component({
   selector: 'app-myorders',
@@ -18,13 +19,16 @@ export class MyOrdersComponent implements OnInit {
   orders: Order[];
   actionModal: Action;
   constructor(private route: ActivatedRoute, private router: Router, private ordersService: OrdersService,
-              private modalService: NgbModal, public dateHelper: DateHelper) { }
+              private modalService: NgbModal, public dateHelper: DateHelper, private title: TitleService) { }
 
   ngOnInit(): void {
     this.getUserOrders();
     const page = +this.route.snapshot.paramMap.get('page');
     if (page) {
       this.page = page;
+      this.title.setTitle(['Moje zamówienia', 'Strona ' + page]);
+    } else {
+      this.title.setTitle(['Moje zamówienia']);
     }
   }
 

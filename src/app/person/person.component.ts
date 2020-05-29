@@ -5,6 +5,7 @@ import { PeopleService } from '../people.service';
 import { ActionsService } from '../actions.service';
 import { Action } from '../models/action';
 import { Observable } from 'rxjs';
+import { TitleService } from '../title.service';
 
 @Component({
   selector: 'app-person',
@@ -14,7 +15,8 @@ import { Observable } from 'rxjs';
 export class PersonComponent implements OnInit {
   person: Person;
   actions: Observable<Action[]>;
-  constructor(private route: ActivatedRoute, private peopleService: PeopleService, private actionsService: ActionsService) { }
+  constructor(private route: ActivatedRoute, private peopleService: PeopleService, private actionsService: ActionsService,
+              private title: TitleService) { }
 
   ngOnInit(): void {
     this.getPerson();
@@ -24,6 +26,7 @@ export class PersonComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.peopleService.getPerson(id).subscribe((person) => {
       this.person = person;
+      this.title.setTitle([person.name, 'Profil użytkownika']);
 
       this.actions = this.actionsService.getUserActions(id);
     });

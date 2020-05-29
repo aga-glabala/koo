@@ -17,6 +17,7 @@ import { AuthService } from '../auth.service';
 import { of } from 'rxjs';
 import { ImportProductsModalComponent } from '../import-products-modal/import-products-modal.component';
 import { AttachSession } from 'protractor/built/driverProviders';
+import { TitleService } from '../title.service';
 
 @Component({
   selector: 'app-editaction',
@@ -37,7 +38,8 @@ export class EditActionComponent implements OnInit {
   submitLoader = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
-              private actionFormService: ActionFormService, private modalService: NgbModal, public auth: AuthService) {
+              private actionFormService: ActionFormService, private modalService: NgbModal, public auth: AuthService, 
+              private title: TitleService) {
     const d = new Date();
     this.minDate = {day: d.getDate(), month: d.getMonth() + 1, year: d.getFullYear()};
   }
@@ -68,12 +70,17 @@ export class EditActionComponent implements OnInit {
         this.action = action;
         if (this.mode === 'duplicate') {
           this.action.id = null;
+          this.title.setTitle(['Duplikowanie akcji', action.name]);
+        } else {
+          this.title.setTitle(['Edycja akcji', action.name]);
         }
         if (action) {
           this.customFields = this.action.customFields || [];
           this.actionFormService.loadAction(this.action);
         }
       });
+    } else {
+      this.title.setTitle(['Nowa akcja']);
     }
 
   }

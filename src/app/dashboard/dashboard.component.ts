@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { Order, UserOrder } from '../models/order';
 import { DateHelper } from '../helpers/date.helper';
 import { Product } from '../models/product';
+import { TitleService } from '../title.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,10 +28,11 @@ export class DashboardComponent implements OnInit {
 
   constructor(private actionsService: ActionsService, private ordersService: OrdersService,
               private modalService: NgbModal, public dateHelper: DateHelper, public auth: AuthService,
-              private http: HttpClient) { }
+              private http: HttpClient, private title: TitleService) { }
 
   ngOnInit(): void {
     this.getActions();
+    this.title.setTitle(['Strona główna']);
   }
 
   getActions(): void {

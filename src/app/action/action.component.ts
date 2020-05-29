@@ -5,6 +5,7 @@ import { ActionsService } from '../actions.service';
 import { DateHelper } from '../helpers/date.helper';
 import { AuthService } from '../auth.service';
 import * as moment from 'moment';
+import { TitleService } from '../title.service';
 
 @Component({
   selector: 'app-action',
@@ -15,7 +16,7 @@ export class ActionComponent implements OnInit {
   action: Action;
   today = moment();
   constructor(private route: ActivatedRoute, private actionService: ActionsService,
-              public dateHelper: DateHelper, public auth: AuthService) { }
+              public dateHelper: DateHelper, public auth: AuthService, private title: TitleService) { }
 
   ngOnInit(): void {
     this.getAction();
@@ -25,6 +26,7 @@ export class ActionComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     this.actionService.getAction(id).subscribe((data) => {
       this.action = data;
+      this.title.setTitle([this.action.name, 'Akcja']);
     });
   }
 }

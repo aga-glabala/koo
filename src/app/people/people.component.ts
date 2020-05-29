@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Person } from '../models/person';
 import { PeopleService } from '../people.service';
 import { AuthService } from '../auth.service';
+import { TitleService } from '../title.service';
 
 @Component({
   selector: 'app-people',
@@ -13,13 +14,17 @@ export class PeopleComponent implements OnInit {
   page = 1;
   people: Person[];
 
-  constructor(private route: ActivatedRoute, private router: Router, private peopleService: PeopleService, private auth: AuthService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private peopleService: PeopleService,
+              private auth: AuthService, private title: TitleService) { }
 
   ngOnInit(): void {
     this.getPeople();
     const page = +this.route.snapshot.paramMap.get('page');
     if (page) {
       this.page = page;
+      this.title.setTitle(['Lista użytkowników', 'Strona ' + page]);
+    } else {
+      this.title.setTitle(['Lista użytkowników']);
     }
   }
 

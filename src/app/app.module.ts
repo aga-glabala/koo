@@ -1,5 +1,5 @@
 import { BaseUrlInterceptor } from './baseurl.interceptor';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, NG_VALIDATORS } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -84,7 +84,8 @@ export function tokenGetter() {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseUrlInterceptor,
       multi: true
-    }
+    },
+    Title
   ],
   bootstrap: [AppComponent]
 })

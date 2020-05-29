@@ -8,6 +8,7 @@ import { ActionsService } from '../actions.service';
 import { DateHelper } from '../helpers/date.helper';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { TitleService } from '../title.service';
 
 @Component({
   selector: 'app-actions',
@@ -32,13 +33,16 @@ export class ActionsComponent implements OnInit {
   formCtrlSub: Subscription;
 
   constructor(private route: ActivatedRoute, private router: Router,
-              private actionsService: ActionsService, public dateHelper: DateHelper) { }
+              private actionsService: ActionsService, public dateHelper: DateHelper, private title: TitleService) { }
 
   ngOnInit(): void {
     this.getActions();
     const page = +this.route.snapshot.paramMap.get('page');
     if (page) {
       this.page = page;
+      this.title.setTitle(['Lista akcji', 'Strona ' + page]);
+    } else {
+      this.title.setTitle(['Lista akcji']);
     }
     this.formCtrlSub = this.filterTextInput.valueChanges.pipe(
       debounceTime(400),
