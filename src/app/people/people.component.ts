@@ -35,7 +35,7 @@ export class PeopleComponent implements OnInit {
   }
 
   pageChangeAction(newPage: number) {
-    this.router.navigate(['/people/' + newPage]);
+    this.router.navigate(['people', newPage], {skipLocationChange: true});
     this.page = newPage;
   }
 

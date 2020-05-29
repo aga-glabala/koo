@@ -39,7 +39,7 @@ export class MyOrdersComponent implements OnInit {
   }
 
   pageChangeAction(newPage: number) {
-    this.router.navigate(['/myorders/' + newPage]);
+    this.router.navigate(['myorders', newPage], {skipLocationChange: true});
     this.page = newPage;
   }
   openModal(content, action) {

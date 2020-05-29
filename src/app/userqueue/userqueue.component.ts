@@ -41,7 +41,7 @@ export class UserQueueComponent implements OnInit {
   }
 
   pageChangeAction(newPage: number) {
-    this.router.navigate(['/userqueue/' + newPage]);
+    this.router.navigate(['userqueue', newPage], {skipLocationChange: true});
     this.page = newPage;
   }
 }

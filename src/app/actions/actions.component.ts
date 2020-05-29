@@ -59,7 +59,7 @@ export class ActionsComponent implements OnInit {
   }
 
   pageChangeAction(newPage: number) {
-    this.router.navigate(['/actions/' + newPage]);
+    this.router.navigate(['actions', newPage], {skipLocationChange: true});
     this.page = newPage;
   }
 
