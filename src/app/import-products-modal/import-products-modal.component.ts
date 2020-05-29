@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductField } from '../models/action';
 import { Product } from '../models/product';
@@ -15,6 +15,7 @@ export class ImportProductsModalComponent implements OnInit {
   innerProducts: Product[] = [];
   customFields: ProductField[];
   errors: string[] = [];
+  warnings: string[] = [];
   constructor(public activeModal: NgbActiveModal, public priceHelper: PriceHelper) {}
 
   ngOnInit(): void {}
@@ -27,6 +28,7 @@ export class ImportProductsModalComponent implements OnInit {
     this.loader = true;
     const that = this;
     this.errors = [];
+    this.warnings = [];
     Papa.parse($event.target.files[0], {
       complete: (json) => {
         that.loader = false;
@@ -54,18 +56,32 @@ export class ImportProductsModalComponent implements OnInit {
             fields[field.id] = json.data[i][field.name];
           }
 
-          let price = json.data[i].price.replace(',', '.').match(/[\d\.]+/g);
-          if (price.length > 0) {
-            price = that.priceHelper.convertPriceToNumber(+price[0]);
-          } else {
-            price = 0;
-          }
+          if (json.data[i] && json.data[i].name && json.data[i].price) {
+            let price = json.data[i].price.replace(',', '.');
+            const decimal = price.split('.');
+            price = +price;
+            if (Number.isNaN(price) || price < 0 || (decimal.length > 1 && decimal[1].length > 2)) {
+              price = 0;
+              that.warnings.push('Cena nie może być ujemna, zawierać liter lub mieć więcej niż 2 miejsca po przecinku' +
+                ' - te ceny zostały wyzerowane, ustaw w następnym kroku prawidłowe ceny.');
+            } else {
+              price = that.priceHelper.convertPriceToNumber(price);
+            }
 
-          that.innerProducts.push(new Product(undefined, json.data[i].name, json.data[i].variant, price, fields));
+            that.innerProducts.push(new Product(undefined, json.data[i].name, json.data[i].variant, price, fields));
+          } else {
+            if (i < json.data.length - 1) { // ignore last empty line
+              that.warnings.push('W linii ' + (i + 1) + 'brakuje ceny lub nazwy - została zignorowana.');
+            }
+          }
         }
 
         if (json.errors && json.errors.length > 0) {
-          that.errors.push(...json.errors);
+          for (const error of json.errors) { // ignore last empty line
+            if (error.row < json.data.length - 1) {
+              that.errors.push('Linia: ' + error.row + 'Wiadomość:' + error.message);
+            }
+          }
         }
       },
       header: true

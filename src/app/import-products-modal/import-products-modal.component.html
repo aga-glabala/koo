@@ -27,6 +27,9 @@
     <div class="alert alert-danger" *ngIf="errors && errors.length > 0">
         <p *ngFor="let error of errors"> {{ error }}</p>
     </div>
+    <div class="alert alert-warning" *ngIf="warnings && warnings.length > 0">
+        <p *ngFor="let warning of warnings"> {{ warning }}</p>
+    </div>
     <div *ngIf="innerProducts">
         <table class="table table-striped">
             <thead>
@@ -40,7 +43,7 @@
                 <tr *ngFor="let product of innerProducts; let i = index">
                     <td>{{ product.name }}</td>
                     <td>{{ product.variant }}</td>
-                    <td>{{ product.price | price }}</td>
+                    <td [ngClass]="{'bg-danger': product.price === 0}">{{ product.price | price }}</td>
                     <td *ngFor="let field of customFields"><span *ngIf="customFields">{{ product.customFields[field.id] }}</span></td>
                 </tr>
             </tbody>

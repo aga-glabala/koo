@@ -38,7 +38,7 @@ export class EditActionComponent implements OnInit {
   submitLoader = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
-              private actionFormService: ActionFormService, private modalService: NgbModal, public auth: AuthService, 
+              private actionFormService: ActionFormService, private modalService: NgbModal, public auth: AuthService,
               private title: TitleService) {
     const d = new Date();
     this.minDate = {day: d.getDate(), month: d.getMonth() + 1, year: d.getFullYear()};
@@ -151,13 +151,15 @@ export class EditActionComponent implements OnInit {
   }
 
   importFromFile() {
-    const modalRef = this.modalService.open(ImportProductsModalComponent);
+    const modalRef = this.modalService.open(ImportProductsModalComponent, { size: 'xl' });
     const that = this;
     modalRef.result.then((data) => {
       that.customFields = data.customFields;
       that.actionFormService.products = data.products;
-      for (const field of data.customFields) {
-        that.actionFormService.addNewCustomField(field.id);
+      if (data.customFields) {
+        for (const field of data.customFields) {
+          that.actionFormService.addNewCustomField(field.id);
+        }
       }
     });
     return false;
