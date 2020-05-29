@@ -7,7 +7,9 @@ export class Person {
                 public phone: number = null,
                 public accepted: boolean = false,
                 public admin: boolean = false,
-                public fbLink: string = null) {}
+                public fbLink: string = null,
+                public organizedActionsCount: number = null,
+                public helpedCount: number = null) {}
 }
 
 export class Helper {
