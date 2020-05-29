@@ -6,7 +6,7 @@
 </nav>
 
 <h1>Moje zamówienia</h1>
-<div class="row mb-4">
+<div class="row mb-4" *ngIf="orders?.length > 0">
     <ng-container *ngFor="let order of orders | paginate: { itemsPerPage: 25, currentPage: page }">
         <div class="col-md-12 {{order.picked ? 'picked-order' : ''}}">
             <div class="action-card">
@@ -44,7 +44,9 @@
         </div>
     </ng-container>
 </div>
-<pagination-controls (pageChange)="pageChangeAction($event)"></pagination-controls>
+<pagination-controls *ngIf="orders?.length > 0" (pageChange)="pageChangeAction($event)"></pagination-controls>
+
+<div class="alert alert-info" *ngIf="!orders || orders.length === 0">Nie zamawiasz nic jeszcze</div>
 
 <ng-template #paymentModal let-modal>
     <div class="modal-header">

@@ -32,6 +32,7 @@
         </div>
     </ng-container>
 </div>
+<div class="" *ngIf="!userOrders || userOrders?.length === 0">Nic aktualnie nie zamawiasz</div>
 
 <h2 class="mt-5 mb-4 clearfix">Pomagasz w akcjach: <i *ngIf="loaderHelpers" class="fas fa-circle-notch fa-spin"></i></h2>
 <table class="table" *ngIf="helperActions?.length > 0">
