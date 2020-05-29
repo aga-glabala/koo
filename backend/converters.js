@@ -1,3 +1,5 @@
+const mongo = require('mongodb');
+
 module.exports = {
   actionFromBson: function (action) {
     action.id = action._id;

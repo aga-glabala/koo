@@ -60,17 +60,6 @@ export class ActionsService {
       .pipe(map(evt => evt as Action));
   }
 
-  // todo zprzenieść na backend
-  getHelperActions(): Observable<HelpingAction[]> {
-    return this.getActions('newest', false, '').pipe(
-      map((actions) => {
-        return actions.filter(action => action.helpers.some(h => h.helperId === this.authService.userId))
-          .map(action => this._fromStoreAction(action))
-          .map(action => new HelpingAction(action, action.helpers.filter(h => h.helperId === this.authService.userId)));
-      })
-    );
-  }
-
   getUserActions(userId: string): Observable<Action[]> {
     return this.http.get('/api/actions/user/' + userId).pipe(
       map((actions: Action[]) => actions.map((action) => {

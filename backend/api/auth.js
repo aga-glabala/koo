@@ -23,7 +23,7 @@ module.exports = function (app, dbGetter) {
     }
 
     const token = createToken(req.user);
-    res.status(200).send({ token, profile: convertUserFromBson(req.user) });
+    res.status(200).send({ token, profile: converters.userFromBson(req.user) });
   });
 
   function createToken(user) {
@@ -85,7 +85,7 @@ module.exports = function (app, dbGetter) {
           res.sendStatus(404);
         } else {
           const token = createToken(result.value);
-          res.status(200).send({ token, profile: convertUserFromBson(result.value) });
+          res.status(200).send({ token, profile: converters.userFromBson(result.value) });
         }
       });
   });
