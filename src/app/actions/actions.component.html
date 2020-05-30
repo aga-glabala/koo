@@ -37,5 +37,5 @@
     </ul>
 </nav>
 
-<koo-single-action-view *ngFor="let action of actions | async | paginate: { itemsPerPage: 1, currentPage: page }" [action]="action"></koo-single-action-view>
+<koo-single-action-view *ngFor="let action of actions | async | paginate: { itemsPerPage: 25, currentPage: page }" [action]="action"></koo-single-action-view>
 <pagination-controls (pageChange)="pageChangeAction($event)"></pagination-controls>
