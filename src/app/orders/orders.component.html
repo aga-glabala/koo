@@ -39,10 +39,10 @@
                         <tbody>
                             <tr *ngFor="let product of action.products">
                                 <td>{{product.name}}</td>
-                                <td>{{product.variant}}</td>
+                                <td [innerHtml]="pfHelper.checkText(product.variant)"></td>
                                 <td>{{product.price | price}}</td>
                                 <td *ngFor="let customField of action.customFields">
-                                    <span *ngIf="product.customFields">{{ product.customFields[customField.id] }}</span>
+                                    <span *ngIf="product.customFields" [innerHtml]="pfHelper.checkText(product.customFields[customField.id])"></span>
                                 </td>
                                 <td *ngFor="let order of orders">{{ order.products[product.id] }}</td>
                             </tr>
@@ -116,7 +116,7 @@
                             </tr>
                             <tr>
                                 <th>Wariant</th>
-                                <th *ngFor="let product of action.products">{{product.variant}}</th>
+                                <th *ngFor="let product of action.products" [innerHtml]="pfHelper.checkText(product.variant)"></th>
                             </tr>
                             <tr>
                                 <th>Cena</th>
@@ -124,7 +124,9 @@
                             </tr>
                             <tr *ngFor="let customField of action.customFields">
                                 <th>{{ customField.name }}</th>
-                                <th *ngFor="let product of action.products"><span *ngIf="product.customFields">{{ product.customFields[customField.id] }}</span></th>
+                                <th *ngFor="let product of action.products">
+                                    <span *ngIf="product.customFields" [innerHtml]="pfHelper.checkText(product.customFields[customField.id])"></span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>

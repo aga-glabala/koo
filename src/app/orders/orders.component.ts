@@ -7,6 +7,7 @@ import { Order } from '../models/order';
 import { DateHelper } from '../helpers/date.helper';
 import { AuthService } from '../auth.service';
 import { TitleService } from '../title.service';
+import { ProductFieldHelper } from '../helpers/productfield.helper';
 
 @Component({
   selector: 'app-orders',
@@ -20,7 +21,8 @@ export class OrdersComponent implements OnInit {
   sums: {} = {};
   actionId: string;
   constructor(private route: ActivatedRoute, private actionService: ActionsService, private title: TitleService,
-              private ordersService: OrdersService, public auth: AuthService, public dateHelper: DateHelper) { }
+              private ordersService: OrdersService, public auth: AuthService, public dateHelper: DateHelper,
+              public pfHelper: ProductFieldHelper) { }
 
   ngOnInit(): void {
     this.actionId = this.route.snapshot.paramMap.get('actionid');
