@@ -18,6 +18,7 @@ import { of } from 'rxjs';
 import { ImportProductsModalComponent } from '../import-products-modal/import-products-modal.component';
 import { AttachSession } from 'protractor/built/driverProviders';
 import { TitleService } from '../title.service';
+import { ProductFieldHelper } from '../helpers/productfield.helper';
 
 @Component({
   selector: 'app-editaction',
@@ -39,7 +40,7 @@ export class EditActionComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
               private actionFormService: ActionFormService, private modalService: NgbModal, public auth: AuthService,
-              private title: TitleService) {
+              private title: TitleService, public pfHelper: ProductFieldHelper) {
     const d = new Date();
     this.minDate = {day: d.getDate(), month: d.getMonth() + 1, year: d.getFullYear()};
   }

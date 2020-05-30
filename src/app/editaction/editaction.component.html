@@ -197,9 +197,10 @@
             <tbody>
               <tr *ngFor="let product of products; let i = index">
                 <td>{{ product.name }}</td>
-                <td>{{ product.variant }}</td>
+                <td [innerHtml]="pfHelper.checkText(product.variant)"></td>
                 <td>{{ product.price | price }}</td>
-                <td *ngFor="let field of customFields"><span *ngIf="product.customFields">{{ product.customFields[field.id] }}</span></td>
+                <td *ngFor="let field of customFields">
+                  <span *ngIf="product.customFields" [innerHtml]="pfHelper.checkText(product.customFields[field.id])"></span></td>
                 <td>
                   <button class="btn btn-primary" (click)="editProduct(i)">
                     <i class="fas fa-pencil-alt"></i>

@@ -6,6 +6,7 @@ import { DateHelper } from '../helpers/date.helper';
 import { AuthService } from '../auth.service';
 import * as moment from 'moment';
 import { TitleService } from '../title.service';
+import { ProductFieldHelper } from '../helpers/productfield.helper';
 
 @Component({
   selector: 'app-action',
@@ -16,7 +17,8 @@ export class ActionComponent implements OnInit {
   action: Action;
   today = moment();
   constructor(private route: ActivatedRoute, private actionService: ActionsService,
-              public dateHelper: DateHelper, public auth: AuthService, private title: TitleService) { }
+              public dateHelper: DateHelper, public auth: AuthService, private title: TitleService,
+              public pfHelper: ProductFieldHelper) { }
 
   ngOnInit(): void {
     this.getAction();

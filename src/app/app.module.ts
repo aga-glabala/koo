@@ -33,6 +33,7 @@ import { ActionFormAdapter } from './helpers/action.adapter';
 import { ImportProductsModalComponent } from './import-products-modal/import-products-modal.component';
 import { SingleActionViewComponent } from './single-action-view/single-action-view.component';
 import { MsgComponent } from './msg/msg.component';
+import { ProductFieldHelper } from './helpers/productfield.helper';
 
 export function tokenGetter() {
   return localStorage.getItem('id_token');
@@ -81,6 +82,7 @@ export function tokenGetter() {
     DateHelper,
     PriceHelper,
     ActionFormAdapter,
+    ProductFieldHelper,
     { provide: "BASE_API_URL", useValue: environment.apiBaseUrl },
     {
       provide: HTTP_INTERCEPTORS,
