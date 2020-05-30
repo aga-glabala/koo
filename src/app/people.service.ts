@@ -19,6 +19,10 @@ export class PeopleService {
     return this.http.post('/api/users/' + id + '/makeAdmin', { });
   }
 
+  removeAdmin(id: string): Observable<any> {
+    return this.http.post('/api/users/' + id + '/removeAdmin', { });
+  }
+
   deletePerson(id: string): Observable<any> {
     return this.http.delete('/api/users/' + id);
   }

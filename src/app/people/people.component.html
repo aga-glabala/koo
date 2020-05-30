@@ -28,8 +28,9 @@
             <td>{{person.organizedActionsCount}}</td>
             <td>{{person.helpedCount}}</td>
             <td *ngIf="isAdmin()">
-                <button class="btn btn-success">Zrób administratorem</button>&nbsp;
-                <button class="btn btn-danger">Usuń użytkownika</button>
+                <button class="btn btn-danger" *ngIf="person.admin" (click)="removeAdmin(person)">Usuń administratora</button>
+                <button class="btn btn-success" *ngIf="!person.admin" (click)="makeAdmin(person)">Zrób administratorem</button>&nbsp;
+                <button class="btn btn-danger" (click)="removeUser(person)">Usuń użytkownika</button>
             </td>
         </tr>
     </tbody>

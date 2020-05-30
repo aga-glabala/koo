@@ -4,6 +4,7 @@ import { Person } from '../models/person';
 import { PeopleService } from '../people.service';
 import { AuthService } from '../auth.service';
 import { TitleService } from '../title.service';
+import { MsgService } from '../msg.service';
 
 @Component({
   selector: 'app-people',
@@ -15,7 +16,7 @@ export class PeopleComponent implements OnInit {
   people: Person[];
 
   constructor(private route: ActivatedRoute, private router: Router, private peopleService: PeopleService,
-              private auth: AuthService, private title: TitleService) { }
+              private auth: AuthService, private title: TitleService, private msg: MsgService) { }
 
   ngOnInit(): void {
     this.getPeople();
@@ -41,5 +42,32 @@ export class PeopleComponent implements OnInit {
 
   isAdmin() {
     return this.auth.isAdmin();
+  }
+
+  makeAdmin(person: Person) {
+    this.peopleService.makeAdmin(person.id).subscribe(() => {
+      person.admin = true;
+    }, (err) => {
+      console.error(err);
+      this.msg.showError(err.message);
+    });
+  }
+
+  removeAdmin(person: Person) {
+    this.peopleService.removeAdmin(person.id).subscribe(() => {
+      person.admin = false;
+    }, (err) => {
+      console.error(err);
+      this.msg.showError(err.message);
+    });
+  }
+
+  removeUser(person: Person) {
+    this.peopleService.deletePerson(person.id).subscribe((people) => {
+      this.people = this.people.filter((p) => p.id !== person.id);
+    }, (err) => {
+      console.error(err);
+      this.msg.showError(err.message);
+    });
   }
 }

@@ -84,6 +84,16 @@ module.exports = function (app, dbGetter, guard) {
     });
   });
 
+  app.post('/users/:id/removeAdmin', guard.check('admin'), (req, res) => {
+    dbGetter().collection('users').findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id) }, { $set: { admin: false } }, {}, (err, result) => {
+      if (err) {
+        res.sendStatus(500);
+       return console.log(err);
+      }
+      res.send(result);
+    });
+  });
+
   app.delete('/users/:id', guard.check('admin'), (req, res) => {
     dbGetter().collection('users').deleteOne({ _id: new mongo.ObjectID(req.params.id) }, (err, result) => {
       if (err) {

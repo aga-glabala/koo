@@ -32,6 +32,7 @@ import { ProductEditorModalComponent } from './product-editor-modal/product-edit
 import { ActionFormAdapter } from './helpers/action.adapter';
 import { ImportProductsModalComponent } from './import-products-modal/import-products-modal.component';
 import { SingleActionViewComponent } from './single-action-view/single-action-view.component';
+import { MsgComponent } from './msg/msg.component';
 
 export function tokenGetter() {
   return localStorage.getItem('id_token');
@@ -57,7 +58,8 @@ export function tokenGetter() {
     PricePipe,
     ImportProductsModalComponent,
     SingleActionViewComponent,
-    PriceValidatorDirective
+    PriceValidatorDirective,
+    MsgComponent
   ],
   imports: [
     BrowserModule,
