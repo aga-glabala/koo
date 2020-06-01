@@ -88,7 +88,7 @@ module.exports = function (app, dbGetter) {
     const data = converters.actionToBson(req.body);
     dbGetter().collection('actions').insertOne(data, (err, result) => {
       if (err) return res.status(500).send(err);
-      res.redirect('/actions/' + result.insertedId);
+      res.send({id: result.insertedId});
     });
   });
 
@@ -102,7 +102,7 @@ module.exports = function (app, dbGetter) {
       }, (err, result) => {
         if (err) return res.status(500).send(err);
         if (!result) return res.sendStatus(404);
-        res.redirect('/actions/' + actionId);
+        res.send({id: actionId});
       });
   });
 
