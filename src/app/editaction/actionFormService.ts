@@ -5,7 +5,7 @@ import { Helper } from '../models/person';
 import { Product } from '../models/product';
 import { ProductField, Action } from '../models/action';
 import { ActionFormAdapter } from '../helpers/action.adapter';
-import { priceValidator } from '../helpers/price.helper';
+import { priceValidator, PriceHelper } from '../helpers/price.helper';
 
 @Injectable()
 export class ActionFormService {
@@ -14,7 +14,7 @@ export class ActionFormService {
   helpers: Helper[] = [];
 
   constructor(
-    private fb: FormBuilder, private actionAdapter: ActionFormAdapter
+    private fb: FormBuilder, private actionAdapter: ActionFormAdapter, private priceHelper: PriceHelper
   ) {
     this.form = this.fb.group({
         newaction: this.fb.group({
@@ -51,7 +51,7 @@ export class ActionFormService {
     const product = new Product(undefined,
       this.form.value.newproduct.name,
       this.form.value.newproduct.variant,
-      this.form.value.newproduct.price,
+      this.priceHelper.convertPriceToNumber(this.form.value.newproduct.price),
       {});
 
     product.customFields = {};

@@ -33,7 +33,7 @@ export class ProductEditorModalComponent implements OnInit {
     this.form = this.fb.group({
       name: new FormControl(this.product.name, [Validators.required]),
       variant: this.product.variant,
-      price: new FormControl(this.product.price, [Validators.required, priceValidator]),
+      price: new FormControl(this.price, [Validators.required, priceValidator]),
       customFields: this.fb.group(fields)
     });
   }
