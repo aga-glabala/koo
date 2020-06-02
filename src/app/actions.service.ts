@@ -33,6 +33,10 @@ export class ActionsService {
     );
   }
 
+  removeAction(id: string): Observable<any> {
+    return this.http.delete('/api/actions/' + id);
+  }
+
   saveAction(action: Action): Observable<Action> {
     let edit = true;
     if (!action.id) {
@@ -41,7 +45,6 @@ export class ActionsService {
       action.createdOn = moment();
     }
     const data = this._toStoreAction(action);
-    console.log(data);
     if (edit) {
       return this.http.put<Action>('/api/actions/' + data.id, data);
     } else {

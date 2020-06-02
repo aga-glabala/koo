@@ -131,7 +131,10 @@ module.exports = function (app, dbGetter) {
       .findOneAndDelete({ _id: new mongo.ObjectID(req.params.id), 'createdBy.id': req.user.id }, (err, result) => {
         if (err) return res.send(500, err);
         if (!result) return res.sendStatus(404);
-        res.send('A darth vadar quote got deleted')
+        dbGetter().collection('orders').deleteMany({actionId: req.params.id}, (err, result) => {
+          if (err) return res.send(500, err);
+          res.send({msg: 'Action deleted'});
+        });
       });
   });
 }
