@@ -10,6 +10,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Product } from '../models/product';
 import * as moment from 'moment';
 import { TitleService } from '../title.service';
+import { ProductFieldHelper } from '../helpers/productfield.helper';
+import { DateHelper } from '../helpers/date.helper';
 
 @Component({
   selector: 'app-order',
@@ -27,8 +29,8 @@ export class OrderComponent implements OnInit {
   disabled = false;
   today = moment();
   constructor(private route: ActivatedRoute, private router: Router, private actionService: ActionsService,
-              private formBuilder: FormBuilder, private ordersService: OrdersService,
-              private modalService: NgbModal, private fb: FormBuilder, private title: TitleService) {
+              private formBuilder: FormBuilder, private ordersService: OrdersService, public pfHelper: ProductFieldHelper,
+              private modalService: NgbModal, private fb: FormBuilder, private title: TitleService, public dateHelper: DateHelper) {
   }
 
   ngOnInit(): void {
@@ -116,5 +118,18 @@ export class OrderComponent implements OnInit {
     this.ordersService.saveOrder(this.action.id, this.orderForm.value, this.newProducts).subscribe((order) => {
       that.router.navigate(['/action/' + that.action.id + '/orders']);
     });
+  }
+
+  remove(content) {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
+
+    modalRef.result.then((save) => {
+      if (save) {
+        this.ordersService.removeOrder(this.order.id).subscribe((data) => {
+          this.router.navigate(['/action/' + this.action.id]);
+        });
+      }
+    }, (reason) => {});
+    return false;
   }
 }

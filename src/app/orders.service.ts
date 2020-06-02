@@ -26,6 +26,10 @@ export class OrdersService {
     return this.http.get<Order>('/api/actions/' + actionId + '/myorders?forUser=' + this.auth.userId);
   }
 
+  removeOrder(orderId: string): Observable<Order> {
+    return this.http.delete<Order>('/api/orders/' + orderId);
+  }
+
   getUserOrders(): Observable<Order[]> {
     return this.http.get<Order[]>('/api/userorders?forUser=' + this.auth.userId).pipe(
       map((orders: Order[]) => orders.map((order) => {

@@ -8,7 +8,14 @@
         </ol>
     </nav> 
 
-    <h1>Nowe zamówienie do akcji {{ action.name }}</h1>
+    <h1>Nowe zamówienie do akcji {{ action.name }}
+        <div class="float-right">
+            <a (click)="remove(deleteModal)" class="btn btn-danger text-light" *ngIf="order?.id">
+                <i class="fas fa-trash-alt"></i> Usuń zamówienie
+            </a>
+        </div> 
+    </h1>
+            
     <p *ngIf="action.payLock" class="alert alert-danger">
         Akcja ma zablokowane płaności na razie. Może to oznaczać, że ceny mogą zostać jeszcze zmienione.
     </p>
@@ -29,9 +36,11 @@
             </thead>
             <tr *ngFor="let product of action.products">
                 <td>{{product.name}}</td>
-                <td>{{product.variant}}</td>
+                <td [innerHtml]="pfHelper.checkText(product.variant)"></td>
                 <td>{{product.price | price}}</td>
-                <td *ngFor="let field of action.customFields"><span *ngIf="product.customFields">{{ product.customFields[field.id] }}</span></td>
+                <td *ngFor="let field of action.customFields">
+                    <span *ngIf="product.customFields" [innerHtml]="pfHelper.checkText(product.customFields[field.id])"></span>
+                </td>
                 <td><input type="number" min="0" formControlName="{{product.id}}" class="form-control" [attr.disabled]="disabled ? '' : null"></td>
             </tr>
             <tr>
@@ -61,3 +70,19 @@
     </form>
 
 </div>
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-basic-title">Czy na pewno chcesz usunąć zamówienie?</h2>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <p>
+            Masz czas do {{ dateHelper.prettyLongDate(action.orderDate) }} żeby ponownie złożyć zamówienie.
+        </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.close(true)">Tak, usuń</button>
+    </div>
+  </ng-template>

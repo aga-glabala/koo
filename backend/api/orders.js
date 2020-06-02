@@ -58,7 +58,6 @@ module.exports = function (app, dbGetter) {
       }, {
         upsert: true
       }, (err, result) => {
-        console.log(result);
         if (err) return res.status(500).send(err);
         if (!result) return res.sendStatus(404);
         updateAction(data.actionId, newProducts, res);
@@ -70,7 +69,7 @@ module.exports = function (app, dbGetter) {
       .findOneAndDelete({ _id: new mongo.ObjectID(req.params.id), ownerId: req.user.id }, (err, result) => {
         if (err) return res.send(500, err);
         if (!result) return res.sendStatus(404);
-        res.send('A darth vadar quote got deleted');
+        res.send({msg: 'order deleted'});
       });
   });
 
@@ -92,7 +91,6 @@ module.exports = function (app, dbGetter) {
   });
 
   app.post('/order/picked', (req, res) => {
-    console.log(req.body.id);
     dbGetter().collection('orders')
       .findOneAndUpdate({ _id: new mongo.ObjectID(req.body.id), ownerId: req.user.id }, {
         $set: { picked: req.body.picked }

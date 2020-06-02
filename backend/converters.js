@@ -27,7 +27,7 @@ module.exports = {
 
   orderToBson: function (order) {
     if (order.id) {
-      order._id = new mongo.ObjectID(actiorderon.id);
+      order._id = new mongo.ObjectID(order.id);
       delete order.id;
     }
     return order;
