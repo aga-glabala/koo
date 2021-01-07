@@ -41,13 +41,13 @@ module.exports = function (app, dbGetter) {
 
   function getUser(email, pwd, cb) {
     return dbGetter().collection('users').findOne({
-      'email': email,
-      'password': pwd,
+      'email': email
     }, function (err, user) {
       // no user was found, lets create a new one
       if (!user) {
         var newUser = {
           email: email,
+          password: pwd,
           accepted: true,
           lastLogin: new Date().getTime()
         };
@@ -58,8 +58,10 @@ module.exports = function (app, dbGetter) {
           }
           return cb(error, savedUser.ops[0]);
         });
-      } else {
+      } else if (user.password == pwd) {
         return cb(err, user);
+      } else {
+        return cb("Invliad password");
       }
     });
   };
