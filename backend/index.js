@@ -37,6 +37,8 @@ app.use(guard.check('accepted').unless({ path: ['/auth/me', '/auth/refreshToken'
 app.use(function (err, req, res, next) {
   if (err.code === 'permission_denied') {
     res.status(403).send('Forbidden');
+  } else {
+    next();
   }
 });
 

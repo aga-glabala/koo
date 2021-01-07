@@ -83,6 +83,10 @@ module.exports = function (app, dbGetter) {
   });
 
   app.get('/auth/me', (req, res, next) => {
+    if (!req.user) {
+      res.sendStatus(404);
+      return;
+    }
     dbGetter().collection('users').findOne({ _id: new mongo.ObjectID(req.user.id) }, function (err, user) {
       if (err) {
         res.send(500);
