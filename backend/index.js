@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const mongo = require('mongodb');
 const expressJwt = require('express-jwt');
 const guard = require('express-jwt-permissions')()
+const passport = require('passport');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -13,12 +14,13 @@ const app = express();
 
 app.use(bodyParser.json())
 
-app.use(cors({ origin: process.env.CORS_ORIGIN }));
+app.use(cors());
 
 //token handling middleware
 const authenticate = expressJwt({
   secret: process.env.JWT_SECRET,
   getToken: function (req) {
+    // console.log(req.headers.authorization);
     if (req.headers.authorization) {
       return req.headers.authorization.replace('Bearer ', '');
     }
@@ -27,7 +29,7 @@ const authenticate = expressJwt({
 });
 
 // TODO secure images ?
-const ignoredPaths = ['/auth/facebook', /^\/actions\/[a-z0-9]+\/photos\/.*/];
+const ignoredPaths = ['/auth/login', /^\/actions\/[a-z0-9]+\/photos\/.*/];
 app.use(authenticate.unless({ path: ignoredPaths }));
 
 app.use(guard.check('accepted').unless({ path: ['/auth/me', '/auth/refreshToken', ...ignoredPaths] }));
@@ -37,6 +39,8 @@ app.use(function (err, req, res, next) {
     res.status(403).send('Forbidden');
   }
 });
+
+app.use(passport.initialize());
 
 let db;
 

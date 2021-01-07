@@ -1,23 +1,20 @@
 const mongo = require('mongodb');
-const FacebookTokenStrategy = require('passport-facebook-token');
+const CustomStrategy = require('passport-custom');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
 const converters = require('./../converters');
 
 module.exports = function (app, dbGetter) {
-  passport.use(new FacebookTokenStrategy({
-    clientID: process.env.FB_APP_ID,
-    clientSecret: process.env.FB_APP_SECRET
-  },
-    function (accessToken, refreshToken, profile, done) {
-      upsertFbUser(accessToken, refreshToken, profile, function (err, user) {
+  passport.use(new CustomStrategy(
+    function (req, done) {
+      getUser(req.body.email, req.body.password, function (err, user) {
         return done(err, user);
       });
     })
   );
 
-  app.post('/auth/facebook', passport.authenticate('facebook-token', { session: false }), (req, res) => {
+  app.post('/auth/login', passport.authenticate('custom', { session: false }), (req, res) => {
     if (!req.user) {
       return res.send(401, 'User Not Authenticated');
     }
@@ -42,23 +39,16 @@ module.exports = function (app, dbGetter) {
       });
   };
 
-  function upsertFbUser(accessToken, refreshToken, profile, cb) {
+  function getUser(email, pwd, cb) {
     return dbGetter().collection('users').findOne({
-      'facebookProvider.id': profile.id
+      'email': email,
+      'password': pwd,
     }, function (err, user) {
       // no user was found, lets create a new one
       if (!user) {
         var newUser = {
-          email: profile.emails[0].value,
-          facebookProvider: {
-            id: profile.id,
-            token: accessToken
-          },
-          name: profile.displayName,
-          photoUrl: profile.photos.length > 0 ? profile.photos[0].value : null,
-          phone: null,
-          admin: false,
-          accepted: false,
+          email: email,
+          accepted: true,
           lastLogin: new Date().getTime()
         };
 
