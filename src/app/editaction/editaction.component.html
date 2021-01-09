@@ -33,9 +33,20 @@
             </div>
             <div class="form-group row">
               <label for="newacion-photo" class="col-sm-2 col-form-label">Zdjęcia</label>
-              <div class="col-sm-10 col-md-4">
+              <div class="col-sm-10 col-md-4" *ngIf="action.photos?.length === 0">
                 <input type="file" formControlName="photo" class="form-control" id="newacion-photo"
                   accept="image/*" (change)="onFileChange($event)" />
+              </div>
+              <div class="col-sm-10 col-md-8" *ngIf="action.photos?.length > 0">
+                <div class="row">
+                  <div class="col-6 col-sm-4"><img class="img-fluid" src="{{action.photoUrl}}"></div>
+                  <div class="col-sm-8">
+                    <p>Zmień zdjęcie:</p>
+                    <input type="file" formControlName="photo" class="form-control" id="newacion-photo"
+                    accept="image/*" (change)="onFileChange($event)" />
+                  </div>
+                </div>
+                
               </div>
             </div>
             <div class="form-group row" [ngClass]="validationClass('orderDate')">
