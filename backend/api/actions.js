@@ -47,7 +47,7 @@ module.exports = function (app, dbGetter) {
 
     let query = {};
     if(req.query.archived === 'false') {
-      query.orderDate = {$gte: new Date().getTime()};
+      query.collectionDate = {$gte: new Date().getTime()};
     }
 
     if(req.query.search) {
