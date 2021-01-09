@@ -48,7 +48,7 @@
                 <td>{{ sumOrder | price }}zł</td>
             </tr>
 
-            <tr *ngIf="action.productsEditable">
+            <tr *ngIf="action.productsEditable && !disabled">
                 <td [attr.colspan]="4 + action.customFields.length"><div class="alert alert-primary text-center">
                     Można dodawać swoje produkty:&nbsp;
                     <button class="btn btn-primary" (click)="addProduct()">Dodaj produkt</button>
