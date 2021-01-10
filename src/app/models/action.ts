@@ -22,7 +22,9 @@ export class Action {
                 public helpers: Helper[],
                 public products: Product[],
                 public photos: string[],
-                public customFields: ProductField[]
+                public customFields: ProductField[],
+                public cost: number,
+                public discount: number
                 ) {}
 }
 

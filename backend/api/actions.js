@@ -25,7 +25,6 @@ const converters = require('./../converters');
 
 module.exports = function (app, dbGetter) {
   app.get('/actions', (req, res) => {
-    console.log(req.query);
     let orderby = {'createdOn': 1};
     switch (req.query.sort) {
       case 'newest': 
@@ -53,7 +52,6 @@ module.exports = function (app, dbGetter) {
     if(req.query.search) {
       query.name = new RegExp('.*' + req.query.search + '.*', 'i');
     }
-    console.log(query, orderby);
 
     dbGetter().collection('actions').find(query).sort(orderby).toArray((err, result) => {
       if (err) return res.status(500).send(err);
@@ -87,7 +85,9 @@ module.exports = function (app, dbGetter) {
   app.post('/actions', (req, res) => {
     const data = converters.actionToBson(req.body);
     dbGetter().collection('actions').insertOne(data, (err, result) => {
-      if (err) return res.status(500).send(err);
+      if (err) {
+        return res.status(500).send(err);
+      }
       res.send({id: result.insertedId});
     });
   });

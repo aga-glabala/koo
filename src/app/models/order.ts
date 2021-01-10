@@ -23,16 +23,10 @@ export class Order {
 }
 
 export class UserOrder {
-    private sum: number;
-
     constructor(public action: Action,
                 public order: Order) {}
 
-        public countSum(products: Product[]) {
-            if (this.sum) { return this.sum; }
-
-            this.sum = this.order.countSum(products);
-
-            return this.sum;
-        }
+    public countSum(products: Product[]) {
+        return this.order.countSum(products);
+    }
 }

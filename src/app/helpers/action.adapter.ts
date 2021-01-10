@@ -11,7 +11,7 @@ export class ActionFormAdapter {
    */
 
   fromForm(obj, helpers: Helper[], products: Product[], customFields: ProductField[],
-           createdBy: Person, createdOn: moment.Moment, photos: string[]): Action {
+           createdBy: Person, createdOn: moment.Moment, photos: string[], cost, discount): Action {
     const action = new Action(
         obj.id, obj.name, obj.photoUrl, createdBy, createdOn,
         moment({ year: obj.orderDate.year, month: obj.orderDate.month - 1,
@@ -21,7 +21,7 @@ export class ActionFormAdapter {
         obj.payLock,
         moment({ year: obj.collectionDate.year, month: obj.collectionDate.month - 1,
           day: obj.collectionDate.day, hour: obj.collectionTime.hour, minute: obj.collectionTime.minute}),
-        obj.rules, obj.description, obj.collection, obj.payment, obj.productsEditable, helpers, products, photos, customFields
+        obj.rules, obj.description, obj.collection, obj.payment, obj.productsEditable, helpers, products, photos, customFields, cost, discount
     );
     return action;
   }

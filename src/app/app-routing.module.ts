@@ -1,19 +1,19 @@
 import { NgModule, Injectable } from '@angular/core';
 import { Routes, RouterModule, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate, UrlTree, Router } from '@angular/router';
 
-import { PeopleComponent } from './people/people.component';
-import { PersonComponent } from './person/person.component';
-import { ActionsComponent } from './actions/actions.component';
-import { ActionComponent } from './action/action.component';
-import { EditActionComponent } from './editaction/editaction.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { NotAcceptedComponent } from './not-accepted/not-accepted.component';
-import { OrderComponent } from './order/order.component';
-import { OrdersComponent } from './orders/orders.component';
-import { UserQueueComponent } from './userqueue/userqueue.component';
-import { MyOrdersComponent } from './myorders/myorders.component';
+import { PeopleComponent } from './views/people/people.component';
+import { PersonComponent } from './views/person/person.component';
+import { ActionsComponent } from './views/actions/actions.component';
+import { ActionComponent } from './views/action/action.component';
+import { EditActionComponent } from './views/editaction/editaction.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
+import { NotAcceptedComponent } from './views/not-accepted/not-accepted.component';
+import { OrderComponent } from './views/order/order.component';
+import { OrdersComponent } from './views/orders/orders.component';
+import { UserQueueComponent } from './views/userqueue/userqueue.component';
+import { MyOrdersComponent } from './views/myorders/myorders.component';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 
 @Injectable()
 class CanActivateAccepted implements CanActivate {

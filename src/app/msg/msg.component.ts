@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MsgService } from '../msg.service';
+import { MsgService } from '../services/msg.service';
 
 @Component({
   selector: 'koo-msg',
