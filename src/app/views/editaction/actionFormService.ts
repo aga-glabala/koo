@@ -36,10 +36,6 @@ export class ActionFormService {
           discount: new FormControl(0, [priceValidator]),
           cost: new FormControl(0, [priceValidator])
         }),
-        newperson: this.fb.group({
-          person: '',
-          description: ''
-        }),
         newproduct: this.fb.group({
           name: new FormControl('', [Validators.required]),
           variant: '',
@@ -67,15 +63,6 @@ export class ActionFormService {
 
   removeProduct(id: number) {
     this.products.splice(id, 1);
-  }
-
-  addNewHelper() {
-    this.helpers.push(new Helper(this.form.value.newperson.person, this.form.value.newperson.description));
-    this.form.get('newperson').reset();
-  }
-
-  removeHelper(id: number) {
-    this.helpers.splice(id, 1);
   }
 
   addNewCustomField(id: string) {

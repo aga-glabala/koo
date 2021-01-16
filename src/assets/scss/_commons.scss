@@ -105,21 +105,19 @@ h1 {
     }
 }
 
-.large-tabset {
-    ul {
-        margin-bottom: $spacer * 3;
+.large-tabs {
+    margin-bottom: $spacer * 3;
 
-        .nav-item {
-            margin-right: $spacer;
+    .nav-item {
+        margin-right: $spacer;
 
-            .nav-link {
-                padding: $spacer $spacer*2;
-            }
-            .nav-link.active {
-                border-bottom: 1px solid #fbfbfb;
-                border-top: 3px solid $primary;
-                margin-top: -2px;
-            }
+        .nav-link {
+            padding: $spacer $spacer*2;
+        }
+        .nav-link.active {
+            border-bottom: 1px solid #fbfbfb;
+            border-top: 3px solid $primary;
+            margin-top: -2px;
         }
     }
 }

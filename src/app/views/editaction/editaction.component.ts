@@ -111,14 +111,7 @@ export class EditActionComponent implements OnInit {
       that.showError = err.error;
     });
   }
-
-  addNewHelper() {
-    this.actionFormService.addNewHelper();
-  }
-  removeHelper(id: number) {
-    this.actionFormService.removeHelper(id);
-    return false;
-  }
+  
   addNewProduct() {
     this.actionFormService.addNewProduct(this.customFields);
   }

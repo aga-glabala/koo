@@ -34,6 +34,8 @@ import { ImportProductsModalComponent } from './components/import-products-modal
 import { SingleActionViewComponent } from './views/single-action-view/single-action-view.component';
 import { MsgComponent } from './msg/msg.component';
 import { ProductFieldHelper } from './helpers/productfield.helper';
+import { FormInputComponent } from './views/editaction/components/forminput.component';
+import { HelpersEditorComponent } from './views/editaction/components/helpers.component';
 
 export function tokenGetter() {
   return localStorage.getItem('id_token');
@@ -60,7 +62,9 @@ export function tokenGetter() {
     ImportProductsModalComponent,
     SingleActionViewComponent,
     PriceValidatorDirective,
-    MsgComponent
+    MsgComponent,
+    FormInputComponent,
+    HelpersEditorComponent
   ],
   imports: [
     BrowserModule,

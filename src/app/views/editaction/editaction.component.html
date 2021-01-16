@@ -15,197 +15,126 @@
   <h1 *ngIf="mode == 'edit'">Edycja akcji "{{action.name}}"</h1>
 
   <p *ngIf="showError" class="alert alert-danger">{{ showError }}</p>
-  <form [formGroup]="actionForm" (ngSubmit)="onSubmit()">
-    <div ngbNav #actionTabs="ngbNav" class="nav-tabs">
+    <div ngbNav #actionTabs="ngbNav" class="nav-tabs large-tabs">
       <div ngbNavItem>
         <a ngbNavLink>Szczegóły</a>
         <ng-template ngbNavContent>
+          <form [formGroup]="actionForm" (ngSubmit)="onSubmit()">
           <div formGroupName="newaction">
             <input type="hidden" formControlName="id">
-            <div class="form-group row" [ngClass]="validationClass('name')">
-              <label for="newacion-name" class="col-sm-2 col-md-3 col-form-label">Nazwa (wymagane)</label>
-              <div class="col-sm-10 col-md-6">
-                <input type="text" formControlName="name" class="form-control" id="newacion-name" placeholder=""
-                  [ngClass]="validationClass('name')">
-                <div class="invalid-feedback" *ngIf="actionForm.get('newaction').get('name').errors">
-                  Nazwa jest wymagana
-                </div>
+
+            <div form-input [ngClass]="validationClass('name')" name="name" label="Nazwa (wymagane)">
+              <input type="text" formControlName="name" class="form-control" id="newacion-name" placeholder=""
+                [ngClass]="validationClass('name')">
+              <div class="invalid-feedback" *ngIf="actionForm.get('newaction').get('name').errors">
+                Nazwa jest wymagana
               </div>
             </div>
-            <div class="form-group row">
-              <label for="newacion-photo" class="col-sm-2 col-md-3 col-form-label">Zdjęcia</label>
-              <div class="col-sm-10 col-md-4" *ngIf="!action || action?.photos?.length === 0">
-                <input type="file" formControlName="photo" class="form-control" id="newacion-photo"
-                  accept="image/*" (change)="onFileChange($event)" />
-              </div>
-              <div class="col-sm-10 col-md-8" *ngIf="action?.photos?.length > 0">
-                <div class="row">
-                  <div class="col-6 col-sm-4"><img class="img-fluid" src="{{action.photoUrl}}"></div>
-                  <div class="col-sm-8">
-                    <p>Zmień zdjęcie:</p>
-                    <input type="file" formControlName="photo" class="form-control" id="newacion-photo"
+            <div form-input name="photo" label="Zdjęcia">
+              <div class="row">
+                <div class="col-sm-10 col-md-6" *ngIf="!action || action?.photos?.length === 0">
+                  <input type="file" formControlName="photo" class="form-control" id="newacion-photo"
                     accept="image/*" (change)="onFileChange($event)" />
+                </div>
+                <div class="col-sm-10 col-md-8" *ngIf="action?.photos?.length > 0">
+                  <div class="row">
+                    <div class="col-6 col-sm-4"><img class="img-fluid" src="{{action.photoUrl}}"></div>
+                    <div class="col-sm-8">
+                      <p>Zmień zdjęcie:</p>
+                      <input type="file" formControlName="photo" class="form-control" id="newacion-photo"
+                      accept="image/*" (change)="onFileChange($event)" />
+                    </div>
                   </div>
                 </div>
-                
               </div>
             </div>
-            <div class="form-group row" [ngClass]="validationClass('orderDate')">
-              <label for="dateorder" class="col-sm-2 col-md-3 col-form-label">Data zamawiania (wymagane)</label>
-              <div class="col-sm-7 col-md-6">
-                <div class="input-group">
-                  <input class="form-control" placeholder="yyyy-mm-dd" id="dateorder" name="dateorder"
-                    [ngClass]="validationClass('orderDate')"
-                    formControlName="orderDate" ngbDatepicker #newacionDateorder="ngbDatepicker" [minDate]="minDate">
-                  <div class="input-group-append">
-                    <button class="btn calendar" (click)="newacionDateorder.toggle()" type="button">
-                      <i class="fas fa-calendar-alt"></i>
-                    </button>
-                  </div>&nbsp;
-                  <ngb-timepicker formControlName="orderTime" [spinners]="false"></ngb-timepicker>
-                </div>
-                <div class="invalid-feedback">
-                  Data jest wymagana i musi być z przyszłości
-                </div>
-              </div>
-            </div>
-            <div class="form-group row" [ngClass]="validationClass('payDate')">
-              <label for="newacion-datepay" class="col-sm-2 col-md-3 col-form-label">Data opłacenia (wymagane)</label>
-              <div class="col-sm-7 col-md-6">
-                <div class="input-group">
-                  <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-datepay" name="newacion-datepay"
-                    [ngClass]="validationClass('payDate')"
-                    formControlName="payDate" ngbDatepicker #newacionDatepay="ngbDatepicker" [minDate]="minDate">
-                  <div class="input-group-append">
-                    <button class="btn calendar" (click)="newacionDatepay.toggle()" type="button">
-                      <i class="fas fa-calendar-alt"></i>
-                    </button>
-                  </div>&nbsp;
-                  <ngb-timepicker formControlName="payTime" [spinners]="false"></ngb-timepicker>
-                </div>
-                <div class="invalid-feedback">
-                  Data jest wymagana i musi być z przyszłości
-                </div>
-              </div>
-              <div class="col-sm-3 col-md-2">
-                <div class="form-check">
-                  <label class="form-check-label" title="Płatność na znak" placement="top" ngbTooltip="W akcji przy płatności pojawi się info, że ceny mogą się jeszcze zmienić. Możesz to w każdej chwili odznaczyć">
-                    <input type="checkbox" class="form-check-input" formControlName="payLock">
-                    Zablokuj płatności
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="form-group row" [ngClass]="validationClass('collectionDate')">
-              <label for="newacion-datecollection" class="col-sm-2 col-md-3 col-form-label">Data odbioru (wymagane)</label>
-              <div class="col-sm-7 col-md-6">
-                <div class="input-group">
-                  <input class="form-control" [ngClass]="validationClass('collectionDate')"
-                    placeholder="yyyy-mm-dd" name="newacion-datecollection"
-                    id="newacion-datecollection" formControlName="collectionDate" ngbDatepicker
-                    #newacionDatecollection="ngbDatepicker" [minDate]="minDate">
-                  <div class="input-group-append">
-                    <button class="btn calendar" (click)="newacionDatecollection.toggle()" type="button">
-                      <i class="fas fa-calendar-alt"></i>
-                    </button>
-                  </div>&nbsp;
-                  <ngb-timepicker formControlName="collectionTime" [spinners]="false"></ngb-timepicker>
-                </div>
-                <div class="invalid-feedback">
-                  Data jest wymagana i musi być z przyszłości
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="newacion-description" class="col-sm-2 col-md-3 col-form-label">Opis</label>
-              <div class="col-sm-10 col-md-8">
-                <ckeditor [editor]="Editor" formControlName="description" [config]="toolbarConfig"></ckeditor>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="newacion-rules" class="col-sm-2 col-md-3 col-form-label">Zasady</label>
-              <div class="col-sm-10 col-md-8">
-                <ckeditor [editor]="Editor" formControlName="rules"
-                  placeholder="Czy obowiązują jakieś specjalne zasady lub ograniczenia?" [config]="toolbarConfig"></ckeditor>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="newacion-collection" class="col-sm-2 col-md-3 col-form-label">Możliwy odbiór</label>
-              <div class="col-sm-10 col-md-8">
-                <ckeditor [editor]="Editor" formControlName="collection" placeholder="Można odebrać gdzieś wcześniej/później? Gdzie?" [config]="toolbarConfig"></ckeditor>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="newacion-payment" class="col-sm-2 col-md-3 col-form-label">Płatność</label>
-              <div class="col-sm-10 col-md-8">
-                <ckeditor [editor]="Editor" formControlName="payment" placeholder="Można odebrać gdzieś wcześniej/później? Gdzie?" [config]="toolbarConfig"></ckeditor>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="newacion-productsEditable" class="col-sm-2 col-md-3 col-form-label">Zamawiający mogą dodawać swoje producty?</label>
-              <div class="col-sm-10 col-md-8">
-                <div class="form-check">
-                    <input  id="newacion-productsEditable" type="checkbox" class="form-check-input" formControlName="productsEditable">
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="newacion-productcost" class="col-sm-2 col-md-3 col-form-label">Stałe koszty (dostawa)</label>
-              <div class="col-sm-10 col-md-8">
-                <input type="number" min="0" formControlName="cost" class="form-control" id="newacion-productcost" placeholder="Dostawa" [ngClass]="validationClass('cost')">
-                <div class="invalid-feedback">
-                  Koszy musi być większa niż 0 i mieć maksymalnie 2 liczby po przecinku.
-                </div>
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="newacion-productdiscount" class="col-sm-2 col-md-3 col-form-label">Rabat</label>
-              <div class="col-sm-10 col-md-8">
-                <input type="number" min="0" formControlName="discount" class="form-control" id="newacion-productdiscount" placeholder="Zniżka (w %)" [ngClass]="validationClass('discount')">
-                <div class="invalid-feedback">
-                  Koszy musi być większa niż 0 i mieć maksymalnie 2 liczby po przecinku.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <h2 class="mt-5">Pomocnicy</h2>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Osoba</th>
-                <th>Opis</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody *ngIf="helpers && helpers.length > 0">
-              <tr *ngFor="let helper of helpers; let i = index">
-                <td>{{ helper.name }}</td>
-                <td>{{ helper.description }}</td>
-                <td>
-                  <button class="btn btn-danger" (click)="removeHelper(i)">
-                    <i class="fas fa-trash-alt"></i>
+            <div form-input name="dateorder" label="Data zamawiania (wymagane)" [ngClass]="validationClass('orderDate')">
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" id="dateorder" name="newacion-dateorder"
+                  [ngClass]="validationClass('orderDate')"
+                  formControlName="orderDate" ngbDatepicker #newacionDateorder="ngbDatepicker" [minDate]="minDate">
+                <div class="input-group-append">
+                  <button class="btn calendar" (click)="newacionDateorder.toggle()" type="button">
+                    <i class="fas fa-calendar-alt"></i>
                   </button>
-                </td>
-              </tr>
-            </tbody>  
-          </table>
-          <div class="form-group row" formGroupName="newperson">
-            <div class="col-sm-5 mb-3">
-
-              <label for="person-select" class="sr-only">Nazwa użytkownika</label>
-              <koo-personpicker idname="person-select" [group]="actionForm.get('newperson')" controlName="person" 
-                placeholder="Imię i nazwisko"></koo-personpicker>
+                </div>&nbsp;
+                <ngb-timepicker formControlName="orderTime" [spinners]="false"></ngb-timepicker>
+              </div>
+              <div class="invalid-feedback">
+                Data jest wymagana i musi być z przyszłości
+              </div>
             </div>
-            <div class="col-sm-5 pl-sm-0 mb-3">
-              <label for="newacion-newpersondescription" class="sr-only">Opis co osoba będzie robić</label>
-              <input type="text" formControlName="description" class="form-control" id="newacion-newpersondescription"
-                placeholder="Co będzie robić?">
-                
+            <div form-input name="datepay" label="Data opłacenia (wymagane)" [ngClass]="validationClass('payDate')">
+              <div class="input-group">
+                <input class="form-control" placeholder="yyyy-mm-dd" id="newacion-datepay" name="newacion-datepay"
+                  [ngClass]="validationClass('payDate')"
+                  formControlName="payDate" ngbDatepicker #newacionDatepay="ngbDatepicker" [minDate]="minDate">
+                <div class="input-group-append">
+                  <button class="btn calendar" (click)="newacionDatepay.toggle()" type="button">
+                    <i class="fas fa-calendar-alt"></i>
+                  </button>
+                </div>&nbsp;
+                <ngb-timepicker formControlName="payTime" [spinners]="false"></ngb-timepicker>
+              </div>
+              <div class="invalid-feedback">
+                Data jest wymagana i musi być z przyszłości
+              </div>
             </div>
-            <div class="col-sm-2 pl-sm-0 mb-3"><button type="button" class="btn btn-secondary" (click)="addNewHelper()">Dodaj
-                osobę</button></div>
+            <div form-input name="payLock" label="Zablokuj płatności (płatność na znak)">
+              <div class="form-check">
+                  <input  id="newacion-payLock" type="checkbox" class="form-check-input" formControlName="payLock">
+              </div>
+            </div>
+            <div form-input name="datecollection" label="Data odbioru (wymagane)" [ngClass]="validationClass('collectionDate')">
+              <div class="input-group">
+                <input class="form-control" [ngClass]="validationClass('collectionDate')"
+                  placeholder="yyyy-mm-dd" name="newacion-datecollection"
+                  id="newacion-datecollection" formControlName="collectionDate" ngbDatepicker
+                  #newacionDatecollection="ngbDatepicker" [minDate]="minDate">
+                <div class="input-group-append">
+                  <button class="btn calendar" (click)="newacionDatecollection.toggle()" type="button">
+                    <i class="fas fa-calendar-alt"></i>
+                  </button>
+                </div>&nbsp;
+                <ngb-timepicker formControlName="collectionTime" [spinners]="false"></ngb-timepicker>
+              </div>
+              <div class="invalid-feedback">
+                Data jest wymagana i musi być z przyszłości
+              </div>
+            </div>
+            <div form-input name="description" label="Opis">
+              <ckeditor [editor]="Editor" formControlName="description" [config]="toolbarConfig"></ckeditor>
+            </div>
+            <div form-input name="rules" label="Zasady">
+              <ckeditor [editor]="Editor" formControlName="rules"
+                placeholder="Czy obowiązują jakieś specjalne zasady lub ograniczenia?" [config]="toolbarConfig"></ckeditor>
+            </div>
+            <div form-input name="collection" label="Możliwy odbiór">
+              <ckeditor [editor]="Editor" formControlName="collection" placeholder="Można odebrać gdzieś wcześniej/później? Gdzie?" [config]="toolbarConfig"></ckeditor>
+            </div>
+            <div form-input name="payment" label="Płatność">
+              <ckeditor [editor]="Editor" formControlName="payment" placeholder="Można odebrać gdzieś wcześniej/później? Gdzie?" [config]="toolbarConfig"></ckeditor>
+            </div>
+            <div form-input name="productsEditable" label="Zamawiający mogą dodawać swoje producty?">
+              <div class="form-check">
+                  <input  id="newacion-productsEditable" type="checkbox" class="form-check-input" formControlName="productsEditable">
+              </div>
+            </div>
+            <div form-input name="productcost" label="Stałe koszty (dostawa)">
+              <input type="number" min="0" formControlName="cost" class="form-control" id="newacion-productcost" placeholder="Dostawa" [ngClass]="validationClass('cost')">
+              <div class="invalid-feedback">
+                Koszy musi być większa niż 0 i mieć maksymalnie 2 liczby po przecinku.
+              </div>
+            </div>
+            <div form-input name="productdiscount" label="Rabat">
+              <input type="number" min="0" formControlName="discount" class="form-control" id="newacion-productdiscount" placeholder="Zniżka (w %)" [ngClass]="validationClass('discount')">
+              <div class="invalid-feedback">
+                Koszy musi być większa niż 0 i mieć maksymalnie 2 liczby po przecinku.
+              </div>
+            </div>
           </div>
+          </form>
+          <koo-helpers [helpers]="action.helpers"></koo-helpers>
         </ng-template>
       </div>
       <div ngbNavItem>
@@ -288,10 +217,9 @@
     <div [ngbNavOutlet]="actionTabs"></div>
 
     <div class="submit-container">
-      <button type="submit" [disabled]="!actionForm.get('newaction').valid" class="btn btn-primary">
+      <button type="button" [disabled]="!actionForm.get('newaction').valid" class="btn btn-primary" (click)="onSubmit()">
         <i *ngIf="submitLoader" class="fas fa-circle-notch fa-spin"></i>
         <i *ngIf="!submitLoader" class="fas fa-save"></i> Zapisz akcję
       </button>
     </div>
-  </form>
 </div>

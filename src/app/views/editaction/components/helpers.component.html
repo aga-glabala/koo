@@ -1,0 +1,39 @@
+<h2 class="mt-5">Pomocnicy</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Osoba</th>
+      <th>Opis</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody *ngIf="helpers && helpers.length > 0">
+    <tr *ngFor="let helper of helpers; let i = index">
+      <td>{{ helper.name }}</td>
+      <td>{{ helper.description }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="removeHelper(i)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>  
+</table>
+<form [formGroup]="form" (ngSubmit)="addNewHelper()">
+<div class="form-group row">
+  <div class="col-sm-5 mb-3">
+    <label for="person-select" class="sr-only">Nazwa użytkownika</label>
+    <koo-personpicker idname="person-select" [group]="form" controlName="person" 
+      placeholder="Imię i nazwisko"></koo-personpicker>
+  </div>
+  <div class="col-sm-5 pl-sm-0 mb-3">
+    <label for="newacion-newpersondescription" class="sr-only">Opis co osoba będzie robić</label>
+    <input type="text" formControlName="description" class="form-control" id="newacion-newpersondescription"
+      placeholder="Co będzie robić?">
+  </div>
+  <div class="col-sm-2 pl-sm-0 mb-3">
+    <button type="submit" class="btn btn-secondary" (click)="addNewHelper()" [disabled]="!form.valid">Dodaj
+      osobę</button>
+  </div>
+</div>
+</form>
