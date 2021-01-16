@@ -10,7 +10,7 @@ import { ActionFormService } from '../../views/editaction/actionFormService';
 })
 export class ProductFieldModalComponent implements OnInit {
   @Input() fields: ProductField[];
-  @Input() formService: ActionFormService;
+  @Input() addNewCustomField;
   newField: string;
   constructor(public activeModal: NgbActiveModal) { }
 
@@ -20,7 +20,7 @@ export class ProductFieldModalComponent implements OnInit {
   addNewField() {
     const productField = new ProductField(undefined, this.newField);
     this.fields.push(productField);
-    this.formService.addNewCustomField(productField.id);
+    this.addNewCustomField(productField.id);
     this.newField = '';
   }
 

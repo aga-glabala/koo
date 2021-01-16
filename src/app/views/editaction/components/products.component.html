@@ -1,0 +1,73 @@
+<h2 class="mt-5 mb-3">
+  Produkty
+  <div class="float-right">
+    <button class="btn btn-primary" (click)="openProductFieldModal()"><i class="fas fa-pencil-alt"></i> Edytuj pola</button>
+  </div>
+</h2>
+
+<table class="table table-striped" *ngIf="products && products.length > 0">
+  <thead>
+    <th>Produkt</th>
+    <th>Wariant (czerwony, 1kg, 1l)</th>
+    <th>Cena</th>
+    <ng-container><th *ngFor="let field of customFields">{{ field.name }}</th></ng-container>
+    <th></th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products; let i = index">
+      <td>{{ product.name }}</td>
+      <td [innerHtml]="pfHelper.checkText(product.variant)"></td>
+      <td>{{ product.price | price }}</td>
+      <td *ngFor="let field of customFields">
+        <span *ngIf="product.customFields" [innerHtml]="pfHelper.checkText(product.customFields[field.id])"></span></td>
+      <td>
+        <button class="btn btn-primary" (click)="editProduct(i)">
+          <i class="fas fa-pencil-alt"></i>
+        </button>&nbsp;
+        <button class="btn btn-danger" (click)="removeProduct(i)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!products || products.length === 0" class="alert alert-info">
+  Nie ma jeszcze żadnych produktów. Dodaj w formularzu poniżej lub <button class="btn btn-outline-secondary" (click)="importFromFile()">zaimportuj z pliku</button>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="addNewProduct()">
+<div class="form-group row">
+  <div class="col-12 mb-3">{{form.errors}}</div>
+  <div class="col-sm-4 mb-3" [ngClass]="validationClassProduct('name')">
+    <label for="newacion-productname" class="sr-only">Nazwa produktu</label>
+    <input type="text" formControlName="name" class="form-control" id="newacion-productname"  [ngClass]="validationClassProduct('name')"
+      placeholder="Nazwa produktu">
+      <div class="invalid-feedback">
+        Nazwa jest wymagana
+      </div>
+  </div>
+  <div class="col-sm-4 mb-3">
+    <label for="newacion-productvariant" class="sr-only">Wariant</label>
+    <input type="text" formControlName="variant" class="form-control" id="newacion-productvariant"
+      placeholder="Wariant">
+  </div>
+  <div class="col-sm-4 mb-3">
+    <label for="newacion-productprice" class="sr-only">Cena</label>
+      <input type="number" min="0" formControlName="price" class="form-control" id="newacion-productprice" placeholder="Cena" [ngClass]="validationClassProduct('price')">
+      <div class="invalid-feedback">
+        Cena jest wymagana, musi być większa niż 0 i mieć maksymalnie 2 liczby po przecinku.
+      </div>
+  </div>
+  <div formGroupName="customFields" class="col-12">
+    <div class="row">
+      <div class="col-sm-4 mb-3" *ngFor="let customField of customFields">
+        <label for="newacion-productprice" class="sr-only">{{ customField.name }}</label>
+        <input type="text" [formControlName]="customField.id" class="form-control" id="newacion-productprice" [placeholder]="customField.name">
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-2"><button type="submit" class="btn btn-secondary" (click)="addNewProduct()" [disabled]="!form.valid">
+    Dodaj produkt</button></div>
+</div>
+</form>

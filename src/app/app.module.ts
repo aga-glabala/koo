@@ -36,6 +36,7 @@ import { MsgComponent } from './msg/msg.component';
 import { ProductFieldHelper } from './helpers/productfield.helper';
 import { FormInputComponent } from './views/editaction/components/forminput.component';
 import { HelpersEditorComponent } from './views/editaction/components/helpers.component';
+import { ProductsEditorComponent } from './views/editaction/components/products.components';
 
 export function tokenGetter() {
   return localStorage.getItem('id_token');
@@ -64,7 +65,8 @@ export function tokenGetter() {
     PriceValidatorDirective,
     MsgComponent,
     FormInputComponent,
-    HelpersEditorComponent
+    HelpersEditorComponent,
+    ProductsEditorComponent
   ],
   imports: [
     BrowserModule,
