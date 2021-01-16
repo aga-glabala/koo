@@ -88,8 +88,7 @@
         <p *ngIf="actionModal.payLock" class="alert alert-danger">
             Akcja ma zablokowane płaności na razie. Może to oznaczać, że ceny mogą zostać jeszcze zmienione.
         </p>
-        <p>
-            {{actionModal.payment}}
+        <p [innerHtml]="actionModal.payment">
         </p>
     </div>
     <div class="modal-footer">
