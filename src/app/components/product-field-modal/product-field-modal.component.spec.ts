@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ProductFieldModalComponent } from './product-field-modal.component';
 
@@ -6,7 +6,7 @@ describe('ProductFieldModalComponent', () => {
   let component: ProductFieldModalComponent;
   let fixture: ComponentFixture<ProductFieldModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ProductFieldModalComponent ]
     })

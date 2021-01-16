@@ -16,9 +16,10 @@
 
   <p *ngIf="showError" class="alert alert-danger">{{ showError }}</p>
   <form [formGroup]="actionForm" (ngSubmit)="onSubmit()">
-    <ngb-tabset [destroyOnHide]="false" class="large-tabset">
-      <ngb-tab title="Szczegóły">
-        <ng-template ngbTabContent>
+    <div ngbNav #actionTabs="ngbNav" class="nav-tabs">
+      <div ngbNavItem>
+        <a ngbNavLink>Szczegóły</a>
+        <ng-template ngbNavContent>
           <div formGroupName="newaction">
             <input type="hidden" formControlName="id">
             <div class="form-group row" [ngClass]="validationClass('name')">
@@ -206,9 +207,10 @@
                 osobę</button></div>
           </div>
         </ng-template>
-      </ngb-tab>
-      <ngb-tab title="Produkty">
-        <ng-template ngbTabContent>
+      </div>
+      <div ngbNavItem>
+        <a ngbNavLink>Produkty</a>
+        <ng-template ngbNavContent>
           <h2 class="mt-5 mb-3">
             Produkty
             <div class="float-right">
@@ -281,8 +283,10 @@
               Dodaj produkt</button></div>
           </div>
         </ng-template>
-      </ngb-tab>
-    </ngb-tabset>
+      </div>
+    </div>
+    <div [ngbNavOutlet]="actionTabs"></div>
+
     <div class="submit-container">
       <button type="submit" [disabled]="!actionForm.get('newaction').valid" class="btn btn-primary">
         <i *ngIf="submitLoader" class="fas fa-circle-notch fa-spin"></i>
