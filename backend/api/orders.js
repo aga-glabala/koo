@@ -25,7 +25,6 @@ module.exports = function (app, dbGetter) {
 
   app.get('/actions/:actionId/myorders', (req, res) => {
     dbGetter().collection('orders').findOne({ actionId: req.params.actionId, ownerId: req.query.forUser }, (err, result) => {
-      console.log('find one');
       if (err) return console.log(err)
       if (!result) {
         res.sendStatus(404);
@@ -41,9 +40,24 @@ module.exports = function (app, dbGetter) {
     const newProducts = data.newProducts;
     delete data.newProducts;
     converters.orderToBson(data);
-    dbGetter().collection('orders').insertOne(data, (err, result) => {
-      if (err) return res.send(err);
-      updateAction(data.actionId, newProducts, res);
+
+
+    dbGetter()
+    .collection('users')
+    .findOne({ _id: new mongo.ObjectID(req.user.id) })
+    .then(user => {
+      if (!user) {
+        res.sendStatus(404);
+        res.
+        return;
+      }
+      data.ownerId = req.user.id;
+      data.ownerName = user.name;
+
+      dbGetter().collection('orders').insertOne(data, (err, result) => {
+        if (err) return res.send(err);
+        updateAction(data.actionId, newProducts, res);
+      });
     });
   });
 
@@ -51,7 +65,9 @@ module.exports = function (app, dbGetter) {
     const data = req.body;
     const newProducts = data.newProducts;
     delete data.newProducts;
+
     converters.orderToBson(data);
+
     dbGetter().collection('orders')
       .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id), ownerId: req.user.id }, {
         $set: data
