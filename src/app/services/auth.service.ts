@@ -29,7 +29,7 @@ export class AuthService {
     private jwtHelperService: JwtHelperService
   ) {
     FB.init({
-      appId: '444601165601171', //579472462948970
+      appId: '579472462948970', //dev: '444601165601171', //579472462948970
       status: false, // the SDK will attempt to get info about the current user immediately after init
       cookie: false,  // enable cookies to allow the server to access the session
       xfbml: false,  // With xfbml set to true, the SDK will parse your page's DOM to find and initialize
