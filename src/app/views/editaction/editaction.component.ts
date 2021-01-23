@@ -76,9 +76,8 @@ export class EditActionComponent implements OnInit {
 
   }
 
-  loadAction(data): void {
+  loadAction(data: Action): void {
     const formdata = this.actionAdapter.toForm(data);
-
     this.actionFormService.form.patchValue(formdata);
 
     this.products = data.products ? data.products : [];
@@ -95,7 +94,7 @@ export class EditActionComponent implements OnInit {
   onSubmit() {
     const that = this;
     const action = this.actionAdapter.fromForm(this.actionForm.get('newaction').value, this.helpers, this.products, this.customFields,
-    this.action ? this.action.createdBy : undefined, this.action ? this.action.createdOn : undefined, this.action ? this.action.photos : [], this.action.cost, this.action.discount);;
+          this.action ? this.action.photos : []);
     this.submitLoader = true;
     this.actionService.saveAction(action).pipe(
       switchMap(savedaction => {

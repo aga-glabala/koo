@@ -11,17 +11,14 @@ export class ActionFormAdapter {
    */
 
   fromForm(obj, helpers: Helper[], products: Product[], customFields: ProductField[],
-           createdBy: Person, createdOn: moment.Moment, photos: string[], cost, discount): Action {
+           photos: string[]): Action {
     const action = new Action(
-        obj.id, obj.name, obj.photoUrl, createdBy, createdOn,
-        moment({ year: obj.orderDate.year, month: obj.orderDate.month - 1,
-          day: obj.orderDate.day, hour: obj.orderTime.hour, minute : obj.orderTime.minute}),
-        moment({ year: obj.payDate.year, month: obj.payDate.month - 1,
-          day: obj.payDate.day, hour: obj.payTime.hour, minute: obj.payTime.minute}),
+        obj.id, obj.name, obj.photoUrl, undefined, undefined,
+        this.fromFormToMoment(obj.orderDate, obj.orderTime),
+        this.fromFormToMoment(obj.payDate, obj.payDate),
         obj.payLock,
-        moment({ year: obj.collectionDate.year, month: obj.collectionDate.month - 1,
-          day: obj.collectionDate.day, hour: obj.collectionTime.hour, minute: obj.collectionTime.minute}),
-        obj.rules, obj.description, obj.collection, obj.payment, obj.productsEditable, helpers, products, photos, customFields, cost, discount
+        this.fromFormToMoment(obj.collectionDate, obj.collectionTime),
+        obj.rules, obj.description, obj.collection, obj.payment, obj.productsEditable, helpers, products, photos, customFields, obj.cost, obj.discount
     );
     return action;
   }
@@ -30,17 +27,21 @@ export class ActionFormAdapter {
    * Converts a Action object to a form object
    */
   toForm(action: Action): {} {
+    const order = this.toFormFromMoment(action.orderDate);
+    const pay = this.toFormFromMoment(action.payDate);
+    const collection = this.toFormFromMoment(action.collectionDate);
+
     const formdata: {} = {
         id: action.id,
         name: action.name,
         photoUrl: action.photoUrl,
-        orderDate: {day: action.orderDate.date(), month: action.orderDate.month() + 1, year: action.orderDate.year()},
-        orderTime: {hour: action.orderDate.hour(), minute: action.orderDate.minute()},
-        payDate: {day: action.payDate.date(), month: action.payDate.month() + 1, year: action.payDate.year()},
-        payTime: {hour: action.payDate.hour(), minute: action.payDate.minute()},
+        orderDate: order.date,
+        orderTime: order.time,
+        payDate: pay.date,
+        payTime: pay.time,
         payLock: action.payLock,
-        collectionDate: {day: action.collectionDate.date(), month: action.collectionDate.month() + 1, year: action.collectionDate.year()},
-        collectionTime: {hour: action.collectionDate.hour(), minute: action.collectionDate.minute()},
+        collectionDate: collection.date,
+        collectionTime: collection.time,
         description: action.description,
         rules: action.rules,
         collection: action.collection,
@@ -48,5 +49,15 @@ export class ActionFormAdapter {
         productsEditable: action.productsEditable
     };
     return { newaction: formdata };
+  }
+
+  fromFormToMoment(date: {year: number, month: number, day: number}, time: {hour: number, minute: number}): moment.Moment {
+    return moment({ year: date.year, month: date.month - 1,
+      day: date.day, hour: time.hour, minute : time.minute})
+  }
+
+  toFormFromMoment(date: moment.Moment) {
+    return {date: {day: date.date(), month: date.month() + 1, year: date.year()},
+            time: {hour: date.hour(), minute: date.minute()}};
   }
 }

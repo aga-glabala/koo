@@ -84,12 +84,35 @@ module.exports = function (app, dbGetter) {
 
   app.post('/actions', (req, res) => {
     const data = converters.actionToBson(req.body);
-    dbGetter().collection('actions').insertOne(data, (err, result) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-      res.send({id: result.insertedId});
-    });
+    dbGetter()
+      .collection('users')
+      .findOne({ _id: new mongo.ObjectID(req.user.id) })
+      .then(result => {
+        const user = converters.userFromBson(result);
+        data.createdBy = {id: user.id, name: user.name, photoUrl: user.photoUrl}
+
+        dbGetter().collection('actions').insertOne(data, (err, result) => {
+          if (err) {
+            return res.status(500).send(err);
+          }
+          res.send({id: result.insertedId});
+        });
+      });
+  });
+
+  app.put('/actions/:id', (req, res) => {
+    const data = converters.actionToBson(req.body);
+
+    dbGetter().collection('actions')
+      .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id), 'createdBy.id': new mongo.ObjectID(req.user.id) }, {
+        $set: data
+      }, (err, result) => {
+        if (err) return res.status(500).send(err);
+        if (!result) return res.sendStatus(404);
+        const data = req.body;
+        converters.actionFromBson(data);
+        res.send(data)
+      });
   });
 
   app.post('/actions/:id/photos', upload.array('photos[]', 100), (req, res) => {
@@ -108,22 +131,6 @@ module.exports = function (app, dbGetter) {
 
   app.get('/actions/:id/photos/:photo', (req, res) => {
     res.sendFile(uploadDestination + req.params.photo);
-  });
-
-  app.put('/actions/:id', (req, res) => {
-    const data = converters.actionToBson(req.body);
-    dbGetter().collection('actions')
-      .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id), 'createdBy.id': req.user.id }, {
-        $set: data
-      }, {
-        upsert: true
-      }, (err, result) => {
-        if (err) return res.status(500).send(err);
-        if (!result) return res.sendStatus(404);
-        const data = req.body;
-        converters.actionFromBson(data);
-        res.send(data)
-      });
   });
 
   app.delete('/actions/:id', (req, res) => {

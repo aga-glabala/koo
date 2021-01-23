@@ -48,7 +48,7 @@ export class ProductsEditorComponent implements OnInit {
     const that = this;
     modalRef.result.then((data) => {
       that.customFields = data.customFields;
-      that.products = data.products;
+      that.products.push(...data.products);
       if (data.customFields) {
         for (const field of data.customFields) {
           that.addNewCustomField(field.id);
@@ -58,20 +58,20 @@ export class ProductsEditorComponent implements OnInit {
     return false;
   }
 
-  addNewProduct = (customFields: ProductField[]) => {
+  addNewProduct = () => {
     const product = new Product(undefined,
-      this.form.value.newproduct.name,
-      this.form.value.newproduct.variant,
-      this.priceHelper.convertPriceToNumber(this.form.value.newproduct.price),
+      this.form.value.name,
+      this.form.value.variant,
+      this.priceHelper.convertPriceToNumber(this.form.value.price),
       {});
 
     product.customFields = {};
-    for (const field of customFields) {
-      product.customFields[field.id] = this.form.value.newproduct.customFields[field.id];
+    for (const field of this.customFields) {
+      product.customFields[field.id] = this.form.value.customFields[field.id];
     }
 
     this.products.push(product);
-    this.form.get('newproduct').reset();
+    this.form.reset();
   }
 
   removeProduct(id: number) {

@@ -12,7 +12,7 @@ module.exports = {
       action._id = new mongo.ObjectID(action.id);
       delete action.id;
     }
-    action.createdOn = new Date(action.createdOn).getTime();
+    action.createdOn = action.createdOn ? new Date(action.createdOn).getTime() : new Date().getTime();
     action.orderDate = new Date(action.orderDate).getTime();
     action.collectionDate = new Date(action.collectionDate).getTime();
     action.payDate = new Date(action.payDate).getTime();
