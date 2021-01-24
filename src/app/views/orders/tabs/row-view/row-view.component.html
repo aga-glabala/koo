@@ -1,0 +1,72 @@
+<div class="table-container">
+  <table class="table table-striped mt-5">
+      <thead>
+          <tr>
+              <th>Nazwa</th>
+              <th *ngFor="let product of action.products">{{product.name}}</th>
+              <th rowspan="3">Odbiera</th>
+              <th rowspan="3">Suma</th>
+              <th rowspan="3">Zapłacone</th>
+              <th rowspan="3">Odebrane</th>
+          </tr>
+          <tr>
+              <th>Wariant</th>
+              <th *ngFor="let product of action.products" [innerHtml]="pfHelper.checkText(product.variant)"></th>
+          </tr>
+          <tr>
+              <th>Cena</th>
+              <th *ngFor="let product of action.products">
+                  <app-price [price]="product.price" [discount]="action.discount"></app-price>
+              </th>
+          </tr>
+          <tr *ngFor="let customField of action.customFields">
+              <th>{{ customField.name }}</th>
+              <th *ngFor="let product of action.products">
+                  <span *ngIf="product.customFields" [innerHtml]="pfHelper.checkText(product.customFields[customField.id])"></span>
+              </th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let order of orders">
+              <td>{{order.ownerName}}</td>
+              <td *ngFor="let product of action.products">{{ order.products[product.id] }}</td>
+              <td>{{ order.pickerName }}</td>
+              <td><strong>
+                  <app-price [price]="sums[order.id]" [discount]="action.discount"></app-price>
+              </strong></td>
+
+              <!-- komórki z informacją dla wszystkich -->
+              <td class="bg-success" *ngIf="!actionEditor && order.paid == sums[order.id]">
+                  <i class="fas fa-check"></i> Zapłacone
+              </td>
+              <td class="bg-danger" *ngIf="!actionEditor && order.paid != sums[order.id]">
+                  <i class="fas fa-times"></i> Nie zapłacone
+              </td>
+              <td class="bg-success" *ngIf="!actionEditor && order.picked">
+                  <i class="fas fa-check"></i> Odebrane
+              </td>
+              <td class="bg-danger" *ngIf="!actionEditor && !order.picked">
+                  <i class="fas fa-times"></i> Nie odebrane
+              </td>
+              
+              <!-- komórki dla właściciela i pomagaczy -->
+              <td *ngIf="actionEditor">
+                  <button *ngIf="order.paid == sums[order.id]" class="btn btn-success">
+                      <i class="fas fa-check"></i> Zapłacone
+                  </button>
+                  <button *ngIf="order.paid != sums[order.id]" class="btn btn-danger">
+                      <i class="fas fa-times"></i> Nie zapłacone
+                  </button>
+              </td>
+              <td *ngIf="actionEditor">
+                  <button *ngIf="order.picked" class="btn btn-success" (click)="orderPicked(order)">
+                      <i class="fas fa-check"></i> Odebrane
+                  </button>
+                  <button *ngIf="!order.picked" class="btn btn-danger" (click)="orderPicked(order)">
+                      <i class="fas fa-times"></i> Nie odebrane
+                  </button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>

@@ -38,6 +38,10 @@ import { FormInputComponent } from './views/editaction/components/forminput.comp
 import { HelpersEditorComponent } from './views/editaction/components/helpers.component';
 import { ProductsEditorComponent } from './views/editaction/components/products.components';
 import { PriceComponent } from './components/price.component';
+import { ColumnViewComponent } from './views/orders/tabs/column-view/column-view.component';
+import { RowViewComponent } from './views/orders/tabs/row-view/row-view.component';
+import { ChecksViewComponent } from './views/orders/tabs/checks-view/checks-view.component';
+import { SummaryViewComponent } from './views/orders/tabs/summary-view/summary-view.component';
 
 export function tokenGetter() {
   return localStorage.getItem('id_token');
@@ -68,7 +72,11 @@ export function tokenGetter() {
     FormInputComponent,
     HelpersEditorComponent,
     ProductsEditorComponent,
-    PriceComponent
+    PriceComponent,
+    ColumnViewComponent,
+    RowViewComponent,
+    ChecksViewComponent,
+    SummaryViewComponent
   ],
   imports: [
     BrowserModule,

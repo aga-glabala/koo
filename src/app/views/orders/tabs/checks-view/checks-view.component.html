@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-sm-6 col-lg-4" *ngFor="let order of orders">
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th colspan="2">{{ order.ownerName }}</th>
+              </tr>
+          </thead>
+          <tbody>
+              <ng-container *ngFor="let product of action.products">
+                  <tr *ngIf="order.products[product.id]">
+                      <td>{{ order.products[product.id] }}</td>
+                      <td>
+                          {{product.name}}, {{product.variant}}
+                      </td>
+                  </tr>
+              </ng-container>
+          </tbody>
+      </table>
+  </div>
+</div>
