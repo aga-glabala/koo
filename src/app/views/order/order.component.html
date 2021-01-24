@@ -37,7 +37,7 @@
             <tr *ngFor="let product of action.products">
                 <td>{{product.name}}</td>
                 <td [innerHtml]="pfHelper.checkText(product.variant)"></td>
-                <td>{{product.price | price}}</td>
+                <td><app-price [price]="product.price" [discount]="action.discount"></app-price></td>
                 <td *ngFor="let field of action.customFields">
                     <span *ngIf="product.customFields" [innerHtml]="pfHelper.checkText(product.customFields[field.id])"></span>
                 </td>
@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <td [attr.colspan]="3 + action.customFields.length" class="text-right">W sumie:</td>
-                <td>{{ sumOrder | price }}zł</td>
+                <td><app-price [price]="sumOrder" [discount]="action.discount"></app-price>zł</td>
             </tr>
 
             <tr *ngIf="action.productsEditable && !disabled">

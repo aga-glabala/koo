@@ -23,7 +23,7 @@
     <p *ngIf="action.helpers"><span *ngFor="let helper of action.helpers"><strong>{{helper.name}}</strong> {{helper.description}} </span></p>
 
     <div *ngIf="orders && orders.length > 0">
-    <ul ngbNav #ordersTabs="ngbNav" class="nav-tabs">
+      <ul ngbNav #ordersTabs="ngbNav" class="nav-tabs">
         <li ngbNavItem>
           <a ngbNavLink>Zamówienia w kolumnie</a>
           <ng-template ngbNavContent>
@@ -42,7 +42,7 @@
                         <tr *ngFor="let product of action.products">
                             <td>{{product.name}}</td>
                             <td [innerHtml]="pfHelper.checkText(product.variant)"></td>
-                            <td>{{product.price | price}}</td>
+                            <td><app-price [price]="product.price" [discount]="action.discount"></app-price></td>
                             <td *ngFor="let customField of action.customFields">
                                 <span *ngIf="product.customFields" [innerHtml]="pfHelper.checkText(product.customFields[customField.id])"></span>
                             </td>
@@ -54,7 +54,9 @@
                         </tr>
                         <tr>
                             <td [attr.colspan]="3 + action.customFields.length">Suma</td>                   
-                            <td *ngFor="let order of orders"><strong>{{ sums[order.id] | price }}zł</strong></td>
+                            <td *ngFor="let order of orders"><strong>
+                                <app-price [price]="sums[order.id]" [discount]="action.discount"></app-price>
+                            </strong></td>
                         </tr>
                         <tr>
                             <td [attr.colspan]="3 + action.customFields.length"></td> 
@@ -122,7 +124,9 @@
                     </tr>
                     <tr>
                         <th>Cena</th>
-                        <th *ngFor="let product of action.products">{{product.price | price}}</th>
+                        <th *ngFor="let product of action.products">
+                            <app-price [price]="product.price" [discount]="action.discount"></app-price>
+                        </th>
                     </tr>
                     <tr *ngFor="let customField of action.customFields">
                         <th>{{ customField.name }}</th>
@@ -136,7 +140,9 @@
                         <td>{{order.ownerName}}</td>
                         <td *ngFor="let product of action.products">{{ order.products[product.id] }}</td>
                         <td>{{ order.pickerName }}</td>
-                        <td><strong>{{ sums[order.id] | price }}zł</strong></td>
+                        <td><strong>
+                            <app-price [price]="sums[order.id]" [discount]="action.discount"></app-price>
+                        </strong></td>
 
                         <!-- komórki z informacją dla wszystkich -->
                         <td class="bg-success" *ngIf="!actionEditor && order.paid == sums[order.id]">

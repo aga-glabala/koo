@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductField } from '../../models/action';
-import { ActionFormService } from '../../views/editaction/actionFormService';
 
 @Component({
   selector: 'app-product-field-modal',

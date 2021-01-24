@@ -64,4 +64,8 @@ export class OrdersComponent implements OnInit {
     return false;
   }
 
+  countDiscount(price: number) {
+    return Math.ceil(price - price * this.action.discount / 100);
+  }
+
 }

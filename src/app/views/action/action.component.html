@@ -39,6 +39,10 @@
                     <dd>{{ dateHelper.prettyDate(action.collectionDate) }}</dd>
                 <dt>Można już płacić?</dt>
                     <dd>{{ action.payLock ? "Nie" : "Tak"}}</dd>
+                <dt *ngIf="action.discount">Rabat:</dt>
+                    <dd *ngIf="action.discount">{{action.discount}}%</dd>
+                <dt *ngIf="action.cost">Dodatkowe koszty? (np. dostawa)</dt>
+                    <dd *ngIf="action.cost">{{ action.cost }}zł</dd>
             </dl>
         </div>
     </div>
@@ -106,7 +110,9 @@
             <tr *ngFor="let product of action.products">
                 <td>{{ product.name }}</td>
                 <td [innerHtml]="pfHelper.checkText(product.variant)"></td>
-                <td>{{ product.price | price }}</td>
+                <td>
+                    <app-price [price]="product.price" [discount]="action.discount"></app-price>
+                </td>
                 <td *ngFor="let field of action.customFields">
                     <span *ngIf="product.customFields" [innerHtml]="pfHelper.checkText(product.customFields[field.id])"></span>
                 </td>
