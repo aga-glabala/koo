@@ -42,7 +42,7 @@
                 <dt *ngIf="action.discount">Rabat:</dt>
                     <dd *ngIf="action.discount">{{action.discount}}%</dd>
                 <dt *ngIf="action.cost">Dodatkowe koszty? (np. dostawa)</dt>
-                    <dd *ngIf="action.cost">{{ action.cost }}zł</dd>
+                    <dd *ngIf="action.cost">{{ action.cost | price }}zł</dd>
             </dl>
         </div>
     </div>

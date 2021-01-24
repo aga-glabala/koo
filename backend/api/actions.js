@@ -78,7 +78,12 @@ module.exports = function (app, dbGetter) {
         return;
       }
       converters.actionFromBson(result);
-      res.send(result)
+      dbGetter().collection('orders').find({ actionId: req.params.id }).count((err, ordersCount) => {
+        if (err) return console.log(err)
+        
+        result.ordersCount = ordersCount;
+        res.send(result);
+      });
     });
   });
 

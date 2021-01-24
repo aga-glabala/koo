@@ -8,14 +8,15 @@ import { map, shareReplay, take } from 'rxjs/operators';
 
 import { Action } from '../models/action';
 import * as moment from 'moment';
+import { PriceHelper } from '../helpers/price.helper';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActionsService {
 
-  constructor(private http: HttpClient, private authService: AuthService,
-              @Inject('BASE_API_URL') private baseUrl: string) {
+  constructor(private http: HttpClient, @Inject('BASE_API_URL') private baseUrl: string,
+              private priceHelper: PriceHelper) {
   }
 
   getActions(sorting: string, showArchived: boolean, filterText: string): Observable<Action[]> {
@@ -69,6 +70,7 @@ export class ActionsService {
     data.collectionDate = action.collectionDate.toDate();
     data.payDate = action.payDate.toDate();
     data.orderDate = action.orderDate.toDate();
+    data.cost = this.priceHelper.convertPriceToNumber(data.cost);
     return data;
   }
 

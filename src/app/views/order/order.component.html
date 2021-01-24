@@ -44,8 +44,12 @@
                 <td><input type="number" min="0" formControlName="{{product.id}}" class="form-control" [attr.disabled]="disabled ? '' : null"></td>
             </tr>
             <tr>
+                <td [attr.colspan]="3 + action.customFields.length" class="text-right">Koszty zamówienia:</td>
+                <td>{{ action.cost / action.ordersCount | price }}zł ({{ action.cost | price }}zł / {{action.ordersCount}} zamawiających)</td>
+            </tr>
+            <tr>
                 <td [attr.colspan]="3 + action.customFields.length" class="text-right">W sumie:</td>
-                <td><app-price [price]="sumOrder" [discount]="action.discount"></app-price>zł</td>
+                <td><app-price [price]="sumOrder" [discount]="action.discount" [modifier]="action.cost / action.ordersCount"></app-price>zł</td>
             </tr>
 
             <tr *ngIf="action.productsEditable && !disabled">

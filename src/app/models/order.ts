@@ -24,7 +24,7 @@ export class Order {
             sum += this.products[product.id] ? product.price * this.products[product.id] : 0;
         }
 
-        sum = sum - sum * discount / 100 + modifier;
+        sum = Math.ceil(sum - sum * discount / 100) + modifier;
         return sum;
     }
 }

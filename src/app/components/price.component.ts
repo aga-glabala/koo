@@ -5,11 +5,11 @@ import { Component, Input, OnInit } from '@angular/core';
   selector: 'app-price',
   template: `
     <ng-container *ngIf="discount">
-      <s>{{ price | price }}</s>&nbsp;
+      <s>{{ price + modifier | price }}</s>&nbsp;
       <strong class="text-success">{{ count() | price}}</strong>
     </ng-container>
     <ng-container *ngIf="!discount">
-      {{ price | price }}
+      {{ price + modifier | price }}
     </ng-container>
   `
 })

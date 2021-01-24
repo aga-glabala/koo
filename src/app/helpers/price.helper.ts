@@ -1,4 +1,6 @@
-import { Injectable, Directive, Input } from '@angular/core';
+import { Injectable, Directive } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
+import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 @Injectable()
 export class PriceHelper {
@@ -27,8 +29,6 @@ export class PriceHelper {
   }
 }
 
-import { Pipe, PipeTransform } from '@angular/core';
-import { ValidatorFn, AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 @Pipe({name: 'price'})
 export class PricePipe implements PipeTransform {
   transform(price: number): number {
