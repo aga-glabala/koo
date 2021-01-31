@@ -62,7 +62,7 @@ module.exports = function (app, dbGetter) {
   });
 
   app.get('/actions/user/:userid', (req, res) => {
-    dbGetter().collection('actions').find({'createdBy.id': req.params.userid}).sort({'created_on': 1}).toArray((err, result) => {
+    dbGetter().collection('actions').find({'createdBy.id': new mongo.ObjectID(req.params.userid) }).sort({'created_on': 1}).toArray((err, result) => {
       if (err) return res.status(500).send(err);
       result.forEach(converters.actionFromBson);
 
@@ -119,7 +119,7 @@ module.exports = function (app, dbGetter) {
     const actionId = req.params.id;
     let photos = req.files.map(file => file.filename);
     dbGetter().collection('actions')
-      .findOneAndUpdate({ _id: new mongo.ObjectID(actionId), 'createdBy.id': req.user.id }, {
+      .findOneAndUpdate({ _id: new mongo.ObjectID(actionId), 'createdBy.id': new mongo.ObjectID(req.user.id) }, {
         $set: { photos }
       }, {
       }, (err, result) => {
@@ -135,7 +135,7 @@ module.exports = function (app, dbGetter) {
 
   app.delete('/actions/:id', (req, res) => {
     dbGetter().collection('actions')
-      .findOneAndDelete({ _id: new mongo.ObjectID(req.params.id), 'createdBy.id': req.user.id }, (err, result) => {
+      .findOneAndDelete({ _id: new mongo.ObjectID(req.params.id), 'createdBy.id': new mongo.ObjectID(req.user.id) }, (err, result) => {
         if (err) return res.send(500, err);
         if (!result) return res.sendStatus(404);
         dbGetter().collection('orders').deleteMany({actionId: req.params.id}, (err, result) => {

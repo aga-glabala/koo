@@ -118,7 +118,7 @@ module.exports = function (app, dbGetter, guard) {
   function getOrganizedCount(userIds) {
     const notOlderThan = new Date().getTime() - STATS_DATE_OFFSET;
     return dbGetter().collection('actions').aggregate([
-      { $match: { 'createdBy.id': { $in: userIds }, 'createdOn': { $gt: notOlderThan } } },
+      { $match: { 'createdBy.id': { $in: userIds.map((uid) => { new mongo.ObjectID(uid) }) }, 'createdOn': { $gt: notOlderThan } } },
       { $group: { _id: "$createdBy.id", count: { $sum: 1 } } }
     ]).toArray();
   }
