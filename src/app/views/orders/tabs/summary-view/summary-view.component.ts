@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ProductFieldHelper } from 'src/app/helpers/productfield.helper';
+import { Product } from 'src/app/models/product';
 import { Action } from '../../../../models/action';
 import { Order } from '../../../../models/order';
 
@@ -17,4 +18,11 @@ export class SummaryViewComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  countOrders(product: Product): number {
+    let sum = 0;
+    for (const order of this.orders) {
+      sum += order.products[product.id];
+    }
+    return sum > 0 ? sum : undefined;
+  }
 }
