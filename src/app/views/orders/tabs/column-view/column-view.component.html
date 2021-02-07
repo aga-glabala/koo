@@ -40,14 +40,22 @@
                       <i class="fas fa-times"></i>
                       Nie zapłacone
                   </td>
-                  <!-- komórki dla właściciela i pomagaczy -->
                   <td *ngIf="actionEditor">
-                      <button *ngIf="order.paid == sums[order.id]" class="btn btn-success">
-                          <i class="fas fa-check"></i> Zapłacone
-                      </button>
-                      <button *ngIf="order.paid != sums[order.id]" class="btn btn-danger">
-                          <i class="fas fa-times"></i> Nie zapłacone
-                      </button>
+                      <div *ngIf="order.paid == sums[order.id]" [class]="order.paid == sums[order.id] ? 'bg-success' : 'bg-danger'">
+                          <i class="fas fa-check"></i> Zapłacone {{ order.paid }}
+                      </div>
+                      <div *ngIf="order.paid != sums[order.id]">
+                          <div [class]="order.paid == sums[order.id] ? 'p-2 bg-success' : 'p-2 bg-danger'">Zapłacono: {{ order.paid }} {{order.paid != 0 ? order.paid : sums[order.id]}}</div>
+                          <div class="row">
+                            <div class="col-6 pr-0">
+                              <input #paidinput [value]="order.paid && order.paid !== 0 ? order.paid : sums[order.id]" 
+                                type="number" class="form-control">
+                            </div>
+                            <div class="col-6 pl-0">
+                              <input type="button" value="Oznacz jako zapłacone" (click)="orderPayed(order, paidinput.value)" class="w-100 btn btn-success">
+                            </div>
+                          </div>
+                      </div>
                   </td>
               </ng-container>
           </tr>

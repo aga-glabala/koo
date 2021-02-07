@@ -56,10 +56,16 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  orderPicked(order: Order) {
-    const that = this;
+  orderPicked = (order: Order) => {
     this.ordersService.markPickedOrder(order).subscribe(() => {
-      that.getOrders();
+      this.getOrders();
+    });
+    return false;
+  }
+
+  orderPayed = (order: Order, amount: number) => {
+    this.ordersService.markPayedOrder(order, amount).subscribe(() => {
+      this.getOrders();
     });
     return false;
   }

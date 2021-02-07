@@ -7,13 +7,15 @@ import { Order } from '../models/order';
 import { map } from 'rxjs/operators';
 import { ActionsService } from './actions.service';
 import { Product } from '../models/product';
+import { PriceHelper } from '../helpers/price.helper';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
 
-  constructor(private http: HttpClient, private auth: AuthService, private actionsService: ActionsService) {
+  constructor(private http: HttpClient, private auth: AuthService, private actionsService: ActionsService,
+              private priceHelper: PriceHelper) {
   }
 
   getOrders(actionId: string): Observable<Order[]> {
@@ -69,6 +71,10 @@ export class OrdersService {
 
   markPickedOrder(order: Order) {
     return this.http.post('/api/order/picked', {id: order.id, picked: !order.picked});
+  }
+
+  markPayedOrder(order: Order, amount: number) {
+    return this.http.post('/api/order/payed', {id: order.id, amount: this.priceHelper.convertPriceToNumber(amount)});
   }
 
   toOrderObj(orderStr): Order {

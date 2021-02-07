@@ -108,8 +108,19 @@ module.exports = function (app, dbGetter) {
 
   app.post('/order/picked', (req, res) => {
     dbGetter().collection('orders')
-      .findOneAndUpdate({ _id: new mongo.ObjectID(req.body.id), ownerId: req.user.id }, {
+      .findOneAndUpdate({ _id: new mongo.ObjectID(req.body.id) }, {
         $set: { picked: req.body.picked }
+      }, (err, result) => {
+        if (err) return res.status(500).send(err);
+        if (!result) return res.sendStatus(404);
+        res.send(result)
+      });
+  });
+
+  app.post('/order/payed', (req, res) => {
+    dbGetter().collection('orders')
+      .findOneAndUpdate({ _id: new mongo.ObjectID(req.body.id) }, {
+        $set: { paid: req.body.amount }
       }, (err, result) => {
         if (err) return res.status(500).send(err);
         if (!result) return res.sendStatus(404);

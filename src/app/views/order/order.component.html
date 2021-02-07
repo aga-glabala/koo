@@ -45,11 +45,11 @@
             </tr>
             <tr>
                 <td [attr.colspan]="3 + action.customFields.length" class="text-right">Koszty zamówienia:</td>
-                <td>{{ action.cost / action.ordersCount | price }}zł ({{ action.cost | price }}zł / {{action.ordersCount}} zamawiających)</td>
+                <td>{{ action.ordersCount ? action.cost / action.ordersCount : action.cost | price }}zł ({{ action.cost | price }}zł / {{action.ordersCount}} zamawiających)</td>
             </tr>
             <tr>
                 <td [attr.colspan]="3 + action.customFields.length" class="text-right">W sumie:</td>
-                <td><app-price [price]="sumOrder" [discount]="action.discount" [modifier]="action.cost / action.ordersCount"></app-price>zł</td>
+                <td><app-price [price]="sumOrder" [discount]="action.discount" [modifier]="action.ordersCount ? action.cost / action.ordersCount : action.cost"></app-price>zł</td>
             </tr>
 
             <tr *ngIf="action.productsEditable && !disabled">
