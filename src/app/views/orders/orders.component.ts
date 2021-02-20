@@ -64,7 +64,7 @@ export class OrdersComponent implements OnInit {
   }
 
   orderPayed = (order: Order, amount: number) => {
-    this.ordersService.markPayedOrder(order, amount).subscribe(() => {
+    this.ordersService.markPaidOrder(order, amount).subscribe(() => {
       this.getOrders();
     });
     return false;

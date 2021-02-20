@@ -45,7 +45,15 @@
             </tr>
             <tr>
                 <td [attr.colspan]="3 + action.customFields.length" class="text-right">Koszty zamówienia:</td>
-                <td>{{ action.ordersCount ? action.cost / action.ordersCount : action.cost | price }}zł ({{ action.cost | price }}zł / {{action.ordersCount}} zamawiających)</td>
+                <td>
+                    {{ (action.ordersCount ? action.cost / action.ordersCount : action.cost) | price }}zł 
+                    ({{ action.cost | price }}zł / {{action.ordersCount}} zamawiających)
+                    <button type="button" class="btn btn-outline-primary btn-sm ml-2" placement="top"
+                            ngbPopover="Koszt wysyłki się zmienia w zależności od liczby zamawiających osób, pamiętaj żeby poczekać na znak do płatności z przelewem" 
+                            popoverTitle="Koszt wysyłki się zmieni">
+                        <span class="fa fa-info"></span>
+                    </button>
+                </td>
             </tr>
             <tr>
                 <td [attr.colspan]="3 + action.customFields.length" class="text-right">W sumie:</td>

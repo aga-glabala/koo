@@ -3,9 +3,12 @@ import { Action, ProductField } from '../models/action';
 import { Product } from '../models/product';
 import * as moment from 'moment';
 import { Helper, Person } from '../models/person';
+import { PriceHelper } from './price.helper';
 
 @Injectable()
 export class ActionFormAdapter {
+  constructor(public priceHelper: PriceHelper) {}
+
   /**
    * Converts form object to a Action object
    */
@@ -18,7 +21,8 @@ export class ActionFormAdapter {
         this.fromFormToMoment(obj.payDate, obj.payDate),
         obj.payLock,
         this.fromFormToMoment(obj.collectionDate, obj.collectionTime),
-        obj.rules, obj.description, obj.collection, obj.payment, obj.productsEditable, helpers, products, photos, customFields, obj.cost, obj.discount
+        obj.rules, obj.description, obj.collection, obj.payment, obj.productsEditable, helpers, 
+        products, photos, customFields, obj.cost, obj.discount, undefined
     );
     return action;
   }
@@ -30,6 +34,7 @@ export class ActionFormAdapter {
     const order = this.toFormFromMoment(action.orderDate);
     const pay = this.toFormFromMoment(action.payDate);
     const collection = this.toFormFromMoment(action.collectionDate);
+    const cost = this.priceHelper.convertPriceToFloat(action.cost);
 
     const formdata: {} = {
         id: action.id,
@@ -46,7 +51,9 @@ export class ActionFormAdapter {
         rules: action.rules,
         collection: action.collection,
         payment: action.payment,
-        productsEditable: action.productsEditable
+        productsEditable: action.productsEditable,
+        cost,
+        discount: action.discount
     };
     return { newaction: formdata };
   }

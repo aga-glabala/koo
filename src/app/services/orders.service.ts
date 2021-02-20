@@ -73,8 +73,8 @@ export class OrdersService {
     return this.http.post('/api/order/picked', {id: order.id, picked: !order.picked});
   }
 
-  markPayedOrder(order: Order, amount: number) {
-    return this.http.post('/api/order/payed', {id: order.id, amount: this.priceHelper.convertPriceToNumber(amount)});
+  markPaidOrder(order: Order, amount: number) {
+    return this.http.post('/api/order/paid', {id: order.id, amount: this.priceHelper.convertPriceToNumber(amount)});
   }
 
   toOrderObj(orderStr): Order {

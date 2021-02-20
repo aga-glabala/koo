@@ -86,7 +86,7 @@ module.exports = function (app, dbGetter) {
       });
     });
   });
-
+// tu ustawić zapisywanie payLock jeśli cost > 0
   app.post('/actions', (req, res) => {
     const data = converters.actionToBson(req.body);
     dbGetter()
@@ -94,8 +94,11 @@ module.exports = function (app, dbGetter) {
       .findOne({ _id: new mongo.ObjectID(req.user.id) })
       .then(result => {
         const user = converters.userFromBson(result);
-        data.createdBy = {id: user.id, name: user.name, photoUrl: user.photoUrl}
-
+        data.createdBy = {id: user.id, name: user.name, photoUrl: user.photoUrl};
+        if (data.cost > 0) {
+          data.payLock = true;
+        }
+        
         dbGetter().collection('actions').insertOne(data, (err, result) => {
           if (err) {
             return res.status(500).send(err);
@@ -104,10 +107,14 @@ module.exports = function (app, dbGetter) {
         });
       });
   });
-
+// i tu
   app.put('/actions/:id', (req, res) => {
     const data = converters.actionToBson(req.body);
 
+    if (data.cost > 0) {
+      data.payLock = true;
+    }
+    
     dbGetter().collection('actions')
       .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id), 'createdBy.id': new mongo.ObjectID(req.user.id) }, {
         $set: data

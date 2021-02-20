@@ -24,7 +24,8 @@ export class Action {
                 public photos: string[],
                 public customFields: ProductField[],
                 public cost: number,
-                public discount: number
+                public discount: number,
+                public ordersCount: number
                 ) {}
 }
 

@@ -48,7 +48,7 @@
                           <div [class]="order.paid == sums[order.id] ? 'p-2 bg-success' : 'p-2 bg-danger'">Zapłacono: {{ order.paid }} {{order.paid != 0 ? order.paid : sums[order.id]}}</div>
                           <div class="row">
                             <div class="col-6 pr-0">
-                              <input #paidinput [value]="order.paid && order.paid !== 0 ? order.paid : sums[order.id]" 
+                              <input #paidinput [value]="order.paid && order.paid !== 0 ? order.paid : sums[order.id] | price" 
                                 type="number" class="form-control">
                             </div>
                             <div class="col-6 pl-0">

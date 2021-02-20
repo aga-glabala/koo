@@ -17,8 +17,9 @@ export class ProductsEditorComponent implements OnInit {
   @Input() products: Product[];
   @Input() customFields: ProductField[];
   public form: FormGroup;
-  
-  constructor(private fb: FormBuilder, private modalService: NgbModal, private priceHelper: PriceHelper, public pfHelper: ProductFieldHelper) {
+
+  constructor(private fb: FormBuilder, private modalService: NgbModal, private priceHelper: PriceHelper, 
+              public pfHelper: ProductFieldHelper) {
     this.form = this.fb.group({
       name: new FormControl('', [Validators.required]),
       variant: '',
@@ -29,7 +30,7 @@ export class ProductsEditorComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.customFields) {
+    if (this.customFields) {
       for (const field of this.customFields) {
         this.addNewCustomField(field.id);
       }

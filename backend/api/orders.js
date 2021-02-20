@@ -117,7 +117,7 @@ module.exports = function (app, dbGetter) {
       });
   });
 
-  app.post('/order/payed', (req, res) => {
+  app.post('/order/paid', (req, res) => {
     dbGetter().collection('orders')
       .findOneAndUpdate({ _id: new mongo.ObjectID(req.body.id) }, {
         $set: { paid: req.body.amount }

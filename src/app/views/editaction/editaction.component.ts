@@ -7,7 +7,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Action, ProductField } from '../../models/action';
 import { ActionsService } from '../../services/actions.service';
 import { ActionFormService } from './actionFormService';
-import { Person, Helper } from '../../models/person';
+import { Helper } from '../../models/person';
 import { Product } from '../../models/product';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
@@ -113,12 +113,20 @@ export class EditActionComponent implements OnInit {
     });
   }
 
-  
+
   validationClass(name: string) {
     if (this.actionForm.get('newaction').get(name).value || this.actionForm.get('newaction').get(name).touched) {
       return this.actionForm.get('newaction').get(name).errors ? 'is-invalid' : 'is-valid';
     } else {
       return '';
+    }
+  }
+
+  onChangeCosts() {
+    if (this.actionForm.get('newaction').get('cost').value > 0) {
+      this.actionForm.get('newaction').get('payLock').disable();
+    } else {
+      this.actionForm.get('newaction').get('payLock').enable();
     }
   }
 }

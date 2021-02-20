@@ -121,9 +121,14 @@
               </div>
             </div>
             <div form-input name="productcost" label="Stałe koszty (dostawa)">
-              <input type="number" min="0" formControlName="cost" class="form-control" id="newacion-productcost" placeholder="Dostawa" [ngClass]="validationClass('cost')">
+              <input type="number" min="0" formControlName="cost" class="form-control" id="newacion-productcost" 
+                     placeholder="Dostawa" [ngClass]="validationClass('cost')" (input)="onChangeCosts()">
+              <small class="form-text text-muted">
+                <i class="fas fa-exclamation-circle"></i>
+                Po wpisaniu kosztów zostanie też ustawiona opcja blokowania płatności
+              </small>
               <div class="invalid-feedback">
-                Koszy musi być większa niż 0 i mieć maksymalnie 2 liczby po przecinku.
+                Koszt musi być większy niż 0 i mieć maksymalnie 2 liczby po przecinku.
               </div>
             </div>
             <div form-input name="productdiscount" label="Rabat">
