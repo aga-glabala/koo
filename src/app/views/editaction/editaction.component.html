@@ -132,7 +132,12 @@
               </div>
             </div>
             <div form-input name="productdiscount" label="Rabat">
-              <input type="number" min="0" formControlName="discount" class="form-control" id="newacion-productdiscount" placeholder="Zniżka (w %)" [ngClass]="validationClass('discount')">
+              <div class="input-group">
+                <input type="number" min="0" formControlName="discount" class="form-control" id="newacion-productdiscount" placeholder="Zniżka (w %)" [ngClass]="validationClass('discount')">
+                <div class="input-group-append">
+                  <div class="input-group-text">%</div>
+                </div>
+              </div>
               <div class="invalid-feedback">
                 Koszy musi być większa niż 0 i mieć maksymalnie 2 liczby po przecinku.
               </div>

@@ -53,4 +53,17 @@ export class ActionComponent implements OnInit {
     }, (reason) => {});
     return false;
   }
+
+  paySign = (content) => {
+    const modalRef = this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title2'});
+
+    modalRef.result.then((ok) => {
+      if (ok) {
+        this.actionService.paySignAction(this.action.id).subscribe((data) => {
+          this.router.navigate(['/action/' + this.action.id]);
+        });
+      }
+    }, (reason) => {});
+    return false;
+  }
 }

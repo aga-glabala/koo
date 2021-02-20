@@ -11,6 +11,9 @@
     <h1>
         {{ action.name }}
         <div class="float-right">
+            <a *ngIf="action.payLock" (click)="paySign(payModal)" class="btn btn-primary text-light">
+                <i class="fas fa-dollar-sign"></i> ZNAK DO PŁACENIA
+            </a> &nbsp;
             <a routerLink="/action/{{action.id}}/duplicate" class="btn btn-success">
                 <i class="fas fa-copy"></i> Duplikuj akcję
             </a> &nbsp;
@@ -120,6 +123,7 @@
         </tbody>
     </table>
 </div>
+
 <ng-template #deleteModal let-modal>
     <div class="modal-header">
       <h2 class="modal-title" id="modal-basic-title">Czy na pewno chcesz usunąć tę akcję?</h2>
@@ -137,3 +141,21 @@
       <button type="button" class="btn btn-danger" (click)="modal.close(true)">Tak, usuń</button>
     </div>
   </ng-template>
+
+  <ng-template #payModal let-modal>
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-basic-title2">Czy na pewno chcesz oznaczyć tę akcję jako gotową do płacenia?</h2>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p>
+              Wyślesz w ten sposób wszystkim powiadomienia, że można już płacić, zostanie naliczony ostateczny rabat i 
+              <strong>możliwość zamawiania zostanie zablokowana</strong> 
+          </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="modal.close(true)">Tak, można już płacić</button>
+      </div>
+    </ng-template>

@@ -86,7 +86,7 @@ module.exports = function (app, dbGetter) {
       });
     });
   });
-// tu ustawić zapisywanie payLock jeśli cost > 0
+
   app.post('/actions', (req, res) => {
     const data = converters.actionToBson(req.body);
     dbGetter()
@@ -107,7 +107,7 @@ module.exports = function (app, dbGetter) {
         });
       });
   });
-// i tu
+
   app.put('/actions/:id', (req, res) => {
     const data = converters.actionToBson(req.body);
 
@@ -154,6 +154,20 @@ module.exports = function (app, dbGetter) {
           if (err) return res.send(500, err);
           res.send({msg: 'Action deleted'});
         });
+      });
+  });
+
+  app.get('/actions/paySign/:id', (req, res) => {
+    // TODO blokować zamawianie, wysyłać powiadomienia
+    dbGetter().collection('actions')
+      .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id), 'createdBy.id': new mongo.ObjectID(req.user.id) }, {
+        $set: {payLock: false}
+      }, (err, result) => {
+        if (err) return res.status(500).send(err);
+        if (!result) return res.sendStatus(404);
+        const data = req.body;
+        converters.actionFromBson(data);
+        res.send({msg: 'TODO'});
       });
   });
 }

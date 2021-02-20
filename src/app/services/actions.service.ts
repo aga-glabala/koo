@@ -65,6 +65,10 @@ export class ActionsService {
     );
   }
 
+  paySignAction(actionId: string) {
+    return this.http.get('/api/actions/paySign/' + actionId);
+  }
+
   private _toStoreAction(action: Action): any {
     const data: any = {...action};
     data.collectionDate = action.collectionDate.toDate();
