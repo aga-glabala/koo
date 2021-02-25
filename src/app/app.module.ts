@@ -42,6 +42,7 @@ import { ColumnViewComponent } from './views/orders/tabs/column-view/column-view
 import { RowViewComponent } from './views/orders/tabs/row-view/row-view.component';
 import { ChecksViewComponent } from './views/orders/tabs/checks-view/checks-view.component';
 import { SummaryViewComponent } from './views/orders/tabs/summary-view/summary-view.component';
+import { MarkPaidOrderComponent } from './components/mark-paid-order/mark-paid-order.component';
 
 export function tokenGetter() {
   return localStorage.getItem('id_token');
@@ -76,7 +77,8 @@ export function tokenGetter() {
     ColumnViewComponent,
     RowViewComponent,
     ChecksViewComponent,
-    SummaryViewComponent
+    SummaryViewComponent,
+    MarkPaidOrderComponent
   ],
   imports: [
     BrowserModule,

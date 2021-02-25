@@ -22,6 +22,7 @@ const fileFilter = function (req, file, cb) {
 const upload = multer({ storage, fileFilter });
 
 const converters = require('./../converters');
+const calcSum = require('./../calcOrders');
 
 module.exports = function (app, dbGetter) {
   app.get('/actions', (req, res) => {
@@ -158,16 +159,27 @@ module.exports = function (app, dbGetter) {
   });
 
   app.get('/actions/paySign/:id', (req, res) => {
-    // TODO blokować zamawianie, wysyłać powiadomienia
-    dbGetter().collection('actions')
-      .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id), 'createdBy.id': new mongo.ObjectID(req.user.id) }, {
-        $set: {payLock: false}
-      }, (err, result) => {
-        if (err) return res.status(500).send(err);
-        if (!result) return res.sendStatus(404);
-        const data = req.body;
-        converters.actionFromBson(data);
-        res.send({msg: 'TODO'});
+    // TODO blokować zamawianie, wysyłać powiadomienia, wpisywać sumę w zamówieniu
+    dbGetter().collection('actions').findOne({ _id: new mongo.ObjectID(req.params.id), 'createdBy.id': new mongo.ObjectID(req.user.id) }, (err, action) => {
+      if (err) return res.sendStatus(404);
+      if (!action) {
+        res.status(404).send({msg: `Akcja nie znaleziona lub ma innego właściciela (${req.params.id}, ${req.user.id})`});
+        return;
+      }
+
+      dbGetter().collection('orders').find({ actionId: req.params.id }).toArray((err, orders) => {
+        if (err) return console.log(err)
+        
+        let orderCost = 0; 
+        if (orders.length > 0) {
+          orderCost = action.cost / orders.length;
+        }
+        orders.forEach((order) => {
+          order.calculatedSum = calcSum.calcSum(action, order) + orderCost;
+          dbGetter().collection('orders').save(order);
+        });
+        res.send(orders);
       });
+    });
   });
 }

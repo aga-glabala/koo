@@ -24,39 +24,15 @@
               <td *ngFor="let order of orders">{{ order.pickerName }}</td>
           </tr>
           <tr>
-              <td [attr.colspan]="3 + action.customFields.length">Suma</td>                   
+              <td [attr.colspan]="3 + action.customFields.length">Suma (produkty + wysyłka)</td>                   
               <td *ngFor="let order of orders"><strong>
-                  <app-price [price]="sums[order.id]" [discount]="action.discount"></app-price>
+                  {{order.calculatedSum | price}}
               </strong></td>
           </tr>
           <tr>
               <td [attr.colspan]="3 + action.customFields.length"></td> 
               <ng-container *ngFor="let order of orders">
-                  <!-- komórki z informacją dla wszystkich -->
-                  <td class="bg-success" *ngIf="!actionEditor && order.paid == sums[order.id]">
-                      <i class="fas fa-check"></i> Zapłacone
-                  </td>
-                  <td class="bg-danger" *ngIf="!actionEditor && order.paid != sums[order.id]">
-                      <i class="fas fa-times"></i>
-                      Nie zapłacone
-                  </td>
-                  <td *ngIf="actionEditor">
-                      <div *ngIf="order.paid == sums[order.id]" [class]="order.paid == sums[order.id] ? 'bg-success' : 'bg-danger'">
-                          <i class="fas fa-check"></i> Zapłacone {{ order.paid }}
-                      </div>
-                      <div *ngIf="order.paid != sums[order.id]">
-                          <div [class]="order.paid == sums[order.id] ? 'p-2 bg-success' : 'p-2 bg-danger'">Zapłacono: {{ order.paid }} {{order.paid != 0 ? order.paid : sums[order.id]}}</div>
-                          <div class="row">
-                            <div class="col-6 pr-0">
-                              <input #paidinput [value]="order.paid && order.paid !== 0 ? order.paid : sums[order.id] | price" 
-                                type="number" class="form-control">
-                            </div>
-                            <div class="col-6 pl-0">
-                              <input type="button" value="Oznacz jako zapłacone" (click)="orderPayed(order, paidinput.value)" class="w-100 btn btn-success">
-                            </div>
-                          </div>
-                      </div>
-                  </td>
+                  <app-mark-paid-order [order]="order" [actionEditor]="actionEditor" [orderPaid]="orderPaid"></app-mark-paid-order>
               </ng-container>
           </tr>
           <tr>

@@ -79,7 +79,8 @@ export class OrdersService {
 
   toOrderObj(orderStr): Order {
     return new Order(orderStr.id, orderStr.ownerId, orderStr.ownerName, orderStr.pickerId,
-      orderStr.pickerName, orderStr.actionId, orderStr.paid ? orderStr.paid : 0, orderStr.picked,
+      orderStr.pickerName, orderStr.actionId, orderStr.paid ? orderStr.paid : 0,
+      orderStr.calculatedSum ? orderStr.calculatedSum : 0, orderStr.picked,
       orderStr.products, orderStr.action);
   }
 }

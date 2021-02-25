@@ -49,10 +49,6 @@ export class OrdersComponent implements OnInit {
     const that = this;
     this.ordersService.getOrders(this.actionId).subscribe((orders) => {
       that.orders = orders as Order[];
-
-      for (const order of that.orders) {
-        that.sums[order.id] = order.countSum(that.action.products);
-      }
     });
   }
 
@@ -63,7 +59,7 @@ export class OrdersComponent implements OnInit {
     return false;
   }
 
-  orderPayed = (order: Order, amount: number) => {
+  orderPaid = (order: Order, amount: number) => {
     this.ordersService.markPaidOrder(order, amount).subscribe(() => {
       this.getOrders();
     });

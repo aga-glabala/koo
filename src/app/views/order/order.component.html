@@ -57,7 +57,14 @@
             </tr>
             <tr>
                 <td [attr.colspan]="3 + action.customFields.length" class="text-right">W sumie:</td>
-                <td><app-price [price]="sumOrder" [discount]="action.discount" [modifier]="action.ordersCount ? action.cost / action.ordersCount : action.cost"></app-price>zł</td>
+                <td><app-price [price]="sumOrder" [discount]="action.discount" 
+                    [modifier]="action.ordersCount ? action.cost / action.ordersCount : action.cost"></app-price>zł
+                    <button *ngIf="action.payLock" type="button" class="btn btn-outline-primary btn-sm ml-2" placement="top"
+                            ngbPopover="Rabat, koszt wysyłki, liczba zamówionych produktów czy cena mogą się jeszcze zmienić, dlatego na razie nie opłacaj zamówienia" 
+                            popoverTitle="Suma może się jeszcze zmienić">
+                        <span class="fa fa-info"></span>
+                    </button>
+                </td>
             </tr>
 
             <tr *ngIf="action.productsEditable && !disabled">

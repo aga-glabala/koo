@@ -10,6 +10,7 @@ export class Order {
                 public pickerName: string,
                 public actionId: string,
                 public paid: number,
+                public calculatedSum: number,
                 public picked: boolean,
                 public products: {string: number}, // {productid: count}
                 public action: Action) {}

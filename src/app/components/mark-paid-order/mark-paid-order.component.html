@@ -1,0 +1,24 @@
+<td class="bg-success text-white" *ngIf="!actionEditor && order.paid == order.calculatedSum">
+  <i class="fas fa-check"></i> Zapłacone
+</td>
+<td class="bg-danger" *ngIf="!actionEditor && order.paid != order.calculatedSum">
+  <i class="fas fa-times"></i>
+  Nie zapłacone
+</td>
+<td *ngIf="actionEditor">
+  <div *ngIf="order.paid == order.calculatedSum" [class]="order.paid == order.calculatedSum ? 'bg-success text-white p-2' : 'bg-danger text-white p-2'">
+      <i class="fas fa-check"></i> Zapłacone
+  </div>
+  <div *ngIf="order.paid != order.calculatedSum">
+      <div [class]="order.paid == order.calculatedSum ? 'p-2 bg-success' : 'p-2 bg-danger'">Zapłacono: {{ order.paid | price }}</div>
+      <div class="row">
+        <div class="col-6 pr-0">
+          <input #paidinput [value]="order.paid && order.paid !== 0 ? order.paid : order.calculatedSum | price" 
+            type="number" class="form-control">
+        </div>
+        <div class="col-6 pl-0">
+          <input type="button" value="Oznacz jako zapłacone" (click)="orderPaid(order, paidinput.value)" class="w-100 btn btn-success">
+        </div>
+      </div>
+  </div>
+</td>
