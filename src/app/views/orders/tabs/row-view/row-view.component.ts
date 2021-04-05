@@ -12,6 +12,9 @@ export class RowViewComponent implements OnInit {
   @Input() action: Action;
   @Input() orders: Order[];
   @Input() sums: {string: number};
+  @Input() actionEditor: boolean;
+  @Input() orderPicked: (order: Order) => boolean;
+  @Input() orderPaid: (order: Order, amount: number) => boolean;
   constructor(public pfHelper: ProductFieldHelper) { }
 
   ngOnInit(): void {

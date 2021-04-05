@@ -10,15 +10,17 @@
         </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of action.products">
-        <td>{{countOrders(product)}}</td>
-        <td>{{product.name}}</td>
-        <td [innerHtml]="pfHelper.checkText(product.variant)"></td>
-        <td><app-price [price]="product.price" [discount]="action.discount"></app-price></td>
-        <td *ngFor="let customField of action.customFields">
-          <span *ngIf="product.customFields" [innerHtml]="pfHelper.checkText(product.customFields[customField.id])"></span>
-        </td>
-      </tr>
+      <ng-container *ngFor="let product of action.products">
+        <tr *ngIf="countOrders(product)">
+          <td>{{countOrders(product)}}</td>
+          <td>{{product.name}}</td>
+          <td [innerHtml]="pfHelper.checkText(product.variant)"></td>
+          <td><app-price [price]="product.price" [discount]="action.discount"></app-price></td>
+          <td *ngFor="let customField of action.customFields">
+            <span *ngIf="product.customFields" [innerHtml]="pfHelper.checkText(product.customFields[customField.id])"></span>
+          </td>
+        </tr>
+      </ng-container> 
     </tbody>
   </table>
 </div>

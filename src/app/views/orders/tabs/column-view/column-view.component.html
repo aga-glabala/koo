@@ -25,9 +25,17 @@
           </tr>
           <tr>
               <td [attr.colspan]="3 + action.customFields.length">Suma (produkty + wysyłka)</td>                   
-              <td *ngFor="let order of orders"><strong>
-                  {{order.calculatedSum | price}}
-              </strong></td>
+              <td *ngFor="let order of orders">
+                <div *ngIf="order.calculatedSum">
+                    <strong>{{order.calculatedSum | price}}</strong>
+                </div>
+                <div *ngIf="!order.calculatedSum">
+                    <button type="button" class="btn btn-outline-primary mr-2" placement="top"
+                            ngbPopover="Ostateczna suma zostanie policzona dopiero po zakończeniu zamawiania, ceny produktów i dostawa może jeszcze się zmienić" popoverTitle="Suma jeszcze nie jest policzona">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>  
+              </td>
           </tr>
           <tr>
               <td [attr.colspan]="3 + action.customFields.length"></td> 
