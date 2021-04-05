@@ -115,6 +115,7 @@ module.exports = function (app, dbGetter) {
     if (data.cost > 0) {
       data.payLock = true;
     }
+    console.log(data);
     
     dbGetter().collection('actions')
       .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id), 'createdBy.id': new mongo.ObjectID(req.user.id) }, {
@@ -122,6 +123,7 @@ module.exports = function (app, dbGetter) {
       }, (err, result) => {
         if (err) return res.status(500).send(err);
         if (!result) return res.sendStatus(404);
+        console.log(result);
         const data = req.body;
         converters.actionFromBson(data);
         res.send(data)

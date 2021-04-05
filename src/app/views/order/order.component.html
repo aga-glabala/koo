@@ -43,11 +43,11 @@
                 </td>
                 <td><input type="number" min="0" formControlName="{{product.id}}" class="form-control" [attr.disabled]="disabled ? '' : null"></td>
             </tr>
-            <tr>
+            <tr *ngIf="action.cost">
                 <td [attr.colspan]="3 + action.customFields.length" class="text-right">Koszty zamówienia:</td>
                 <td>
-                    {{ (action.ordersCount ? action.cost / action.ordersCount : action.cost) | price }}zł 
-                    ({{ action.cost | price }}zł / {{action.ordersCount}} zamawiających)
+                    {{ action.cost | price }}zł 
+                    (kwota zostanie podzielona na wszysystkich zamawiających)
                     <button type="button" class="btn btn-outline-primary btn-sm ml-2" placement="top"
                             ngbPopover="Koszt wysyłki się zmienia w zależności od liczby zamawiających osób, pamiętaj żeby poczekać na znak do płatności z przelewem" 
                             popoverTitle="Koszt wysyłki się zmieni">

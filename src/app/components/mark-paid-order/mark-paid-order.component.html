@@ -6,7 +6,7 @@
   Nie zapłacone
 </td>
 <td *ngIf="actionEditor">
-  <div *ngIf="order.paid == 0" class="bg-secondary text-dark p-2">
+  <div *ngIf="order.calculatedSum == 0" class="bg-secondary text-dark p-2">
     <i class="fas fa-times"></i> Płatności zablokowane
   </div>
   <div *ngIf="order.paid == order.calculatedSum && order.paid != 0" class="bg-success text-white p-2">
