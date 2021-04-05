@@ -4,4 +4,4 @@ JWT_SECRET=change-me
 MONGODB_URL=mongodb://
 MONGODB_DB=db_name
 PORT=3000
-CORS_ORIGIN=http://localhost:4200
+API_URL=https://api.dev.koo.mintyapps.pl

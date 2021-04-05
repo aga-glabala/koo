@@ -7,7 +7,7 @@ const mongo = require('mongodb');
 const expressJwt = require('express-jwt');
 const guard = require('express-jwt-permissions')()
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config({path: '../.env'});
 
 const app = express();
 

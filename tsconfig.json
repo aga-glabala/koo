@@ -15,7 +15,8 @@
       "node_modules/@types"
     ],
     "types": [
-      "facebook-js-sdk"
+      "facebook-js-sdk",
+      "node"
     ],
     "lib": [
       "es2018",

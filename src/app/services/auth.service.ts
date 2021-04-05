@@ -6,6 +6,7 @@ import { Observable, of, BehaviorSubject, throwError } from 'rxjs';
 import { tap, switchMap, shareReplay, map, catchError } from 'rxjs/operators';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -29,7 +30,7 @@ export class AuthService {
     private jwtHelperService: JwtHelperService
   ) {
     FB.init({
-      appId: '444601165601171',
+      appId: environment.FB_APP_ID,
       status: false, // the SDK will attempt to get info about the current user immediately after init
       cookie: false,  // enable cookies to allow the server to access the session
       xfbml: false,  // With xfbml set to true, the SDK will parse your page's DOM to find and initialize
