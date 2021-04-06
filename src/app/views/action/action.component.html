@@ -97,7 +97,7 @@
     <p *ngIf="action.payLock" class="alert alert-danger">
         Akcja ma zablokowane płaności na razie. Może to oznaczać, że ceny mogą zostać jeszcze zmienione.
     </p>
-    <p *ngIf="action.productsEditable" class="alert alert-info">
+    <p *ngIf="!action.orderDate.isBefore(today) && action.productsEditable" class="alert alert-info">
         Możesz dodać swoje produkty do zamówienia
     </p>
     <table class="table table-striped">

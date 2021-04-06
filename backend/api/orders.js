@@ -1,5 +1,5 @@
 const mongo = require('mongodb');
-
+const calcSum = require('./../calcOrders');
 const converters = require('./../converters');
 
 module.exports = function (app, dbGetter) {
@@ -15,7 +15,7 @@ module.exports = function (app, dbGetter) {
     dbGetter().collection('orders').findOne({ _id: new mongo.ObjectID(req.params.id) }, (err, result) => {
       if (err) return console.log(err)
       if (!result) {
-        res.sendStatus(404);
+        res.sendStatus(404); 
         return;
       }
       converters.orderFromBson(result);
@@ -41,24 +41,25 @@ module.exports = function (app, dbGetter) {
     delete data.newProducts;
     converters.orderToBson(data);
 
+    calcOrderSum(data, () =>
+      dbGetter()
+      .collection('users')
+      .findOne({ _id: new mongo.ObjectID(req.user.id) })
+      .then(user => {
+        if (!user) {
+          res.sendStatus(404);
+          res.
+          return;
+        }
+        data.ownerId = req.user.id;
+        data.ownerName = user.name;
 
-    dbGetter()
-    .collection('users')
-    .findOne({ _id: new mongo.ObjectID(req.user.id) })
-    .then(user => {
-      if (!user) {
-        res.sendStatus(404);
-        res.
-        return;
-      }
-      data.ownerId = req.user.id;
-      data.ownerName = user.name;
-
-      dbGetter().collection('orders').insertOne(data, (err, result) => {
-        if (err) return res.send(err);
-        updateAction(data.actionId, newProducts, res);
-      });
-    });
+        dbGetter().collection('orders').insertOne(data, (err, result) => {
+          if (err) return res.send(err);
+          updateAction(data.actionId, newProducts, res);
+        });
+      })
+    )
   });
 
   app.put('/orders/:id', (req, res) => {
@@ -68,16 +69,18 @@ module.exports = function (app, dbGetter) {
 
     converters.orderToBson(data);
 
-    dbGetter().collection('orders')
-      .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id), ownerId: req.user.id }, {
-        $set: data
-      }, {
-        upsert: true
-      }, (err, result) => {
-        if (err) return res.status(500).send(err);
-        if (!result) return res.sendStatus(404);
-        updateAction(data.actionId, newProducts, res);
-      });
+    calcOrderSum(data, () =>
+      dbGetter().collection('orders')
+        .findOneAndUpdate({ _id: new mongo.ObjectID(req.params.id), ownerId: req.user.id }, {
+          $set: data
+        }, {
+          upsert: true
+        }, (err, result) => {
+          if (err) return res.status(500).send(err);
+          if (!result) return res.sendStatus(404);
+          updateAction(data.actionId, newProducts, res);
+        })
+    );
   });
 
   app.delete('/orders/:id', (req, res) => {
@@ -138,5 +141,15 @@ module.exports = function (app, dbGetter) {
         if (err) return res.send(err)
         res.send(result)
       });
+  }
+
+  function calcOrderSum(order, callback) {
+    dbGetter().collection('actions').findOne({ _id: new mongo.ObjectID(order.actionId) }, (err, action) => {
+      console.log(action);
+      if(!action.cost && !action.payLock) {
+        order.calculatedSum = calcSum.calcSum(action, order);
+      }
+      callback();
+    });
   }
 }
