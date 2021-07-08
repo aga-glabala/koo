@@ -14,6 +14,7 @@ import { UserQueueComponent } from './views/userqueue/userqueue.component';
 import { MyOrdersComponent } from './views/myorders/myorders.component';
 import { Observable } from 'rxjs';
 import { AuthService } from './services/auth.service';
+import { CookiesComponent } from './views/cookies/cookies.component';
 
 @Injectable()
 class CanActivateAccepted implements CanActivate {
@@ -68,6 +69,7 @@ const routes: Routes = [
   { path: 'not-accepted', component: NotAcceptedComponent, canActivate: [RedirectIfAccepted] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [CanActivateAccepted] },
   { path: 'myorders', component: MyOrdersComponent, canActivate: [CanActivateAccepted] },
+  { path: 'cookies',   component: CookiesComponent, pathMatch: 'full' },
   { path: '',   redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 

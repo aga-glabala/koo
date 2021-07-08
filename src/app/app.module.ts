@@ -43,6 +43,7 @@ import { RowViewComponent } from './views/orders/tabs/row-view/row-view.componen
 import { ChecksViewComponent } from './views/orders/tabs/checks-view/checks-view.component';
 import { SummaryViewComponent } from './views/orders/tabs/summary-view/summary-view.component';
 import { MarkPaidOrderComponent } from './components/mark-paid-order/mark-paid-order.component';
+import { CookiesComponent } from './views/cookies/cookies.component';
 
 export function tokenGetter() {
   return localStorage.getItem('id_token');
@@ -78,7 +79,8 @@ export function tokenGetter() {
     RowViewComponent,
     ChecksViewComponent,
     SummaryViewComponent,
-    MarkPaidOrderComponent
+    MarkPaidOrderComponent,
+    CookiesComponent
   ],
   imports: [
     BrowserModule,
