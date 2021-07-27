@@ -7,6 +7,7 @@ const mongo = require('mongodb');
 const expressJwt = require('express-jwt');
 const guard = require('express-jwt-permissions')()
 const dotenv = require('dotenv');
+const passport = require('passport');
 dotenv.config({path: '../.env'});
 
 const app = express();
@@ -27,7 +28,7 @@ const authenticate = expressJwt({
 });
 
 // TODO secure images ?
-const ignoredPaths = ['/auth/facebook', /^\/actions\/[a-z0-9]+\/photos\/.*/];
+const ignoredPaths = ['/auth/facebook', '/auth/loginForm', /^\/actions\/[a-z0-9]+\/photos\/.*/];
 app.use(authenticate.unless({ path: ignoredPaths }));
 
 app.use(guard.check('accepted').unless({ path: ['/auth/me', '/auth/refreshToken', ...ignoredPaths] }));
@@ -37,7 +38,7 @@ app.use(function (err, req, res, next) {
     res.status(403).send('Forbidden');
   }
 });
-
+app.use(passport.initialize());
 let db;
 
 mongo.MongoClient.connect(

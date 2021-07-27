@@ -1,7 +1,7 @@
 const mongo = require('mongodb');
 const FacebookTokenStrategy = require('passport-facebook-token');
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
+const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
 
 const converters = require('./../converters');
 
@@ -16,6 +16,21 @@ module.exports = function (app, dbGetter) {
       });
     })
   );
+
+  passport.use(new LocalStrategy(
+    function(username, password, done) {
+      dbGetter().collection('users').findOne({ login: username, password: password }, function(err, user) {
+        if (err) { return done(err); }
+        if (!user) {
+          return done(null, false, { message: 'Incorrect username.' });
+        }
+        if (!user.password === password) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
+      });
+    }
+  ));
 
   app.post('/auth/facebook', passport.authenticate('facebook-token', { session: false }), (req, res) => {
     if (!req.user) {
@@ -90,7 +105,7 @@ module.exports = function (app, dbGetter) {
       });
   });
 
-  app.get('/auth/me', (req, res, next) => {
+  app.get('/auth/me', (req, res, next) => {;
     dbGetter().collection('users').findOne({ _id: new mongo.ObjectID(req.user.id) }, function (err, user) {
       if (err) {
         res.send(500);
@@ -101,5 +116,14 @@ module.exports = function (app, dbGetter) {
         res.sendStatus(404);
       }
     });
+  });
+
+  app.post('/auth/loginForm', passport.authenticate('local', { session: false }), (req, res) => {
+      if (!req.user) {
+        return res.send(401, 'User Not Authenticated');
+      }
+
+      const token = createToken(req.user);
+      res.status(200).send({ token, profile: converters.userFromBson(req.user) });
   });
 }
