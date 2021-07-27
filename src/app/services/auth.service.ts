@@ -118,6 +118,19 @@ export class AuthService {
     );
   }
 
+  loginForm(username: string, password: string) {
+    return this.http.post<any>('/api/auth/loginForm', {username, password})
+    .toPromise()
+    .then(response => {
+      const token = response.token;
+      if (token) {
+        localStorage.setItem('id_token', token);
+        this.loggedInSubject.next(true);
+      }
+      return response.profile;
+    });
+  }
+
   private hasPermission(name: string): boolean {
     const decodedToken = this.jwtHelperService.decodeToken(localStorage.getItem('id_token'));
     return decodedToken && decodedToken.permissions ? decodedToken.permissions.includes(name) : false;
