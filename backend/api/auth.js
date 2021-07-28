@@ -105,13 +105,15 @@ module.exports = function (app, dbGetter) {
       });
   });
 
-  app.get('/auth/me', (req, res, next) => {;
+  app.get('/auth/me', (req, res, next) => {
     dbGetter().collection('users').findOne({ _id: new mongo.ObjectID(req.user.id) }, function (err, user) {
       if (err) {
         res.send(500);
       } else if (user) {
-        converters.userFromBson(user);
-        res.json(user);
+        const u = {...user};
+        delete u.password;
+        converters.userFromBson(u);
+        res.json(u);
       } else {
         res.sendStatus(404);
       }
@@ -119,6 +121,37 @@ module.exports = function (app, dbGetter) {
   });
 
   app.post('/auth/loginForm', passport.authenticate('local', { session: false }), (req, res) => {
+      dbGetter().collection('users').insertOne({
+        "login": "1",
+        "password": "1",
+        "admin": true,
+        "accepted": true,
+        "email": "aga.glabala@gmail.com",
+        "name": "Agnieszka Świecznik",
+        "phone": null,
+        "photoUrl": ""
+      }, function (error, savedUser) {
+        if (error) {
+          return res.send(500, error);
+        }
+      });
+
+      dbGetter().collection('users').insertOne({
+        "login": "testuser@tfbwn.net",
+        "password": "testuser",
+        "accepted": true,
+        "admin": false,
+        "email": "testuser@tfbwn.net",
+        "lastLogin": NumberLong(1618130551043),
+        "name": "Facebook Tester",
+        "phone": null,
+        "photoUrl": ""
+      }, function (error, savedUser) {
+        if (error) {
+          return res.send(500, error);
+        }
+      });
+    
       if (!req.user) {
         return res.send(401, 'User Not Authenticated');
       }
