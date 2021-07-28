@@ -56,7 +56,7 @@ export class NotAcceptedComponent implements OnInit {
 
     this.loadingForm = true;
     this.auth.loginForm(this.f.username.value, this.f.password.value)
-        .subscribe(
+        .then(
             data => {
               this.loadingForm = false;
               this.router.navigate(['/']);
