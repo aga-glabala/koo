@@ -132,7 +132,7 @@ module.exports = function (app, dbGetter) {
     const actionId = req.params.id;
     let photos = req.files.map(file => file.filename);
     dbGetter().collection('actions')
-      .findOneAndUpdate({ _id: new mongo.ObjectID(actionId), 'createdBy.id': req.user.id }, {
+      .findOneAndUpdate({ _id: new mongo.ObjectID(actionId), 'createdBy.id':  new mongo.ObjectID(req.user.id) }, {
         $set: { photos }
       }, {
       }, (err, result) => {

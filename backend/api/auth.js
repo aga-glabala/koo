@@ -2,7 +2,7 @@ const mongo = require('mongodb');
 const FacebookTokenStrategy = require('passport-facebook-token');
 const jwt = require('jsonwebtoken');
 const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
-
+const sha1 = require('js-sha1');
 const converters = require('./../converters');
 
 module.exports = function (app, dbGetter) {
@@ -19,13 +19,13 @@ module.exports = function (app, dbGetter) {
 
   passport.use(new LocalStrategy(
     function(username, password, done) {
-      dbGetter().collection('users').findOne({ login: username, password: password }, function(err, user) {
+      dbGetter().collection('users').findOne({ login: username }, function(err, user) {
         if (err) { return done(err); }
         if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
+          return done(null, false, { message: 'Incorrect username or password.' });
         }
-        if (!user.password === password) {
-          return done(null, false, { message: 'Incorrect password.' });
+        if (user.password !== sha1(password + process.env.PASSWORD_SALT)) {
+          return done(null, true, { message: 'Incorrect username or password.' });
         }
         return done(null, user);
       });
@@ -121,7 +121,7 @@ module.exports = function (app, dbGetter) {
   });
 
   app.post('/auth/loginForm', passport.authenticate('local', { session: false }), (req, res) => {
-    
+      console.log(req.user)
       if (!req.user) {
         return res.send(401, 'User Not Authenticated');
       }

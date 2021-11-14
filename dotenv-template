@@ -5,3 +5,4 @@ MONGODB_URL=mongodb://
 MONGODB_DB=db_name
 PORT=3000
 API_URL=https://api.dev.koo.mintyapps.pl
+PASSWORD_SALT=set-me
