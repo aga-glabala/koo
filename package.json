@@ -29,7 +29,7 @@
     "angular-jwt": "^0.1.11",
     "bootstrap": "^4.4.1",
     "js-sha1": "^0.6.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "ngx-pagination": "^5.0.0",
     "papaparse": "^5.2.0",
     "rxjs": "^6.6.3",
